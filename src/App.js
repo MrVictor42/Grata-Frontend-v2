@@ -7,12 +7,13 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 import 'antd/dist/antd.css';
 import './css/App.css';
+import { apiKey, authDomain } from './env';
 
 import Layout from './components/layout/Layout';
 
 firebase.initializeApp({
-	apiKey: 'AIzaSyDNAHuQlA_-fCIAKtm469tp56nZYq-jVpw',
-	authDomain: 'grata-auth.firebaseapp.com'
+	apiKey: apiKey,
+	authDomain: authDomain
 });
 
 class App extends Component {
