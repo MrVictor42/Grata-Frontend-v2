@@ -46,12 +46,50 @@
 }
 
 .textContent {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial;
     font-style: normal;
     margin-top: 30px;
     margin-left: 30px;
-    margin-right: 20px;
+    margin-right: 30px;
     font-weight: 500;
     font-size: 20px;
     text-align: justify;
+}
+
+.textNavbar {
+    color: white;
+    line-height: 20px;
+}
+
+.contentLogin {
+    position: absolute;
+    margin-top: 180px;
+    margin-left: 550px;
+    height: 300px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.inputFormLoginUser {
+    margin-top: 30px;
+    width: 350px;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.texth1 {
+    margin-top: 20px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.buttonSubmit {
+    margin-bottom: 25px;
+    margin-left: 33px;
+    margin-top: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    color: #FFFFFF;
+    border-radius: 10px;
 }

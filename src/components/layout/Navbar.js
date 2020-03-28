@@ -4,23 +4,16 @@ import { Link } from 'react-router-dom';
 
 const { Header } = Layout;
 
-class Navbar extends React.Component {
+const NAVBAR = () => {
+    return (
+        <Header className = 'header'>
+            <Menu className = 'menu' mode = 'horizontal'>
+                <Menu.Item>
+                    <Link to = '/login' > <p className = 'textNavbar'> Login </p></Link>
+                </Menu.Item>
+            </Menu>
+        </Header>
+    );
+};
 
-    render () {
-        return (
-            <Header className = 'header'>
-                <Menu className = 'menu' mode = 'horizontal'>
-                    <Menu.Item className = 'text_logout' onClick = { this.props.logout }>
-                        Logout
-                    </Menu.Item>
-                    ) : (
-                    <Menu.Item>
-                        <Link to = '/login' > <p className = 'text'> Login </p></Link>
-                    </Menu.Item>
-                </Menu>
-            </Header>
-        );
-    }
-}
-
-export default Navbar;
+export default NAVBAR;
