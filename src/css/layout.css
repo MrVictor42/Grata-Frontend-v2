@@ -63,33 +63,69 @@
 
 .contentLogin {
     position: absolute;
-    margin-top: 180px;
-    margin-left: 550px;
+    margin-top: 160px;
+    margin-left: 520px;
     height: 300px;
     box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
     border-radius: 20px;
 }
 
-.inputFormLoginUser {
-    margin-top: 30px;
-    width: 350px;
-    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
-    border-radius: 20px;
+.inputFormLogin {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 80px;
 }
 
 .texth1 {
-    margin-top: 20px;
+    margin-top: -60px;
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .buttonSubmit {
-    margin-bottom: 25px;
-    margin-left: 33px;
+    margin-left: -180px;
     margin-top: 20px;
     font-family: Arial, Helvetica, sans-serif;
     font-style: normal;
     font-weight: bold;
     color: #FFFFFF;
     border-radius: 10px;
+}
+
+div.container {
+    height: 100%;
+    background: -webkit-linear-gradient(top, white 20%, white 100%);
+}
+
+div.op1 {
+    width: 38%;
+    display: inline-block;
+    background-color: white;
+    font-size: 3vw;
+    text-align: center;
+    margin-top: 29px;
+    margin-left: 80px;
+    padding: 5vw 0vw 5vw 0vw;
+    min-width:40vw;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+div.op2 {
+    width: 38%;
+    background-color: white;
+    display: inline-block;
+    margin-right: 80px;
+    margin-top: 29px;
+    font-size: 3vw;
+    text-align: center;
+    padding: 5vw 0vw 5vw 0vw;
+    min-width:40vw;
+    float:right;
+    box-shadow: 0px 2px 23px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.backgroundLogin {
+    background: black;
 }
