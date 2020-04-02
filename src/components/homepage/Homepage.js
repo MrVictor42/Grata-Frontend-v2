@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HOMEPAGE = () => {
+const Homepage = () => {
     return (
         <div className = 'centralContent'>
             <p className = 'textContent'>
@@ -27,4 +27,4 @@ const HOMEPAGE = () => {
     );
 }
 
-export default HOMEPAGE;
+export default Homepage;

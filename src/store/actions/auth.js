@@ -16,7 +16,6 @@ export const authSuccess = user => {
 
 export const authFail = error => {
 	return {
-	
 		type: AUTH_FAIL,
     	error: error
   	};
@@ -49,9 +48,7 @@ export const authCheckState = () => {
 			} else {
 				dispatch(authSuccess(user));
 				dispatch(
-					checkAuthTimeout(
-						(expirationDate.getTime() - new Date().getTime()) / 1000
-					)
+					checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000)
 				);
 			}
 		}
