@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
+import { connect } from 'react-redux';
+
+import { authLogin } from '../../store/actions/auth';
 
 class Login extends Component {
 
@@ -24,6 +27,22 @@ class Login extends Component {
         const password = values.password;
         console.log(username + ' ' + password);
     }
+
+    // handleSubmit = e => {
+        
+    //     e.preventDefault();
+    //     this.props.form.validateFields((err, values) => {
+    //         if (!err) {
+                
+    //             const username = values.username;
+    //             const password = values.password;
+    //             this.props.onAuth(username, password);
+    //             this.props.history.push('/');
+    //         } else {
+
+    //         }
+    //     });
+    // };
     
     render() {
         const layout = {

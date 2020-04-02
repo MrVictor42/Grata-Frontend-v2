@@ -2,7 +2,6 @@ import React from 'react';
 import { Layout } from 'antd';
 
 import Navbar from './Navbar';
-
 import '../../css/layout.css';
 
 const { Footer } = Layout;
