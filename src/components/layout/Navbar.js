@@ -1,19 +1,40 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { logout } from '../../store/actions/auth';
 
 const { Header } = Layout;
 
-const NAVBAR = () => {
+const Navbar = (props) => {
     return (
         <Header className = 'header'>
             <Menu className = 'menu' mode = 'horizontal'>
-                <Menu.Item>
-                    <Link to = '/login' > <p className = 'textNavbar'> Login </p></Link>
-                </Menu.Item>
+                {
+                    props.isLogged === null ? (
+                        <Menu.Item>
+                            <Link to = '/login' ><p className = 'textNavbar'> Login </p></Link>
+                        </Menu.Item>
+                    ) : (
+                        <Menu.Item onClick = { props.logout }>
+                            <Link to = '/' ><p className = 'textNavbar'> Logout </p></Link>
+                        </Menu.Item>
+                    )
+                }
             </Menu>
         </Header>
     );
 };
 
-export default NAVBAR;
+const mapStateToProps = state => {
+    
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => dispatch(logout())
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));

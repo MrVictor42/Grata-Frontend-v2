@@ -19,20 +19,13 @@ class Login extends Component {
         const username = values.username;
         const password = values.password;
 
-        console.log(username + password)
-
         if(validateFields(username) === true) {
 
         } else {
             this.props.onAuth(username, password);
             const user = JSON.parse(localStorage.getItem('user'));
-            if(user !== null) {
-                message.success('Bem Vindo(a) ao Grata, ' + user.username);
-                this.props.history.push('/');
-            } else {
-                message.error('Usuário ou Senha Incorretos! Tente Novamente. Caso persistir o erro ' 
-                            + 'entre em contato com algum administrador,');
-            }
+            message.success('Bem Vindo(a) ao Grata, ' + user.username);
+            this.props.history.push('/');
         }
     }
 

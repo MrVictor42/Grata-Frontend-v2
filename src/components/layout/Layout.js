@@ -14,7 +14,7 @@ const CustomLayout = (props) => {
 
 	return (
 		<Layout>
-			<Navbar />
+			<Navbar isLogged = { props.token }/>
 			{
 				props.token ? (
 					<p> { props.token } </p>
