@@ -3,10 +3,13 @@ import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Navbar from './Navbar';
 import '../../css/layout.css';
 import '../../css/icon.css';
 import '../../css/text.css';
+
+import Navbar from './Navbar';
+import Sider from './Sider';
+import AutoComplete from './AutoComplete';
 
 const { Footer } = Layout;
 
@@ -17,7 +20,12 @@ const CustomLayout = (props) => {
 			<Navbar isLogged = { props.token }/>
 			{
 				props.token ? (
-					<p> { props.token } </p>
+					<div>
+						<AutoComplete/>
+						{/* <Sider>
+							<ProjectList/>
+						</Sider> */}
+					</div>
 				) : (
 					<div> { props.children } </div>
 				)
