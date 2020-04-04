@@ -9,12 +9,12 @@ const { Sider } = Layout;
 
 const SiderLayout = () => {
     return (
-        <Layout>
+        <Layout className = 'layoutSider'>
             <Sider className = 'site-layout-background' width = { 200 }>
                 <Menu 
                     mode = 'inline'
                     defaultSelectedKeys = {['1']}
-                    style = {{ height: '100%' }}
+                    style = {{ height: '100%', position: 'absolute' }}
                 >
                     <SubMenu 
                         key = 'profile' 

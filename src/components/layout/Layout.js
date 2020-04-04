@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import '../../css/layout.css';
 import '../../css/icon.css';
 import '../../css/text.css';
+import '../../css/project.css';
 
 import Navbar from './Navbar';
 import Sider from './Sider';
