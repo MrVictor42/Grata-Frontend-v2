@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USER_LIST_START, USER_LIST_SUCCESS, USER_LIST_FAIL } from './actionsTypes';
-import { authStart ,authSuccess, authFail } from './auth';
+import { authStart ,authSuccess, authFail, logout, checkAuthTimeout } from './auth';
 
 const getUserListStart = () => {
 	return {

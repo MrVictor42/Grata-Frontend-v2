@@ -8,11 +8,8 @@ const { Content, Sider } = Layout;
 
 const SiderLayout = (props) => {
     return(
-        <Content style={{ padding: '0 50px' }}>
-            <Layout 
-                className = 'site-layout-background' 
-                style = {{ marginLeft: '-20px' }}
-            >
+        <Content style={{ padding: '0 50px', position: 'fixed' }}>
+            <Layout className = 'site-layout-background' style = {{ marginLeft: '-20px' }}>
                 <Sider className = 'site-layout-background' width = { 200 }>
                     <Menu
                         mode = 'inline'

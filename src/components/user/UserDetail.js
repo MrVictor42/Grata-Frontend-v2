@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-const ShowUser = (props) => {
-    return(
-        <p> Bora </p>
-    )
+import { getUser } from '../../store/actions/user';
+
+class UserDetail extends Component {
+
+    render() {
+        const token = this.props.token;
+        return (
+        <p> token: {token}  </p>
+        );
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        token: state.auth.token,
+        currentUser: state.users.currentUser
+    };
 };
 
-export default ShowUser;
+export default connect(mapStateToProps)(UserDetail);

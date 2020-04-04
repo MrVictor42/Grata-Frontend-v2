@@ -4,7 +4,7 @@ import { Layout, Table, Tag, Button, Tabs } from 'antd';
 const { TabPane } = Tabs;
 function callback(key) {
     console.log(key);
-  }
+}
 
 const columns = [
     {
