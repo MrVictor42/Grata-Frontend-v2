@@ -9,29 +9,29 @@ import '../../css/text.css';
 import '../../css/project.css';
 
 import Navbar from './Navbar';
-import Sider from './Sider';
 import AutoComplete from './AutoComplete';
+import SiderLayout from './SiderLayout';
 
 const { Footer } = Layout;
 
 const CustomLayout = (props) => {
-
 	return (
 		<Layout>
 			<Navbar isLogged = { props.token }/>
 			{
-				props.token ? (
+				props.token !== null ? (
 					<div>
-						<AutoComplete/>
-						<Sider/>
+						<AutoComplete />
+						<SiderLayout />
 					</div>
-				) : (
-					<div> { props.children } </div>
-				)
-			} 
+				) : null
+			}
+			{ props.children }
 			<Footer className = 'footer'>
-				<b> Grata - Gerenciamento de Reuniões e Atas ©2020 
-				Criado por Victor Hugo Lopes Mota. </b>
+				<b> 
+					Grata - Gerenciamento de Reuniões e Atas ©2020 
+					Criado por Victor Hugo Lopes Mota. 
+				</b>
 			</Footer>
 		</Layout>
 	);

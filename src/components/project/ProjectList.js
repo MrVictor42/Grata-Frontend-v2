@@ -105,23 +105,23 @@ const operations = <Button>Extra Action</Button>;
 const ProjectList = (props) => {
     return (
         <div className = 'sectorialProjects'>
-            <Tabs defaultActiveKey="1" onChange={callback} className = 'layoutProjectList' tabBarExtraContent={operations}>
-    <TabPane tab="Tab 1" key="1">
-    <Table columns = { columns } dataSource = { data } pagination = {{ defaultPageSize: 4 }}/>
-    </TabPane>
-    <TabPane tab="Tab 2" key="2">
-      Content of Tab Pane 2
-    </TabPane>
-    <TabPane tab="Tab 3" key="3">
-      Content of Tab Pane 3
-    </TabPane>
-  </Tabs>
+			<Tabs 
+				defaultActiveKey = '1' 
+				onChange = { callback } 
+				className = 'layoutProjectList' 
+				tabBarExtraContent = { operations }
+			>
+				<TabPane tab = 'Projetos Setoriais' key = '1'>
+					<Table columns = { columns } dataSource = { data } pagination = {{ defaultPageSize: 4 }}/>
+				</TabPane>
+				<TabPane tab="Tab 2" key="2">
+				Content of Tab Pane 2
+				</TabPane>
+				<TabPane tab="Tab 3" key="3">
+				Content of Tab Pane 3
+				</TabPane>
+			</Tabs>
         </div>
-        // <Layout className = 'layoutProjectList'>
-            
-        //     {/* <h2> Projetos do Setor </h2>  
-        //     <Table columns = { columns } dataSource = { data } pagination = {{ defaultPageSize: 5 }}/> */}
-        // </Layout>
     );
 };
 
