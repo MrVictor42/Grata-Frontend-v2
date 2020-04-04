@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 
 import Loading from './Loading';
@@ -23,9 +23,7 @@ class Login extends Component {
 
         } else {
             this.props.onAuth(username, password);
-            const user = JSON.parse(localStorage.getItem('user'));
-            message.success('Bem Vindo(a) ao Grata, ' + user.username);
-            this.props.history.push('/');
+            this.props.history.push('/lista_de_projetos');
         }
     }
 

@@ -22,9 +22,7 @@ const CustomLayout = (props) => {
 				props.token ? (
 					<div>
 						<AutoComplete/>
-						{/* <Sider>
-							<ProjectList/>
-						</Sider> */}
+						<Sider/>
 					</div>
 				) : (
 					<div> { props.children } </div>

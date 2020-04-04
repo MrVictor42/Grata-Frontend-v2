@@ -18,7 +18,6 @@ const searchResult = query =>
                     Found { query } on{' '}
                     <a
                         href = { `https://s.taobao.com/search?q=${ query }` }
-                        target = '_blank'
                         rel = ''
                     >
                         { category }
