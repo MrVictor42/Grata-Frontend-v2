@@ -104,7 +104,7 @@ const operations = <Button>Extra Action</Button>;
 
 const ProjectList = (props) => {
     return (
-        <div className = 'sectorialProjects'>
+        <div className = 'painelContent'>
 			<Tabs 
 				defaultActiveKey = '1' 
 				onChange = { callback } 
