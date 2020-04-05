@@ -1,0 +1,11 @@
+.edit {
+    background-color: orange;
+    color: white;
+    font-weight: bold;
+}
+
+.delete {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}

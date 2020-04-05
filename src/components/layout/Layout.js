@@ -7,12 +7,15 @@ import '../../css/layout.css';
 import '../../css/icon.css';
 import '../../css/text.css';
 import '../../css/project.css';
+import '../../css/user.css';
+import '../../css/buttons.css';
+import '../../css/img.css';
 
 import Navbar from './Navbar';
 import AutoComplete from './AutoComplete';
 import SiderLayout from './SiderLayout';
 
-const { Footer } = Layout;
+const { Footer, Content } = Layout;
 
 const CustomLayout = (props) => {
 	return (
@@ -20,10 +23,10 @@ const CustomLayout = (props) => {
 			<Navbar isLogged = { props.token }/>
 			{
 				props.token !== null ? (
-					<div>
+					<Content>
 						<AutoComplete />
 						<SiderLayout />
-					</div>
+					</Content>
 				) : null
 			}
 			{ props.children }

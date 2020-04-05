@@ -48,7 +48,7 @@ export const getUser = (token, userId) => {
 			'Content-Type': 'application/json',
 		  	Authorization: `Token ${ token }`
 		};
-		axios.get(`http://0.0.0.0:8000/users/show_user/${ userId }/`)
+		axios.get(`http://0.0.0.0:8000/users/user_detail/${ userId }/`)
 		.then(res => {
 			const user = res.data;
 			dispatch(authSuccess(user));

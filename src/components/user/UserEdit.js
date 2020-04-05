@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-const EditUser = (props) => {
-    return (<p>edit</p>)
+class UserEdit extends Component {
+
+    render() {
+        return(
+            <p> asdasd</p>
+        );
+    }
 }
 
-export default EditUser;
+export default UserEdit;
