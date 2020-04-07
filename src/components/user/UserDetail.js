@@ -49,7 +49,7 @@ class UserDetail extends Component {
 
                     <Button type = 'primary' className = 'edit' 
                             style = {{ marginLeft: 300, marginBottom: 60 }}>
-                        <Link to = { '/edicao_usuario' }> Editar Usuário </Link>
+                        <Link to = { '/edicao_usuario' }> Editar Informações </Link>
                     </Button>
 
                     <Button type = 'primary' className = 'delete' style = {{ marginLeft: 20 }}>

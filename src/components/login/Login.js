@@ -35,7 +35,6 @@ class Login extends Component {
         const tailLayout = {
             wrapperCol: { offset: 8, span: 16 },
         };
-        
         return (
             <div>
                 {
@@ -56,7 +55,7 @@ class Login extends Component {
                                 </div>
                                 <div className = 'op2'> 
                                     <h3 className = 'texth1'> <b> Login </b> </h3>
-                                    <Form { ...layout } name = 'basic' onFinish = { this.handleSubmit } >
+                                    <Form { ...layout } name = 'basic' onFinish = { this.handleSubmit }>
                                         <Form.Item 
                                             label = 'Usuário' name = 'username' className = 'inputFormLogin'
                                             rules = {[{ required: true, message: 'Por Favor, Insira o Seu Usuário!' }]}
