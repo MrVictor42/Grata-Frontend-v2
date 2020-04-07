@@ -5,3 +5,11 @@
 .h1User {
     margin-left: 360px;
 }
+
+.upload {
+    width: 128px;
+    height: 128px;
+    margin-left: 900px;
+    margin-top: -300px;
+    position: absolute;
+}

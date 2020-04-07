@@ -14,7 +14,7 @@ const Navbar = (props) => {
                 {
                     props.isLogged === null ? (
                         <Menu.Item>
-                            <Link to = '/login' ><p className = 'textNavbar'> Login </p></Link>
+                            <Link to = '/login'><p className = 'textNavbar'> Login </p></Link>
                         </Menu.Item>
                     ) : (
                         <Menu.Item onClick = { props.logout }>

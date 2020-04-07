@@ -2,45 +2,6 @@ import axios from 'axios';
 import { USER_LIST_START, USER_LIST_SUCCESS, USER_LIST_FAIL } from './actionsTypes';
 import { authStart ,authSuccess, authFail, logout, checkAuthTimeout } from './auth';
 
-const getUserListStart = () => {
-	return {
-        type: USER_LIST_START
-    };
-};
-
-const getUserListSuccess = users => {
-	return {
-		type: USER_LIST_SUCCESS,
-        users
-    };
-};
-
-const getUserListFail = error => {
-	return {
-		type: USER_LIST_FAIL,
-      	error: error
-    };
-};
-
-export const getUsers = (token) => {
-	return dispatch => {
-		dispatch(getUserListStart());
-        axios.defaults.headers = {
-            'Content-Type': 'application/json',
-            Authorization: `Token ${ token }`
-        };
-        axios.get('http://0.0.0.0:8000/users/')
-        .then(res => {
-			const users = res.data;
-			localStorage.setItem('users', JSON.stringify(users));
-			dispatch(getUserListSuccess(users));
-        })
-        .catch(err => {
-            dispatch(getUserListFail(err));
-        });
-    };
-}
-
 export const getCurrentUser = async (token, userId) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
@@ -60,24 +21,6 @@ export const getUserId = () => {
 	const userId = user.userId;
 	
 	return userId;
-}
-
-export const getUser = (token, userId) => {
-	return dispatch => {
-		dispatch(authStart());
-		axios.defaults.headers = {
-			'Content-Type': 'application/json',
-		  	Authorization: `Token ${ token }`
-		};
-		axios.get(`http://0.0.0.0:8000/users/user_detail/${ userId }/`)
-		.then(res => {
-			const user = res.data;
-			dispatch(authSuccess(user));
-		})
-		.catch(err => {
-			dispatch(authFail(err));
-		});
-	};
 }
 
 export const updateUser = (token, userObject) => {
@@ -122,3 +65,10 @@ export const deleteUser = (token, userId) => {
 		dispatch(logout());
 	};
 }
+
+export const getUserToken = () => {
+	const user = JSON.parse(localStorage.getItem('user'));
+	const token = user.token;
+	
+	return token;
+};

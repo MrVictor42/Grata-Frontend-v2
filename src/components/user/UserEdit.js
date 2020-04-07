@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { Layout, Input, Button, Form, Card } from 'antd';
-import { Link } from 'react-router-dom';
+import { Layout, Input, Button, Form, Card, Upload, message } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import DefaultUser from '../../img/default_user.png';
 
-import { getUser, getCurrentUser, getUserId } from '../../store/actions/user';
+import { getCurrentUser, getUserId, getUserToken } from '../../store/actions/user';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
@@ -17,139 +15,143 @@ class UserEdit extends Component {
         super(props)
     
         this.state = {
-            currentUser: {}
+            currentUser: {},
+            loading: false
         }
+        this.onFinish = this.onFinish.bind(this);
     }
+
+    getBase64(img, callback) {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+      }
+
+    beforeUpload(file) {
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        
+        if (!isJpgOrPng) {
+            message.error('Você Só Pode Carregar Arquivos JPG/PNG!');
+        }
+
+        if (!isLt2M) {
+            message.error('Imagem Deve Ser Menor Que 2MB!');
+        }
+
+        return isJpgOrPng && isLt2M;
+      }
+
+    handleChange = info => {
+        if (info.file.status === 'Carregando') {
+            this.setState({ loading: true });
+            return;
+        }
+        if (info.file.status === 'Pronto') {
+            this.getBase64(info.file.originFileObj, imageUrl =>
+                this.setState({ imageUrl, loading: false })
+            );
+        }
+    };
     
     async componentDidMount() {
-        const token = this.props.token;
+        const token = getUserToken();
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
         this.setState({ currentUser: user });
     };
 
+    onFinish = values => {
+        console.log(values);
+    };
+
     render() {
         const { currentUser } = this.state;
+        const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
+        const type = typeUser(currentUser.is_administrator);
+        const uploadButton = (
+            <div>
+                { this.state.loading ? <LoadingOutlined /> : <PlusOutlined /> }
+                <div className = 'ant-upload-text'> Carregar Imagem </div>
+            </div>
+          );
+          const { imageUrl } = this.state;
         return (
             <Content className = 'painelContent'>
-                {currentUser.name}
-                {currentUser.username}
+                <h1 className = 'h1User'> Informações Cadastradas </h1>
+                <Form {...layout} name = 'nest-messages'>
+                    <Form.Item label = 'Nome' className = 'inputsUserDetail'>
+                        <Input disabled = { true } value = { currentUser.name } />
+                    </Form.Item>
+
+                    <Form.Item label = 'Usuário' className = 'inputsUserDetail'>
+                        <Input disabled = { true } value = { currentUser.username } />
+                    </Form.Item>
+
+                    <Form.Item label = 'Setor' className = 'inputsUserDetail'>
+                        <Input disabled = { true } value = { 'Não feito ainda' } />
+                    </Form.Item>
+
+                    <Form.Item label = 'Ramal' className = 'inputsUserDetail'>
+                        <Input disabled = { true } value = { currentUser.ramal } />
+                    </Form.Item>
+
+                    <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
+                        <Input disabled = { true } value = { type } />
+                    </Form.Item>  
+                </Form>
+                <Card
+                    cover = { <img alt = 'avatar' src = { DefaultUser } /> }
+                    hoverable 
+                    className = 'imgAvatar'
+                >
+                    <Meta title = 'Foto do Usuário' description = 'Essa é Sua Foto de Usuário' />
+                </Card>
+
+                <Content>
+                <h1 className = 'h1User'> Informações a Serem Alteradas </h1>
+                    <Form {...layout} name = 'nest-messages' onFinish = { this.onFinish }>
+                        <Form.Item name = {'name'} label = 'Nome'>
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item name = {'user'} label = 'Usuário'>
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item name = {'sector'} label = 'Setor'>
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item name = {'ramal'} label = 'Ramal'>
+                            <Input />
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button type = 'primary' htmlType = 'submit' className = 'save' 
+                                    style = {{ marginLeft: 360, marginBottom: 60 }}>
+                                Alterar Informações
+                            </Button>
+                        </Form.Item>
+
+                        <Upload 
+                            name = 'avatar' listType = 'picture-card' className = 'upload'
+                            showUploadList = { false } 
+                            action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
+                            beforeUpload = { this.beforeUpload }
+                            onChange = { this.handleChange }
+                        >
+                            { imageUrl ? 
+                                <img 
+                                    src = { imageUrl } alt = 'avatar' 
+                                    style = {{ width: '100%' }} /> : uploadButton
+                            }
+                        </Upload>
+                    </Form>
+                </Content>
             </Content>
-        )
-    
-
-    // componentDidMount() {
-    //     const token = this.props.token;
-
-    //     if (token !== undefined && token !== null) {
-    //         this.props.getUser(token, this.props.currentUser.userId);
-	// 	}
-    // }
-
-    // render() {
-    //     const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
-    //     const { currentUser } = this.props;
-    //     const type = typeUser(currentUser.is_administrator);
-    //     return(
-    //         <Content className = 'painelContent'>
-    //             <h1 className = 'h1User'> Informações Cadastradas </h1>
-    //             <Form {...layout} name = 'nest-messages'>
-    //                 <Form.Item label = 'Nome' className = 'inputsUserDetail'>
-    //                     <Input disabled = { true } value = { currentUser.name } />
-    //                 </Form.Item>
-
-    //                 <Form.Item label = 'Usuário' className = 'inputsUserDetail'>
-    //                     <Input disabled = { true } value = { currentUser.username } />
-    //                 </Form.Item>
-
-    //                 <Form.Item label = 'Setor' className = 'inputsUserDetail'>
-    //                     <Input disabled = { true } value = { 'Não feito ainda' } />
-    //                 </Form.Item>
-
-    //                 <Form.Item label = 'Ramal' className = 'inputsUserDetail'>
-    //                     <Input disabled = { true } value = { currentUser.ramal } />
-    //                 </Form.Item>
-
-    //                 <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
-    //                     <Input disabled = { true } value = { type } />
-    //                 </Form.Item>  
-    //             </Form>
-    //             <Content>
-    //                 <Card
-    //                     cover = { <img alt = 'avatar' src = { DefaultUser } /> }
-    //                     hoverable 
-    //                     className = 'imgAvatar'
-    //                 >
-    //                     <Meta title = 'Foto do Usuário' description = 'Essa é Sua Foto de Usuário' />
-    //                 </Card>
-    //             </Content>
-    //             <Content className = 'painelContent'>
-    //                 <Form {...layout} name="nest-messages" onFinish={this.onFinish} >
-    //                     <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
-    //                         <Input value = { currentUser.name}/>
-    //                     </Form.Item>
-
-    //                     <Form.Item label="Email" rules={[{ type: 'email' }]}>
-    //                         <Input value = { currentUser.email} name = {'email'}/>
-    //                     </Form.Item>
-
-    //                     <Form.Item name={['user', 'website']} label="Website">
-    //                     <Input />
-    //                     </Form.Item>
-    //                     <Form.Item name={['user', 'introduction']} label="Introduction">
-    //                     <Input.TextArea />
-    //                     </Form.Item>
-    //                     <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-    //                     <Button type = 'primary' className = 'save' 
-    //                         style = {{ marginLeft: 350, marginBottom: 60 }}>
-    //                     <Link to = { '/edicao_usuario' }> Editar Informações </Link>
-    //                 </Button>
-    //                     </Form.Item>
-    //                 </Form>
-    //             </Content>                
-    //         </Content>
-
-            // <Content className = 'painelContent'>
-            //     <Form {...layout} name="nest-messages" onFinish={this.onFinish} >
-            //         <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
-            //             <Input value = { currentUser.name}/>
-            //         </Form.Item>
-
-            //         <Form.Item label="Email" rules={[{ type: 'email' }]}>
-            //             <Input value = { currentUser.email} name = {'email'}/>
-            //         </Form.Item>
-            //         <Form.Item name={['user', 'age']} label="Age" rules={[{ type: 'number', min: 0, max: 99 }]}>
-            //         <InputNumber />
-            //         </Form.Item>
-            //         <Form.Item name={['user', 'website']} label="Website">
-            //         <Input />
-            //         </Form.Item>
-            //         <Form.Item name={['user', 'introduction']} label="Introduction">
-            //         <Input.TextArea />
-            //         </Form.Item>
-            //         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-            //         <Button type="primary" htmlType="submit">
-            //             Submit
-            //         </Button>
-            //         </Form.Item>
-            //     </Form>
-            // </Content>
-        // );
+        );
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        token: state.auth.token,
-        currentUser: state.auth.currentUser,
-        loading: state.auth.loading
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-		// getUser: (token, userId) => dispatch(getUser(token, userId)),
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserEdit);
+export default UserEdit;

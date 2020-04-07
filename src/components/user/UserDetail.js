@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Layout, Input, Button, Form, Card } from 'antd';
 import { Link } from 'react-router-dom';
 import DefaultUser from '../../img/default_user.png';
 
-import { getUser } from '../../store/actions/user';
+import { getCurrentUser, getUserToken, getUserId } from '../../store/actions/user';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
@@ -12,17 +11,24 @@ const { Meta } = Card;
 
 class UserDetail extends Component {
 
-    componentDidMount() {
-        const token = this.props.token;
-
-        if (token !== undefined && token !== null) {
-            this.props.getUser(token, this.props.currentUser.userId);
-		}
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+            currentUser: {},
+        }
     }
+
+    async componentDidMount() {
+        const token = getUserToken();
+        const userId = getUserId();
+        const user = await getCurrentUser(token, userId);
+        this.setState({ currentUser: user });
+    };
 
     render() {
         const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
-        const { currentUser } = this.props;
+        const { currentUser } = this.state;
         const type = typeUser(currentUser.is_administrator);
         return (
             <Content className = 'painelContent'>
@@ -70,18 +76,4 @@ class UserDetail extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        token: state.auth.token,
-        currentUser: state.auth.currentUser,
-        loading: state.auth.loading
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-		getUser: (token, userId) => dispatch(getUser(token, userId)),
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);
+export default UserDetail;
