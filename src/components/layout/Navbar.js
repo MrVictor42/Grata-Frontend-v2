@@ -18,7 +18,7 @@ const Navbar = (props) => {
                         </Menu.Item>
                     ) : (
                         <Menu.Item onClick = { props.logout }>
-                            <Link to = '/' ><p className = 'textNavbar'> Logout </p></Link>
+                            <Link to = '/'><p className = 'textNavbar'> Logout </p></Link>
                         </Menu.Item>
                     )
                 }

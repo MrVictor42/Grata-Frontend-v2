@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL_USERS } from './actionsTypes';
-import { authStart ,authSuccess, authFail, logout, checkAuthTimeout } from './auth';
+import { logout } from './auth';
 
 export const getUserId = () => {
 	const user = JSON.parse(localStorage.getItem('user'));
@@ -30,27 +30,31 @@ export const getCurrentUser = async (token, userId) => {
 	}
 }
 
-export const updateUser = (token, user) => {
+export const updateUser = async(token, user) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
 		Authorization: `Token ${token}`
 	};
 
-	axios.put(`${ BASE_URL_USERS }user_edit/${ user.id }/`, user).
-	then(res => {
-		console.log(res)
-	}).catch(err => {
-		console.log(err)
-	});
+	try {
+		await axios.put(`${ BASE_URL_USERS }user_edit/${ user.id }/`, user);
+		return true;
+	} catch(err) {
+		return false;
+	}
 }
 
-// export const deleteUser = (token, userId) => {
-// 	return dispatch => {
-// 		axios.defaults.headers = {
-// 			'Content-Type': 'application/json',
-// 			Authorization: `Token ${token}`
-// 		};
-// 		axios.delete(`http://0.0.0.0:8000/users/delete_user/${ userId }/`)
-// 		dispatch(logout());
-// 	};
-// }
+export const deleteUser = async(token, userId) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${token}`
+	};
+
+	try {
+		await axios.delete(`${ BASE_URL_USERS }user_delete/${ userId }/`);
+		logout();
+		return true;
+	} catch {
+		return false;
+	}
+}

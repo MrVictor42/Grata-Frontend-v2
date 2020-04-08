@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Layout, Input, Button, Form, Card } from 'antd';
-import { Link } from 'react-router-dom';
-import DefaultUser from '../../img/default_user.png';
+import { Layout, Input, Button, Form, Card, Modal, message } from 'antd';
+import { Link, withRouter } from 'react-router-dom';
 
-import { getCurrentUser, getUserToken, getUserId } from '../../store/actions/user';
+import DefaultUser from '../../img/default_user.png';
+import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/actions/user';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
 const { Meta } = Card;
+const { confirm } = Modal;
 
 class UserDetail extends Component {
 
@@ -17,6 +18,8 @@ class UserDetail extends Component {
         this.state = {
             currentUser: {},
         }
+
+        this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
     }
 
     async componentDidMount() {
@@ -24,12 +27,40 @@ class UserDetail extends Component {
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
         this.setState({ currentUser: user });
-    };
+    }
+
+    async showDeleteConfirm(props) {
+        const { currentUser } = this.state;
+        const name = currentUser.name;
+        const userId = currentUser.id;
+        const token = getUserToken();
+
+        confirm ({
+			title: 'Exclusão de Conta',
+			content: 'Tem Certeza Que Deseja Excluir Sua Conta, Caro(a) ' + name  + '?',
+			okText: 'Sim',
+			okType: 'danger',
+			cancelText: 'Não',
+		
+			onOk() {
+                deleteUser(token, userId);
+				Modal.success({
+					title: 'Ação Concluída!',
+					content: 'Conta Excluída Com Sucesso!',
+				});
+				props.history.push('/')
+			},
+			onCancel() {
+				message.success('Exclusão de Conta Cancelada Com Sucesso!');
+			},
+		});
+    }
 
     render() {
         const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
         const { currentUser } = this.state;
         const type = typeUser(currentUser.is_administrator);
+        const props = this.props;
         return (
             <Content className = 'painelContent'>
                 <Form {...layout} name = 'nest-messages'>
@@ -58,8 +89,9 @@ class UserDetail extends Component {
                         <Link to = { '/edicao_usuario' }> Editar Informações </Link>
                     </Button>
 
-                    <Button type = 'primary' className = 'delete' style = {{ marginLeft: 20 }}>
-                        <Link to = { '/edicao_usuario' }> Excluir Usuário </Link>
+                    <Button type = 'primary' className = 'delete' style = {{ marginLeft: 20 }} 
+                            onClick = { () => this.showDeleteConfirm(props) }>
+                        Excluir Usuário
                     </Button>            
                 </Form>
                 <Content>
@@ -77,4 +109,4 @@ class UserDetail extends Component {
     }
 }
 
-export default UserDetail;
+export default withRouter(UserDetail);

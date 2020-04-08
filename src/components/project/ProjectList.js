@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Table, Tag, Button, Tabs } from 'antd';
+import { Table, Tag, Button, Tabs } from 'antd';
 
 const { TabPane } = Tabs;
 function callback(key) {

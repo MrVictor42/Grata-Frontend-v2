@@ -63,7 +63,7 @@ class UserEdit extends Component {
         this.setState({ currentUser: user });
     };
 
-    handleSubmit = values => {
+    async handleSubmit(values) {
         const token = getUserToken();
         const { currentUser } = this.state;
         let user = {
@@ -75,16 +75,17 @@ class UserEdit extends Component {
             is_administrator: currentUser.is_administrator,
             is_participant: !currentUser.is_administrator,
         }
-
+    
         user = validateUpdate(user, currentUser);
-        if(updateUser(token, user) === undefined) {
+        const status = await updateUser(token, user);
+        if(status === true) {
             message.success('Informações Alteradas Com Sucesso!');
             this.props.history.push('/informacoes_usuario');
         } else {
             message.error('Algo de Ruim Aconteceu! Tente Novamente.')
             this.props.history.push('/edicao_usuario');
         }
-    };
+    }
 
     render() {
         const { currentUser } = this.state;
