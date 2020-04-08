@@ -67,6 +67,7 @@ class UserDetail extends Component {
                         cover = { <img alt = 'avatar' src = { DefaultUser } /> }
                         hoverable 
                         className = 'imgAvatar'
+                        style = {{ marginTop: -400 }}
                     >
                         <Meta title = 'Foto do Usuário' description = 'Essa é Sua Foto de Usuário' />
                     </Card>

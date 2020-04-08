@@ -3,7 +3,8 @@ import { Layout, Input, Button, Form, Card, Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import DefaultUser from '../../img/default_user.png';
 
-import { getCurrentUser, getUserId, getUserToken } from '../../store/actions/user';
+import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/actions/user';
+import { validateUpdate } from '../../services/userService';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
@@ -18,7 +19,7 @@ class UserEdit extends Component {
             currentUser: {},
             loading: false
         }
-        this.onFinish = this.onFinish.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     getBase64(img, callback) {
@@ -61,8 +62,27 @@ class UserEdit extends Component {
         this.setState({ currentUser: user });
     };
 
-    onFinish = values => {
-        console.log(values);
+    handleSubmit = values => {
+        const token = getUserToken();
+        const { currentUser } = this.state;
+        let user = {
+            id: currentUser.id,
+            email: currentUser.email,
+            username: currentUser.username,
+            ramal: values.ramal,
+            name: values.name,
+            is_administrator: currentUser.is_administrator,
+            is_participant: !currentUser.is_administrator,
+        }
+
+        user = validateUpdate(user, currentUser);
+        if(updateUser(token, user) === undefined) {
+            message.success('Informações Alteradas Com Sucesso!');
+            this.props.history.push('/informacoes_usuario');
+        } else {
+            message.error('Algo de Ruim Aconteceu! Tente Novamente.')
+            this.props.history.push('/edicao_usuario');
+        }
     };
 
     render() {
@@ -110,12 +130,15 @@ class UserEdit extends Component {
 
                 <Content>
                 <h1 className = 'h1User'> Informações a Serem Alteradas </h1>
-                    <Form {...layout} name = 'nest-messages' onFinish = { this.onFinish }>
+                <h4 style = {{ color: 'red', marginLeft: -80 }} align = 'center'> 
+                    Caso Não Queira Alterar um Campo, Basta Deixa-lo Em Branco. 
+                </h4>
+                    <Form {...layout} name = 'nest-messages' onFinish = { this.handleSubmit }>
                         <Form.Item name = {'name'} label = 'Nome'>
                             <Input />
                         </Form.Item>
 
-                        <Form.Item name = {'user'} label = 'Usuário'>
+                        <Form.Item name = {'username'} label = 'Usuário'>
                             <Input />
                         </Form.Item>
 
