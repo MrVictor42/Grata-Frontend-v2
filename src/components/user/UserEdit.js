@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Layout, Input, Button, Form, Card, Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import DefaultUser from '../../img/default_user.png';
+import { Link } from 'react-router-dom'
 
 import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/actions/user';
 import { validateUpdate } from '../../services/userService';
@@ -154,6 +155,10 @@ class UserEdit extends Component {
                             <Button type = 'primary' htmlType = 'submit' className = 'save' 
                                     style = {{ marginLeft: 360, marginBottom: 60 }}>
                                 Alterar Informações
+                            </Button>
+                            <Button type = 'primary' htmlType = 'submit' 
+                                    style = {{ marginLeft: 40, marginBottom: 60, fontWeight: 'bold' }}>
+                                <Link to = { '/informacoes_usuario' }> Voltar </Link>
                             </Button>
                         </Form.Item>
 
