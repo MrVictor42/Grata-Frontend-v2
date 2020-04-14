@@ -33,7 +33,7 @@ export const getCurrentUser = async (token, userId) => {
 export const updateUser = async(token, user) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
-		Authorization: `Token ${token}`
+		Authorization: `Token ${ token }`
 	};
 
 	try {
@@ -47,7 +47,7 @@ export const updateUser = async(token, user) => {
 export const deleteUser = async(token, userId) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
-		Authorization: `Token ${token}`
+		Authorization: `Token ${ token }`
 	};
 
 	try {

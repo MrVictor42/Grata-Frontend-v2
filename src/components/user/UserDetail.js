@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Layout, Input, Button, Form, Card, Modal, message } from 'antd';
+import { Layout, Input, Button, Form, Modal, message } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 
-import DefaultUser from '../../img/default_user.png';
+import UserPhoto from './UserPhoto';
+
 import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/actions/user';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
-const { Meta } = Card;
 const { confirm } = Modal;
 
 class UserDetail extends Component {
@@ -94,15 +94,8 @@ class UserDetail extends Component {
                         Excluir Usuário
                     </Button>            
                 </Form>
-                <Content>
-                    <Card
-                        cover = { <img alt = 'avatar' src = { DefaultUser } /> }
-                        hoverable 
-                        className = 'imgAvatar'
-                        style = {{ marginTop: -400 }}
-                    >
-                        <Meta title = 'Foto do Usuário' description = 'Essa é Sua Foto de Usuário' />
-                    </Card>
+                <Content style = {{ marginTop: -400 }}>
+                    <UserPhoto />
                 </Content>                
             </Content>
         );

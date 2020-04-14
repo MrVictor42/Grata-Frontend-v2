@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { Layout, Input, Button, Form, Card, Upload, message } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import DefaultUser from '../../img/default_user.png';
-import { Link } from 'react-router-dom'
+import { Layout, Input, Button, Form, message } from 'antd';
+import { Link } from 'react-router-dom';
+
+import UserPhoto from './UserPhoto';
 
 import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/actions/user';
 import { validateUpdate } from '../../services/userService';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
-const { Meta } = Card;
 
 class UserEdit extends Component {
 
@@ -18,16 +17,16 @@ class UserEdit extends Component {
     
         this.state = {
             currentUser: {},
-            loading: false
+            loading: false,
+            previewVisible: false,
+            previewImage: '',
+            selectedFile: null,
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.beforeUpload = this.beforeUpload.bind(this);
+        this.fileSelectHandler = this.fileSelectHandler.bind(this);
+        this.fileUploadHandler = this.fileUploadHandler.bind(this);
     }
-
-    getBase64(img, callback) {
-        const reader = new FileReader();
-        reader.addEventListener('load', () => callback(reader.result));
-        reader.readAsDataURL(img);
-      }
 
     beforeUpload(file) {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -42,20 +41,28 @@ class UserEdit extends Component {
         }
 
         return isJpgOrPng && isLt2M;
-      }
+    }
 
-    handleChange = info => {
-        if (info.file.status === 'Carregando') {
-            this.setState({ loading: true });
-            return;
+    fileSelectHandler = event => {
+        const file = event.target.files[0];
+        if(this.beforeUpload(file)) {
+            this.setState({
+                selectedFile: file
+            });
+        } else {
+            
         }
-        if (info.file.status === 'Pronto') {
-            this.getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({ imageUrl, loading: false })
-            );
+    }
+
+    fileUploadHandler = () => {
+        if(this.state.selectedFile === null) {
+            message.error('Você Não Colocou Foto');
+            return ;
+        } else {
+            
         }
-    };
-    
+    }
+
     async componentDidMount() {
         const token = getUserToken();
         const userId = getUserId();
@@ -66,6 +73,13 @@ class UserEdit extends Component {
     async handleSubmit(values) {
         const token = getUserToken();
         const { currentUser } = this.state;
+        const image = new FormData();
+        if(this.state.selectedFile === null) {
+
+        } else {
+            image.append('image', this.state.selectedFile, this.state.selectedFile.name);
+        }
+        alert(image)
         let user = {
             id: currentUser.id,
             email: currentUser.email,
@@ -74,8 +88,9 @@ class UserEdit extends Component {
             name: values.name,
             is_administrator: currentUser.is_administrator,
             is_participant: !currentUser.is_administrator,
-        }
-    
+            image: image
+        };
+
         user = validateUpdate(user, currentUser);
         const status = await updateUser(token, user);
         if(status === true) {
@@ -91,13 +106,6 @@ class UserEdit extends Component {
         const { currentUser } = this.state;
         const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
         const type = typeUser(currentUser.is_administrator);
-        const uploadButton = (
-            <div>
-                { this.state.loading ? <LoadingOutlined /> : <PlusOutlined /> }
-                <div className = 'ant-upload-text'> Carregar Imagem </div>
-            </div>
-          );
-          const { imageUrl } = this.state;
         return (
             <Content className = 'painelContent'>
                 <h1 className = 'h1User'> Informações Cadastradas </h1>
@@ -122,19 +130,13 @@ class UserEdit extends Component {
                         <Input disabled = { true } value = { type } />
                     </Form.Item>  
                 </Form>
-                <Card
-                    cover = { <img alt = 'avatar' src = { DefaultUser } /> }
-                    hoverable 
-                    className = 'imgAvatar'
-                >
-                    <Meta title = 'Foto do Usuário' description = 'Essa é Sua Foto de Usuário' />
-                </Card>
+                <UserPhoto/>
 
                 <Content>
-                <h1 className = 'h1User'> Informações a Serem Alteradas </h1>
-                <h4 style = {{ color: 'red', marginLeft: -80 }} align = 'center'> 
-                    Caso Não Queira Alterar um Campo, Basta Deixa-lo Em Branco. 
-                </h4>
+                    <h1 className = 'h1User'> Informações a Serem Alteradas </h1>
+                    <h4 style = {{ color: 'red', marginLeft: -80 }} align = 'center'> 
+                        Caso Não Queira Alterar um Campo, Basta Deixa-lo Em Branco. 
+                    </h4>
                     <Form {...layout} name = 'nest-messages' onFinish = { this.handleSubmit }>
                         <Form.Item name = {'name'} label = 'Nome'>
                             <Input />
@@ -163,19 +165,10 @@ class UserEdit extends Component {
                             </Button>
                         </Form.Item>
 
-                        <Upload 
-                            name = 'avatar' listType = 'picture-card' className = 'upload'
-                            showUploadList = { false } 
-                            action = 'https://www.mocky.io/v2/5cc8019d300000980a055e76'
-                            beforeUpload = { this.beforeUpload }
-                            onChange = { this.handleChange }
-                        >
-                            { imageUrl ? 
-                                <img 
-                                    src = { imageUrl } alt = 'avatar' 
-                                    style = {{ width: '100%' }} /> : uploadButton
-                            }
-                        </Upload>
+                        <div className = 'upload'>
+                            <input type = 'file' onChange = { this.fileSelectHandler }/>
+                            <button onClick = { this.fileUploadHandler }> Subir Imagem </button>
+                        </div>
                     </Form>
                 </Content>
             </Content>
