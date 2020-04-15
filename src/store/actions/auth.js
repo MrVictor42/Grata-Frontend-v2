@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT } from './actionsTypes';
 
 export const authStart = () => {

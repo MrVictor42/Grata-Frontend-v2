@@ -28,7 +28,7 @@ class UserPhoto extends Component {
     render() {
         const { currentUser } = this.state;
         let image = '';
-        if(currentUser.image) {
+        if(currentUser.image !== null) {
             image = currentUser.image;
         } else {
             image = DefaultUser

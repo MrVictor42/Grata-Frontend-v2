@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import UserPhoto from './UserPhoto';
 
 import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/actions/user';
+import { saveImage } from '../../store/actions/images';
 import { validateUpdate } from '../../services/userService';
 import { typeUser } from '../../services/userService';
 
@@ -25,7 +26,6 @@ class UserEdit extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.beforeUpload = this.beforeUpload.bind(this);
         this.fileSelectHandler = this.fileSelectHandler.bind(this);
-        this.fileUploadHandler = this.fileUploadHandler.bind(this);
     }
 
     beforeUpload(file) {
@@ -46,18 +46,7 @@ class UserEdit extends Component {
     fileSelectHandler = event => {
         const file = event.target.files[0];
         if(this.beforeUpload(file)) {
-            this.setState({
-                selectedFile: file
-            });
-        } else {
-            
-        }
-    }
-
-    fileUploadHandler = () => {
-        if(this.state.selectedFile === null) {
-            message.error('Você Não Colocou Foto');
-            return ;
+            this.setState({ selectedFile: file });
         } else {
             
         }
@@ -74,12 +63,16 @@ class UserEdit extends Component {
         const token = getUserToken();
         const { currentUser } = this.state;
         const image = new FormData();
+        let imageUser = null;
+        let imageID = '';
+
         if(this.state.selectedFile === null) {
 
         } else {
             image.append('image', this.state.selectedFile, this.state.selectedFile.name);
+            imageUser = await saveImage(token, image);
+            imageID = imageUser.id;
         }
-        alert(image)
         let user = {
             id: currentUser.id,
             email: currentUser.email,
@@ -88,7 +81,7 @@ class UserEdit extends Component {
             name: values.name,
             is_administrator: currentUser.is_administrator,
             is_participant: !currentUser.is_administrator,
-            image: image
+            image: imageID
         };
 
         user = validateUpdate(user, currentUser);
@@ -167,7 +160,7 @@ class UserEdit extends Component {
 
                         <div className = 'upload'>
                             <input type = 'file' onChange = { this.fileSelectHandler }/>
-                            <button onClick = { this.fileUploadHandler }> Subir Imagem </button>
+                            {/* <button onClick = { this.fileUploadHandler }> Subir Imagem </button> */}
                         </div>
                     </Form>
                 </Content>
