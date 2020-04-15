@@ -8,6 +8,7 @@ import Login from './components/login/Login';
 
 import UserDetail from './components/user/UserDetail';
 import UserEdit from './components/user/UserEdit';
+import UserRegister from './components/user/UserRegister';
 
 import ProjectList from './components/project/ProjectList';
 
@@ -23,6 +24,8 @@ const BaseRouter = (props) => (
                 <div>
                     <Route exact path = '/informacoes_usuario' component = { UserDetail } />
                     <Route exact path = '/edicao_usuario' component = { UserEdit } />
+                    <Route exact path = '/registrar_usuario' component = { UserRegister } />
+
                     <Route exact path = '/lista_de_projetos' component = { ProjectList } />
                 </div>
             )

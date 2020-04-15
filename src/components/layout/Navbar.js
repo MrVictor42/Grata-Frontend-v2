@@ -3,6 +3,8 @@ import { Layout, Menu } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Dropdown from './Dropdown';
+
 import { logout } from '../../store/actions/auth';
 
 const { Header } = Layout;
@@ -11,6 +13,15 @@ const Navbar = (props) => {
     return (
         <Header className = 'header'>
             <Menu className = 'menu' mode = 'horizontal'>
+                {
+                    props.isLogged === null ? (
+                        null
+                    ) : (
+                        <Menu.Item>
+                            <Dropdown />
+                        </Menu.Item>
+                    )
+                }
                 {
                     props.isLogged === null ? (
                         <Menu.Item>

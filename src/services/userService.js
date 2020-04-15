@@ -25,9 +25,6 @@ export const validateUpdate = (user, currentUser) => {
     } if(user.ramal === '' || user.ramal === null || user.ramal === undefined) {
         user.ramal = currentUser.ramal;
     }
-    if(user.image == '' || user.image === null || user.image === undefined) {
-        user.image = currentUser.image;
-    }
 
     return user;
 }

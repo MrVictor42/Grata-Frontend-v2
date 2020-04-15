@@ -3,7 +3,7 @@ import { Card } from 'antd';
 
 import DefaultUser from '../../img/default_user.png';
 
-import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/actions/user';
+import { getCurrentUser, getUserToken, getUserId } from '../../store/actions/user';
 
 
 const { Meta } = Card;

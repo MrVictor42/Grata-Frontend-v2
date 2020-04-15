@@ -13,7 +13,6 @@ import '../../css/img.css';
 
 import Navbar from './Navbar';
 import AutoComplete from './AutoComplete';
-import SiderLayout from './SiderLayout';
 
 const { Footer, Content } = Layout;
 
@@ -25,7 +24,6 @@ const CustomLayout = (props) => {
 				props.token !== null ? (
 					<Content>
 						<AutoComplete />
-						<SiderLayout />
 					</Content>
 				) : null
 			}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Input, Button, Form, Modal, message } from 'antd';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import UserPhoto from './UserPhoto';
 
@@ -102,4 +102,4 @@ class UserDetail extends Component {
     }
 }
 
-export default withRouter(UserDetail);
+export default UserDetail;
