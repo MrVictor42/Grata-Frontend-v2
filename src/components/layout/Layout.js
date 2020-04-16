@@ -10,11 +10,12 @@ import '../../css/project.css';
 import '../../css/user.css';
 import '../../css/buttons.css';
 import '../../css/img.css';
+import '../../css/forms.css';
 
 import Navbar from './Navbar';
 import AutoComplete from './AutoComplete';
 
-const { Footer, Content } = Layout;
+const { Footer } = Layout;
 
 const CustomLayout = (props) => {
 	return (
@@ -22,9 +23,7 @@ const CustomLayout = (props) => {
 			<Navbar isLogged = { props.token }/>
 			{
 				props.token !== null ? (
-					<Content>
-						<AutoComplete />
-					</Content>
+					<AutoComplete />
 				) : null
 			}
 			{ props.children }

@@ -29,7 +29,7 @@ class UserPhoto extends Component {
         const { currentUser } = this.state;
         let image = '';
         if(currentUser.image !== null) {
-            image = currentUser.image;
+            image = 'http://0.0.0.0:8000/media/' + currentUser.image;
         } else {
             image = DefaultUser
         }

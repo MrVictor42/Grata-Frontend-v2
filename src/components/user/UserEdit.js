@@ -18,11 +18,9 @@ class UserEdit extends Component {
     
         this.state = {
             currentUser: {},
-            loading: false,
-            previewVisible: false,
-            previewImage: '',
             selectedFile: null,
         }
+        
         this.handleSubmit = this.handleSubmit.bind(this);
         this.beforeUpload = this.beforeUpload.bind(this);
         this.fileSelectHandler = this.fileSelectHandler.bind(this);
@@ -160,7 +158,6 @@ class UserEdit extends Component {
 
                         <div className = 'upload'>
                             <input type = 'file' onChange = { this.fileSelectHandler }/>
-                            {/* <button onClick = { this.fileUploadHandler }> Subir Imagem </button> */}
                         </div>
                     </Form>
                 </Content>
