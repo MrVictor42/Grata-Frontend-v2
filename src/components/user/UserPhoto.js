@@ -4,7 +4,7 @@ import { Card } from 'antd';
 import DefaultUser from '../../img/default_user.png';
 
 import { getCurrentUser, getUserToken, getUserId } from '../../store/actions/user';
-
+import { getImage } from '../../store/actions/images';
 
 const { Meta } = Card;
 
@@ -15,6 +15,7 @@ class UserPhoto extends Component {
     
         this.state = {
             currentUser: {},
+            image: null
         }
     }
 
@@ -22,14 +23,23 @@ class UserPhoto extends Component {
         const token = getUserToken();
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
+        console.log(user)
         this.setState({ currentUser: user });
+        let imageUser = null;
+
+        if(user.image !== null) {
+            imageUser = await getImage(token, user.image);
+            this.setState({ image: imageUser.image });
+            console.log(this.state.image)
+        } else {
+
+        }
     }
 
     render() {
-        const { currentUser } = this.state;
-        let image = '';
-        if(currentUser.image !== null) {
-            image = 'http://0.0.0.0:8000/media/' + currentUser.image;
+        let image = null;
+        if(this.state.image !== null) {
+            image = this.state.image;
         } else {
             image = DefaultUser
         }

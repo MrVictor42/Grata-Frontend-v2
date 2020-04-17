@@ -1,5 +1,7 @@
 .inputsUserDetail {
+    padding-top: 12px;
     margin-bottom: 30px;
+    width: 1320px;
 }
 
 .h1User {
@@ -9,7 +11,7 @@
 .upload {
     width: 128px;
     height: 128px;
-    margin-left: 780px;
+    margin-left: 990px;
     margin-top: -340px;
     position: absolute;
 }

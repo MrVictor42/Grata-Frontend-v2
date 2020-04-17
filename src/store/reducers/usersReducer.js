@@ -1,4 +1,4 @@
-import { USER_LIST_START, USER_LIST_SUCCESS, USER_LIST_FAIL } from '../actions/actionsTypes';
+import { USER_LIST_START, USER_LIST_SUCCESS, USER_LIST_FAIL } from '../../components/consts';
 import { updateObject } from '../utility';
 
 const initialState = {

@@ -10,7 +10,6 @@ import '../../css/project.css';
 import '../../css/user.css';
 import '../../css/buttons.css';
 import '../../css/img.css';
-import '../../css/forms.css';
 
 import Navbar from './Navbar';
 import AutoComplete from './AutoComplete';

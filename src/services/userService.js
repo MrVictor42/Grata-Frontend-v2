@@ -13,7 +13,15 @@ export const typeUser = (is_administrator) => {
     if(is_administrator === true) {
         return 'Administrador';
     } else {
-        return 'Participante da Reunião'
+        return 'Participante da Reunião';
+    }
+}
+
+export const typeUserValidate = (is_administrator) => {
+    if(is_administrator === 'Administrador') {
+        return true;
+    } else {
+        return false;
     }
 }
 

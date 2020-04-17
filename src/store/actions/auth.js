@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT } from './actionsTypes';
+import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT } from '../../components/consts';
 
 export const authStart = () => {
 	return {
@@ -78,16 +78,6 @@ export const authLogin = (username, password) => {
 			dispatch(authSuccess(user));
 			dispatch(checkAuthTimeout(3600));
 		})
-		.catch(err => {
-			dispatch(authFail(err));
-		});
-	};
-};
-
-export const authSignup = (user) => {
-	return dispatch => {
-		dispatch(authStart());
-		axios.post('http://0.0.0.0:8000/rest-auth/registration/', user)
 		.catch(err => {
 			dispatch(authFail(err));
 		});

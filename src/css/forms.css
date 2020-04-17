@@ -11,3 +11,15 @@
     font-weight: bold;
     margin-left: 600px;
 }
+
+.uploadImg {
+    margin-top: -10px;
+    margin-left: 400px;
+}
+
+.saveButton {
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 180px;
+    margin-bottom: 60px;
+}

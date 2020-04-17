@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { BASE_URL_USERS } from './actionsTypes';
+import { BASE_URL_USERS } from '../../components/consts';
 import { logout } from './auth';
 
 export const getUserId = () => {
@@ -17,6 +17,19 @@ export const getUserToken = () => {
 	return token;
 }
 
+export const authSignup = async (user) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json'
+	};
+
+	try {
+		const { data } = await axios.post('http://0.0.0.0:8000/rest-auth/registration/', user);
+		return data;
+	} catch(err) {
+		console.log(err.message);
+	}
+};
+
 export const getCurrentUser = async (token, userId) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
@@ -26,7 +39,7 @@ export const getCurrentUser = async (token, userId) => {
 	try {
 		const { data } = await axios.get(`${ BASE_URL_USERS }user_detail/${ userId }/`);
 		return data;    
-	} catch (err) {
+	} catch(err) {
 		console.log(err.message);
 	}
 }

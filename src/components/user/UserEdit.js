@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import UserPhoto from './UserPhoto';
 
 import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/actions/user';
-import { saveImage } from '../../store/actions/images';
+import { saveImage, editImage } from '../../store/actions/images';
 import { validateUpdate } from '../../services/userService';
 import { typeUser } from '../../services/userService';
 
@@ -26,6 +26,13 @@ class UserEdit extends Component {
         this.fileSelectHandler = this.fileSelectHandler.bind(this);
     }
 
+    async componentDidMount() {
+        const token = getUserToken();
+        const userId = getUserId();
+        const user = await getCurrentUser(token, userId);
+        this.setState({ currentUser: user });
+    };
+
     beforeUpload(file) {
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         const isLt2M = file.size / 1024 / 1024 < 2;
@@ -43,19 +50,13 @@ class UserEdit extends Component {
 
     fileSelectHandler = event => {
         const file = event.target.files[0];
+        
         if(this.beforeUpload(file)) {
             this.setState({ selectedFile: file });
         } else {
             
         }
     }
-
-    async componentDidMount() {
-        const token = getUserToken();
-        const userId = getUserId();
-        const user = await getCurrentUser(token, userId);
-        this.setState({ currentUser: user });
-    };
 
     async handleSubmit(values) {
         const token = getUserToken();
@@ -67,11 +68,18 @@ class UserEdit extends Component {
         if(this.state.selectedFile === null) {
 
         } else {
-            image.append('image', this.state.selectedFile, this.state.selectedFile.name);
-            imageUser = await saveImage(token, image);
-            imageID = imageUser.id;
+            if(currentUser.image !== null) {
+                imageID = currentUser.image;
+                image.append('image', this.state.selectedFile, this.state.selectedFile.name);
+                imageUser = await editImage(token, image, imageID);
+            } else {
+                image.append('image', this.state.selectedFile, this.state.selectedFile.name);
+                imageUser = await saveImage(token, image);
+                imageID = imageUser.id;
+            }
         }
-        let user = {
+
+        const user = {
             id: currentUser.id,
             email: currentUser.email,
             username: currentUser.username,
@@ -98,7 +106,7 @@ class UserEdit extends Component {
         const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
         const type = typeUser(currentUser.is_administrator);
         return (
-            <Content className = 'painelContent'>
+            <Content className = 'painelContent' style = {{ position: 'flex' }}>
                 <h1 className = 'h1User'> Informações Cadastradas </h1>
                 <Form {...layout} name = 'nest-messages'>
                     <Form.Item label = 'Nome' className = 'inputsUserDetail'>
@@ -121,28 +129,31 @@ class UserEdit extends Component {
                         <Input disabled = { true } value = { type } />
                     </Form.Item>  
                 </Form>
-                <UserPhoto/>
+                <Content style = {{ marginTop: -360, marginLeft: 180 }}>
+                    <UserPhoto />
+                </Content>
 
                 <Content>
+                    <br></br>
                     <h1 className = 'h1User'> Informações a Serem Alteradas </h1>
-                    <h4 style = {{ color: 'red', marginLeft: -80 }} align = 'center'> 
+                    <h4 style = {{ color: 'red', marginLeft: -320 }} align = 'center'> 
                         Caso Não Queira Alterar um Campo, Basta Deixa-lo Em Branco. 
                     </h4>
                     <Form {...layout} name = 'nest-messages' onFinish = { this.handleSubmit }>
                         <Form.Item name = {'name'} label = 'Nome'>
-                            <Input />
+                            <Input style = {{ width: 760 }}/>
                         </Form.Item>
 
                         <Form.Item name = {'username'} label = 'Usuário'>
-                            <Input />
+                            <Input style = {{ width: 760 }}/>
                         </Form.Item>
 
                         <Form.Item name = {'sector'} label = 'Setor'>
-                            <Input />
+                            <Input style = {{ width: 760 }}/>
                         </Form.Item>
 
                         <Form.Item name = {'ramal'} label = 'Ramal'>
-                            <Input />
+                            <Input style = {{ width: 760 }}/>
                         </Form.Item>
 
                         <Form.Item>

@@ -65,7 +65,7 @@ class UserDetail extends Component {
             <Content className = 'painelContent'>
                 <Form {...layout} name = 'nest-messages'>
                     <Form.Item label = 'Nome' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { currentUser.name } />
+                        <Input disabled = { true } value = { currentUser.name }/>
                     </Form.Item>
 
                     <Form.Item label = 'Usuário' className = 'inputsUserDetail'>
@@ -85,7 +85,7 @@ class UserDetail extends Component {
                     </Form.Item>  
 
                     <Button type = 'primary' className = 'edit' 
-                            style = {{ marginLeft: 300, marginBottom: 60 }}>
+                            style = {{ marginLeft: 420, marginBottom: 60 }}>
                         <Link to = { '/edicao_usuario' }> Editar Informações </Link>
                     </Button>
 
@@ -94,7 +94,7 @@ class UserDetail extends Component {
                         Excluir Usuário
                     </Button>            
                 </Form>
-                <Content style = {{ marginTop: -400 }}>
+                <Content style = {{ marginTop: -450, marginLeft: 180 }}>
                     <UserPhoto />
                 </Content>                
             </Content>
