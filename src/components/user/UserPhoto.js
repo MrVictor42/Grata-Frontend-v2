@@ -23,14 +23,12 @@ class UserPhoto extends Component {
         const token = getUserToken();
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
-        console.log(user)
         this.setState({ currentUser: user });
         let imageUser = null;
 
         if(user.image !== null) {
             imageUser = await getImage(token, user.image);
             this.setState({ image: imageUser.image });
-            console.log(this.state.image)
         } else {
 
         }
