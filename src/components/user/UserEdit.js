@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 import UserPhoto from './UserPhoto';
 
-import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/actions/user';
-import { saveImage, editImage } from '../../store/actions/images';
+import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/user';
+import { saveImage, editImage } from '../../store/images';
 import { validateUpdate } from '../../services/userService';
 import { typeUser } from '../../services/userService';
 

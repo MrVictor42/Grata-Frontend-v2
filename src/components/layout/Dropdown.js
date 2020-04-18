@@ -5,7 +5,7 @@ import { DownOutlined,
          UserOutlined, TeamOutlined, EditOutlined, UserAddOutlined } 
 from '@ant-design/icons';
 
-import { getCurrentUser, getUserToken, getUserId } from '../../store/actions/user';
+import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { typeUser } from '../../services/userService';
 
 class DropdownNav extends Component {

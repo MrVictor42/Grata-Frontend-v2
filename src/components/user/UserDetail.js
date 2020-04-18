@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import UserPhoto from './UserPhoto';
 
-import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/actions/user';
+import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/user';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;

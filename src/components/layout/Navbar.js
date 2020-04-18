@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Dropdown from './Dropdown';
 
-import { logout } from '../../store/actions/auth';
+import { logout } from '../../store/auth';
 
 const { Header } = Layout;
 

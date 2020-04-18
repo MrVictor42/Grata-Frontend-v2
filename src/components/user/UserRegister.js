@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Form, Input, Button, InputNumber,message } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 
-import { getUserToken, getCurrentUser, getUserId, authSignup } from '../../store/actions/user';
+import { getUserToken, getCurrentUser, getUserId, authSignup } from '../../store/user';
+import { saveImage } from '../../store/images';
 import { typeUserValidate } from '../../services/userService';
-import { saveImage } from '../../store/actions/images';
 
 import '../../css/forms.css';
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { BASE_URL_IMAGES } from '../../components/consts';
+import { BASE_URL_IMAGES } from '../components/consts';
 
 export const getImage = async (token, imageID) => {
 	axios.defaults.headers = {

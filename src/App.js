@@ -6,7 +6,7 @@ import BaseRouter from './routes';
 import 'antd/dist/antd.css';
 import './css/App.css';
 
-import { authCheckState } from './store/actions/auth';
+import { authCheckState } from './store/auth';
 import Layout from './components/layout/Layout';
 
 class App extends Component {

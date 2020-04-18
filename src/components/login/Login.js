@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Loading from './Loading';
 
 import { validateFields } from '../../services/userService';
-import { authLogin } from '../../store/actions/auth';
+import { authLogin } from '../../store/auth';
 
 class Login extends Component {
 

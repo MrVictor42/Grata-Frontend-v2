@@ -3,8 +3,8 @@ import { Card } from 'antd';
 
 import DefaultUser from '../../img/default_user.png';
 
-import { getCurrentUser, getUserToken, getUserId } from '../../store/actions/user';
-import { getImage } from '../../store/actions/images';
+import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
+import { getImage } from '../../store/images';
 
 const { Meta } = Card;
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { BASE_URL_USERS } from '../../components/consts';
+import { BASE_URL_USERS } from '../components/consts';
 import { logout } from './auth';
 
 export const getUserId = () => {
