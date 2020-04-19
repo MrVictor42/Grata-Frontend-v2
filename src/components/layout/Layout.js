@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -13,27 +13,37 @@ import '../../css/project.css';
 import '../../css/user.css';
 import '../../css/buttons.css';
 import '../../css/img.css';
+import '../../css/alert.css';
 
-const { Footer } = Layout;
+const { Footer, Content } = Layout;
 
-const CustomLayout = (props) => {
-	return (
-		<Layout>
-			<Navbar isLogged = { props.token }/>
-			{
-				props.token !== null ? (
-					<AutoComplete />
-				) : null
-			}
-			{ props.children }
-			<Footer className = 'footer'>
-				<b> 
-					Grata - Gerenciamento de Reuniões e Atas ©2020 
-					Criado por Victor Hugo Lopes Mota. 
-				</b>
-			</Footer>
-		</Layout>
-	);
+class CustomLayout extends Component {
+
+	constructor(props) {
+		super(props)
+	}
+
+	render() {
+		return (
+			<Layout>
+				<Navbar isLogged = { this.props.token }/>
+				<Content>
+					{
+						this.props.token !== null ? (
+							<AutoComplete />
+						) : null
+					}
+					{ this.props.children }
+				</Content>
+				<Footer className = 'footer'>
+					<b> 
+						Grata - Gerenciamento de Reuniões e Atas ©2020 
+						Criado por Victor Hugo Lopes Mota. 
+					</b>
+				</Footer>
+			</Layout>
+		);
+	}
 }
 
 const mapStateToProps = state => {

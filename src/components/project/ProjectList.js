@@ -103,6 +103,7 @@ const data = [
 const operations = <Button>Extra Action</Button>;
 
 const ProjectList = (props) => {
+  console.log(props)
     return (
         <div className = 'painelContent'>
 			<Tabs 
