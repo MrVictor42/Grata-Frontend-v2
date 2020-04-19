@@ -11,8 +11,8 @@ import Layout from './components/layout/Layout';
 
 class App extends Component {
 
-	componentDidMount() {
-		this.props.onTryAutoSignup();
+	async componentDidMount() {
+		await authCheckState();
   	}
 
 	render() {
@@ -26,16 +26,4 @@ class App extends Component {
 	}
 }
 
-const mapStateToProps = state => {
-	return {
-
-	};
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-	  	onTryAutoSignup: () => dispatch(authCheckState())
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

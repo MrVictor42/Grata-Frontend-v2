@@ -11,10 +11,15 @@ export const getUserId = () => {
 }
 
 export const getUserToken = () => {
+	let token = null;
 	const user = JSON.parse(localStorage.getItem('user'));
-	const token = user.token;
 	
-	return token;
+	if(user !== null) {
+		token = user.token;
+		return token;
+	} else {
+		return token;
+	}
 }
 
 export const authSignup = async (user) => {
@@ -27,6 +32,7 @@ export const authSignup = async (user) => {
 		return data;
 	} catch(err) {
 		console.log(err.message);
+		return false;
 	}
 };
 
@@ -41,6 +47,7 @@ export const getCurrentUser = async (token, userId) => {
 		return data;    
 	} catch(err) {
 		console.log(err.message);
+		return false;
 	}
 }
 

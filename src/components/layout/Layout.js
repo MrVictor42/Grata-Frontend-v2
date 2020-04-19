@@ -3,6 +3,9 @@ import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Navbar from './Navbar';
+import AutoComplete from './AutoComplete';
+
 import '../../css/layout.css';
 import '../../css/icon.css';
 import '../../css/text.css';
@@ -10,9 +13,6 @@ import '../../css/project.css';
 import '../../css/user.css';
 import '../../css/buttons.css';
 import '../../css/img.css';
-
-import Navbar from './Navbar';
-import AutoComplete from './AutoComplete';
 
 const { Footer } = Layout;
 
@@ -37,9 +37,7 @@ const CustomLayout = (props) => {
 }
 
 const mapStateToProps = state => {
-    return {
-        token: state.auth.token
-    };
+    return { token: state.auth.token };
 };
 
 export default withRouter(connect(mapStateToProps)(CustomLayout));

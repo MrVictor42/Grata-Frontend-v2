@@ -13,6 +13,7 @@ export const getImage = async (token, imageID) => {
 		return data;    
 	} catch (err) {
 		console.log(err.message);
+		return false;
 	}
 }
 
@@ -27,6 +28,7 @@ export const saveImage = async (token, image) => {
 		return data;    
 	} catch (err) {
 		console.log(err.message);
+		return false;
 	}
 }
 
@@ -41,5 +43,6 @@ export const editImage = async (token, image, imageID) => {
 		return data;    
 	} catch (err) {
 		console.log(err.message);
+		return false;
 	}
 }
