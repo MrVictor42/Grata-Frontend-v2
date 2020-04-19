@@ -10,6 +10,8 @@ class Alerts extends Component {
         this.state = {
             visible: true,
         }
+
+        this.handleClose = this.handleClose.bind(this);
     }
 
     componentDidMount() {
@@ -35,7 +37,8 @@ class Alerts extends Component {
                         className = 'alert' 
                         message = { this.props.message } 
                         type = { this.props.type } 
-                        closable 
+                        closable
+                        showIcon 
                         afterClose = { this.handleClose } 
                     />
             ) : null}
