@@ -3,6 +3,7 @@ import { Layout, Input, Button, Form, Modal, message } from 'antd';
 import { Link } from 'react-router-dom';
 
 import UserPhoto from './UserPhoto';
+import Alert from '../alert/Alert';
 
 import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/user';
 import { typeUser } from '../../services/userService';
@@ -17,6 +18,7 @@ class UserDetail extends Component {
     
         this.state = {
             currentUser: {},
+            alert: null
         }
 
         this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
@@ -26,7 +28,16 @@ class UserDetail extends Component {
         const token = getUserToken();
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
-        this.setState({ currentUser: user });
+        const alert = this.props.location.state;
+
+        if(alert !== undefined || alert !== null) {
+            this.setState({ 
+                currentUser: user,
+                alert: alert 
+            });
+        } else {
+            this.setState({ currentUser: user });
+        }        
     }
 
     async showDeleteConfirm(props) {
@@ -62,42 +73,51 @@ class UserDetail extends Component {
         const type = typeUser(currentUser.is_administrator);
         const props = this.props;
         return (
-            <Content className = 'painelContent'>
-                <Form {...layout} name = 'nest-messages'>
-                    <Form.Item label = 'Nome' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { currentUser.name }/>
-                    </Form.Item>
+            <div>
+                {
+                    this.state.alert !== null ? (
+                        <Alert message = 'Informações Alteradas Com Sucesso!' type = 'success' />
+                    ) : (
+                        <Alert message = 'Algo de Ruim Aconteceu! Tente Novamente.' type = 'error' />
+                    )
+                }
+                <Content className = 'painelContent'>
+                    <Form {...layout} name = 'nest-messages'>
+                        <Form.Item label = 'Nome' className = 'inputsUserDetail'>
+                            <Input disabled = { true } value = { currentUser.name }/>
+                        </Form.Item>
 
-                    <Form.Item label = 'Usuário' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { currentUser.username } />
-                    </Form.Item>
+                        <Form.Item label = 'Usuário' className = 'inputsUserDetail'>
+                            <Input disabled = { true } value = { currentUser.username } />
+                        </Form.Item>
 
-                    <Form.Item label = 'Setor' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { 'Não feito ainda' } />
-                    </Form.Item>
+                        <Form.Item label = 'Setor' className = 'inputsUserDetail'>
+                            <Input disabled = { true } value = { 'Não feito ainda' } />
+                        </Form.Item>
 
-                    <Form.Item label = 'Ramal' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { currentUser.ramal } />
-                    </Form.Item>
+                        <Form.Item label = 'Ramal' className = 'inputsUserDetail'>
+                            <Input disabled = { true } value = { currentUser.ramal } />
+                        </Form.Item>
 
-                    <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { type } />
-                    </Form.Item>  
+                        <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
+                            <Input disabled = { true } value = { type } />
+                        </Form.Item>  
 
-                    <Button type = 'primary' className = 'edit' 
-                            style = {{ marginLeft: 420, marginBottom: 60 }}>
-                        <Link to = { '/edicao_usuario' }> Editar Informações </Link>
-                    </Button>
+                        <Button type = 'primary' className = 'edit' 
+                                style = {{ marginLeft: 420, marginBottom: 60 }}>
+                            <Link to = { '/edicao_usuario' }> Editar Informações </Link>
+                        </Button>
 
-                    <Button type = 'primary' className = 'delete' style = {{ marginLeft: 20 }} 
-                            onClick = { () => this.showDeleteConfirm(props) }>
-                        Excluir Usuário
-                    </Button>            
-                </Form>
-                <Content style = {{ marginTop: -450, marginLeft: 180 }}>
-                    <UserPhoto />
-                </Content>                
-            </Content>
+                        <Button type = 'primary' className = 'delete' style = {{ marginLeft: 20 }} 
+                                onClick = { () => this.showDeleteConfirm(props) }>
+                            Excluir Usuário
+                        </Button>            
+                    </Form>
+                </Content>
+                <Content style = {{ marginTop: -450, marginLeft: 230 }}>
+                        <UserPhoto />
+                </Content>
+            </div>
         );
     }
 }

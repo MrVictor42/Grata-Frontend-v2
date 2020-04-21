@@ -32,7 +32,11 @@ export const validateUpdate = (user, currentUser) => {
         user.username = currentUser.username;
     } if(user.ramal === '' || user.ramal === null || user.ramal === undefined) {
         user.ramal = currentUser.ramal;
+    } if(user.email === '' || user.email === null || user.email === undefined) {
+        user.email = currentUser.email;
+    } if(user.image === '' || user.image === null || user.image === undefined) {
+        user.image = currentUser.image;
     }
-
+    
     return user;
 }

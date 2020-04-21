@@ -79,7 +79,7 @@ class UserEdit extends Component {
             }
         }
 
-        const user = {
+        let user = {
             id: currentUser.id,
             email: currentUser.email,
             username: currentUser.username,
@@ -93,11 +93,9 @@ class UserEdit extends Component {
         user = validateUpdate(user, currentUser);
         const status = await updateUser(token, user);
         if(status === true) {
-            message.success('Informações Alteradas Com Sucesso!');
-            this.props.history.push('/informacoes_usuario');
+            this.props.history.push({ pathname: '/informacoes_usuario', state: true });
         } else {
-            message.error('Algo de Ruim Aconteceu! Tente Novamente.')
-            this.props.history.push('/edicao_usuario');
+            this.props.history.push({ pathname: '/informacoes_usuario', state: false });
         }
     }
 

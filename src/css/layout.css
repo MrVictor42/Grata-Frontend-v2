@@ -132,6 +132,9 @@ div.op2 {
 }
 
 .painelContent {
+    /* margin-left: 30px; */
+    /* margin-right: 28px; */
+    margin-bottom: 20px;
     background: white;
 }
 

@@ -19,7 +19,7 @@ class Alerts extends Component {
             this.setState({
                 visible: false
             });
-        }, 5000);
+        }, 6000);
     }
 
     handleClose() {
@@ -39,7 +39,7 @@ class Alerts extends Component {
                         type = { this.props.type } 
                         closable
                         showIcon 
-                        afterClose = { this.handleClose } 
+                        afterClose = { this.handleClose }
                     />
             ) : null}
             </div>
