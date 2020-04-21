@@ -114,8 +114,8 @@ class UserDetail extends Component {
                         </Button>            
                     </Form>
                 </Content>
-                <Content style = {{ marginTop: -450, marginLeft: 230 }}>
-                        <UserPhoto />
+                <Content style = {{ marginTop: -470, marginLeft: 230 }}>
+                    <UserPhoto />
                 </Content>
             </div>
         );

@@ -127,14 +127,14 @@ class UserEdit extends Component {
                         <Input disabled = { true } value = { type } />
                     </Form.Item>  
                 </Form>
-                <Content style = {{ marginTop: -360, marginLeft: 180 }}>
+                <Content style = {{ marginTop: -360, marginLeft: 240 }}>
                     <UserPhoto />
                 </Content>
 
-                <Content>
+                <Content style = {{ marginTop: 100 }}>
                     <br></br>
                     <h1 className = 'h1User'> Informações a Serem Alteradas </h1>
-                    <h4 style = {{ color: 'red', marginLeft: -320 }} align = 'center'> 
+                    <h4 style = {{ color: 'red', marginLeft: -20 }} align = 'center'> 
                         Caso Não Queira Alterar um Campo, Basta Deixa-lo Em Branco. 
                     </h4>
                     <Form {...layout} name = 'nest-messages' onFinish = { this.handleSubmit }>
@@ -156,7 +156,7 @@ class UserEdit extends Component {
 
                         <Form.Item>
                             <Button type = 'primary' htmlType = 'submit' className = 'save' 
-                                    style = {{ marginLeft: 360, marginBottom: 60 }}>
+                                    style = {{ marginLeft: 500, marginBottom: 60 }}>
                                 Alterar Informações
                             </Button>
                             <Button type = 'primary' htmlType = 'submit' 

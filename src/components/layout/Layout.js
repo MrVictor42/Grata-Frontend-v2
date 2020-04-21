@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -18,33 +18,26 @@ import '../../css/forms.css';
 
 const { Footer, Content } = Layout;
 
-class CustomLayout extends Component {
-
-	constructor(props) {
-		super(props)
-	}
-
-	render() {
-		return (
-			<Layout>
-				<Navbar isLogged = { this.props.token }/>
-				<Content>
-					{
-						this.props.token !== null ? (
-							<AutoComplete />
-						) : null
-					}
-					{ this.props.children }
-				</Content>
-				<Footer className = 'footer'>
-					<b> 
-						Grata - Gerenciamento de Reuniões e Atas ©2020 
-						Criado por Victor Hugo Lopes Mota. 
-					</b>
-				</Footer>
-			</Layout>
-		);
-	}
+const CustomLayout = (props) => {
+	return (
+		<Layout>
+			<Navbar isLogged = { props.token }/>
+			<Content>
+				{
+					props.token !== null ? (
+						<AutoComplete />
+					) : null
+				}
+				{ props.children }
+			</Content>
+			<Footer className = 'footer'>
+				<b> 
+					Grata - Gerenciamento de Reuniões e Atas ©2020 
+					Criado por Victor Hugo Lopes Mota. 
+				</b>
+			</Footer>
+		</Layout>
+	);
 }
 
 const mapStateToProps = state => {

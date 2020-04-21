@@ -1,11 +1,13 @@
 .inputsUserDetail {
     padding-top: 12px;
     margin-bottom: 30px;
-    width: 1320px;
+    width: 1310px;
 }
 
 .h1User {
-    margin-left: 360px;
+    margin-left: 500px;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: bold;
 }
 
 .upload {
