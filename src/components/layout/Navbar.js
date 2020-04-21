@@ -1,5 +1,5 @@
-import React, { Component, useState } from 'react';
-import { Layout, Menu, Modal, Form, Input } from 'antd';
+import React, { Component } from 'react';
+import { Layout, Menu } from 'antd';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -57,7 +57,10 @@ class Navbar extends Component {
                                     className = 'textNavbar'>
                                         Login
                                 </span>
-                                <FormLogin visible = { visible } onCancel = { this.cancel } />
+                                <FormLogin 
+                                    visible = { visible } onCancel = { this.cancel } 
+                                    props = { this.props }
+                                />
                             </Menu.Item>
                         ) : (
                             <Menu.Item onClick = { this.props.logout }>

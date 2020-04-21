@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Modal, Input } from 'antd';
-
-import Alert from '../alert/Alert';
+import { Form, Modal, Input, message } from 'antd';
+import { connect } from 'react-redux';
 
 import { validateFields } from '../../services/userService';
-import { getUserToken } from '../../store/user';
 import { authLogin } from '../../store/auth';
 
 class FormLogin extends Component {
@@ -36,18 +34,16 @@ class FormLogin extends Component {
     handleSubmit(values) {
         const username = values.username;
         const password = values.password;
-        let status = getUserToken();
 
         if(validateFields(username) === true) {
 
         } else {
             this.props.onAuth(username, password);
-
-            if(status === null) {
-
-            } else {
-                this.props.history.push('/lista_de_projetos');
-            }
+            this.props.props.history.push({
+                pathname: '/lista_de_projetos',
+                search: '',
+                state: { alert: true }
+            });
         }
     }
 
@@ -93,4 +89,16 @@ class FormLogin extends Component {
     }
 }
 
-export default FormLogin;
+const mapStateToProps = (state) => {
+    return {
+
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuth: (username, password) => dispatch(authLogin(username, password))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);
