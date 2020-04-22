@@ -39,11 +39,7 @@ class FormLogin extends Component {
 
         } else {
             this.props.onAuth(username, password);
-            this.props.props.history.push({
-                pathname: '/lista_de_projetos',
-                search: '',
-                state: { alert: true }
-            });
+            this.props.props.history.push('/lista_de_projetos');
         }
     }
 

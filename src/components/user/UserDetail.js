@@ -30,7 +30,7 @@ class UserDetail extends Component {
         const user = await getCurrentUser(token, userId);
         const alert = this.props.location.state;
 
-        if(alert !== undefined || alert !== null) {
+        if(alert !== undefined) {
             this.setState({ 
                 currentUser: user,
                 alert: alert 
@@ -72,13 +72,22 @@ class UserDetail extends Component {
         const { currentUser } = this.state;
         const type = typeUser(currentUser.is_administrator);
         const props = this.props;
+        let message = null;
+        let typeAlert = null;
+        if(this.state.alert === true) {
+            message = 'Informações Alteradas Com Sucesso!';
+            typeAlert = 'success';
+        } else if(this.state.alert === false){
+            message = 'Algo de Ruim Aconteceu! Tente Novamente.';
+            typeAlert = 'error';
+        }
         return (
             <div>
                 {
-                    this.state.alert !== null ? (
-                        <Alert message = 'Informações Alteradas Com Sucesso!' type = 'success' />
+                    message !== null ? (
+                        <Alert message = { message } type = { typeAlert } />
                     ) : (
-                        <Alert message = 'Algo de Ruim Aconteceu! Tente Novamente.' type = 'error' />
+                        null
                     )
                 }
                 <Content className = 'painelContent'>
