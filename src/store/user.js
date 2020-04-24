@@ -34,7 +34,7 @@ export const authSignup = async (user) => {
 		console.log(err.message);
 		return false;
 	}
-};
+}
 
 export const getCurrentUser = async (token, userId) => {
 	axios.defaults.headers = {
@@ -75,6 +75,20 @@ export const deleteUser = async(token, userId) => {
 		await axios.delete(`${ BASE_URL_USERS }user_delete/${ userId }/`);
 		logout();
 		return true;
+	} catch {
+		return false;
+	}
+}
+
+export const getUsers = async(token) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+		const { data } = await axios.get(`${ BASE_URL_USERS }`);
+		return data;
 	} catch {
 		return false;
 	}

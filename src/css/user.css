@@ -17,3 +17,12 @@
     margin-top: -340px;
     position: absolute;
 }
+
+.userList {
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    position: absolute;
+    width: 1300px;
+    background-color: white;
+}

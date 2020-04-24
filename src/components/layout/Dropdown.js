@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
-import { DownOutlined, 
-         UserOutlined, TeamOutlined, EditOutlined, UserAddOutlined } 
-from '@ant-design/icons';
+import { DownOutlined, UserOutlined, TeamOutlined, EditOutlined, UserAddOutlined } from '@ant-design/icons';
 
 import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { typeUser } from '../../services/userService';
@@ -33,16 +31,20 @@ class DropdownNav extends Component {
                 <Dropdown overlay = { 
                     <Menu>
                         <Menu.Item key = '1'> 
-                            <TeamOutlined /> 
+                            <UserOutlined /> 
                             <Link to = { '/informacoes_usuario' }> Visualizar Perfil </Link>
                         </Menu.Item>
                         <Menu.Item key = '2'> 
                             <EditOutlined />
                             <Link to = { '/edicao_usuario' }> Editar Perfil </Link>
                         </Menu.Item>
+                        <Menu.Item key = '3'> 
+                            <TeamOutlined />
+                            <Link to = { '/lista_de_usuario' }> Lista de Usuários </Link>
+                        </Menu.Item>
                         {
                             type === 'Administrador' ? (
-                                <Menu.Item key = '3'> 
+                                <Menu.Item key = '4'> 
                                     <UserAddOutlined />
                                     <Link to = { '/registrar_usuario' }> Adicionar Usuário </Link>
                                 </Menu.Item>

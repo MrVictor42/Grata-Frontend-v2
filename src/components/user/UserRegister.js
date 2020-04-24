@@ -3,7 +3,6 @@ import { Form, Input, Button, InputNumber,message } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 
 import { getUserToken, getCurrentUser, getUserId, authSignup } from '../../store/user';
-import { saveImage } from '../../store/images';
 import { typeUserValidate } from '../../services/userService';
 
 import '../../css/forms.css';
@@ -19,8 +18,6 @@ class UserRegister extends Component {
         }
         
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.beforeUpload = this.beforeUpload.bind(this);
-        this.fileSelectHandler = this.fileSelectHandler.bind(this);
     }
 
     async componentDidMount() {
@@ -30,47 +27,8 @@ class UserRegister extends Component {
         this.setState({ currentUser: user });
     };
 
-    beforeUpload(file) {
-        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        
-        if (!isJpgOrPng) {
-            message.error('Você Só Pode Carregar Arquivos JPG/PNG!');
-        }
-
-        if (!isLt2M) {
-            message.error('Imagem Deve Ser Menor Que 2MB!');
-        }
-
-        return isJpgOrPng && isLt2M;
-    }
-
-    fileSelectHandler = event => {
-        const file = event.target.files[0];
-
-        if(this.beforeUpload(file)) {
-            this.setState({ selectedFile: file });
-        } else {
-            
-        }
-    }
-
     async handleSubmit(values) {
-        const token = getUserToken();
-        const image = new FormData();
         const is_administrator_valid = typeUserValidate(values.type_user);
-        let imageUser = null;
-        let imageID = null;
-
-        if(this.state.selectedFile === null) {
-
-        } else {
-            image.append('image', this.state.selectedFile, this.state.selectedFile.name);
-            imageUser = await saveImage(token, image);
-            console.log(imageUser)
-            imageID = imageUser.id;
-        }
-
         const user = {
             email: values.email,
             username: values.username,
@@ -80,11 +38,10 @@ class UserRegister extends Component {
             is_participant: !is_administrator_valid,
             password1: values.password1,
             password2: values.password2,
-            image: imageID
         };
-
         const status = await authSignup(user);
-        if(status === true ) {
+
+        if(status !== false ) {
             message.success(`O Usuário ${ values.username } Foi Adicionado Com Sucesso!`)
             this.props.history.push('/informacoes_usuario');
         } else {
@@ -176,11 +133,6 @@ class UserRegister extends Component {
                 >
                     <InputNumber style = {{ width: 80, marginBottom: 10 }}/>
                 </Form.Item>
-
-                <div className = 'uploadImg'>
-                    <span> Imagem de Perfil: </span>
-                    <input type = 'file' onChange = { this.fileSelectHandler }/>
-                </div>
 
                 <Form.Item wrapperCol = {{ ...layout.wrapperCol, offset: 8 }}>
                     <Button type = 'primary' htmlType = 'submit' className = 'saveButton'> 

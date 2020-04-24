@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Modal, Input, message } from 'antd';
+import { Form, Modal, Input } from 'antd';
 import { connect } from 'react-redux';
 
 import { validateFields } from '../../services/userService';
