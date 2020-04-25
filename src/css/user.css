@@ -26,3 +26,11 @@
     width: 1300px;
     background-color: white;
 }
+
+.imgUserInfo {
+    width: 150px;
+    height: 150px;
+    margin-top: -180px;
+    margin-left: 300px;
+    margin-bottom: 40px;
+}

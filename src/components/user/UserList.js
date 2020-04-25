@@ -4,44 +4,47 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 
 import { getUsers, getUserToken } from '../../store/user';
-import { typeUser } from '../../services/userService';
 import { getImage } from '../../store/images';
+import { typeUser } from '../../services/userService';
+
+import UserInfo from './UserInfo';
+import DefaultUser from '../../img/default_user.png';
 
 class UserList extends Component {
 
     state = {
         searchText: '',
         searchedColumn: '',
-        users: []
+        users: [],
     };
 
     async componentDidMount() {
         const token = getUserToken();
-        const users = await getUsers(token);
-        this.setState({ users: users });
+        let users = await getUsers(token);
+        let imageUser = null;
+        let final_users = { users: [] }
+
+        for(let aux = 0; aux < users.length; aux ++) {
+            if(users[aux].image === null) {
+                users[aux].image = DefaultUser;
+            } else {
+                imageUser = await getImage(token, users[aux].image);
+                users[aux].image = imageUser.image;                
+            }
+            final_users.users.push({
+                id: users[aux].id,
+                name: users[aux].name,
+                email: users[aux].email,
+                ramal: users[aux].ramal,
+                image: users[aux].image,
+                setor: 'Não Feito',
+                is_administrator: users[aux].is_administrator
+            });
+        }
+
+        this.setState({ users: final_users.users });
     }
 
-    // async componentDidMount() {
-    //     const token = getUserToken();
-    //     const users = await getUsers(token);
-    //     let final_users = { users: [] }
-
-    //     for(let aux = 0; aux < users.length; aux ++ ) {
-    //         if(users[aux].image === null) {
-
-    //         } else {
-    //             users[aux].image = await getImage(token, users[aux].image);
-    //         }
-    //         final_users.users.push({
-    //             key: users[aux].id,
-    //             name: users[aux].name,
-    //             email: users[aux].email,
-    //             image: users[aux].image
-    //         });
-    //     }
-    //     this.setState({ users: final_users });
-    // }
-    
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style = {{ padding: 8 }}>
@@ -58,12 +61,12 @@ class UserList extends Component {
                     onClick = {() => this.handleSearch(selectedKeys, confirm, dataIndex)}
                     icon = { <SearchOutlined /> }
                     size = 'small'
-                    style ={{ width: 90, marginRight: 8 }}
+                    style = {{ width: 90, marginRight: 8 }}
                 >
                     Procurar
                 </Button>
                 <Button 
-                    onClick={() => this.handleReset(clearFilters)} 
+                    onClick = { () => this.handleReset(clearFilters) } 
                     size = 'small' 
                     style = {{ width: 90 }}
                 >
@@ -84,12 +87,12 @@ class UserList extends Component {
         },
         render: text =>
             this.state.searchedColumn === dataIndex ? (
-            <Highlighter
-                highlightStyle = {{ backgroundColor: '#ffc069', padding: 0 }}
-                searchWords = {[ this.state.searchText] }
-                autoEscape
-                textToHighlight = { text.toString() }
-            />
+                <Highlighter
+                    highlightStyle = {{ backgroundColor: '#ffc069', padding: 0 }}
+                    searchWords = {[ this.state.searchText] }
+                    autoEscape
+                    textToHighlight = { text.toString() }
+                />
             ) : ( text )
         });
     
@@ -144,10 +147,8 @@ class UserList extends Component {
                     title: 'Opção',
                     key: 'option',
                     width: '10%',
-                    render: (text, record) => (
-                        <span>
-                          <a style={{ marginRight: 16 }}>Invite {record.key}</a>
-                        </span>
+                    render: (record) => (
+                        <UserInfo user = { record } />
                     ),
                 }
             ];
@@ -161,6 +162,7 @@ class UserList extends Component {
                     Nome: this.state.users[aux].name,
                     Email: this.state.users[aux].email,
                     Ramal: this.state.users[aux].ramal,
+                    image: this.state.users[aux].image,
                     Setor: 'Não Feito',
                     Permissao: typePermission
                 });
@@ -170,7 +172,7 @@ class UserList extends Component {
                 columns = { columns } className = 'userList' 
                 dataSource = { data.users } pagination = {{ defaultPageSize: 5 }} 
             />
-        )
+        );
     }
 }
 
