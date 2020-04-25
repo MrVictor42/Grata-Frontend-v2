@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Card } from 'antd';
+import { Drawer, Divider, Col, Row } from 'antd';
 
 class UserInfo extends Component {
 
@@ -8,48 +8,91 @@ class UserInfo extends Component {
     
         this.state = {
             visible: false
-        }
-
-        this.showModal = this.showModal.bind(this);
-        this.handleOk = this.handleOk.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
-    }
-    
-    showModal() {
+		}
+		
+		this.showDrawer = this.showDrawer.bind(this);
+		this.onClose = this.onClose.bind(this);
+	}
+	
+	showDrawer = () => {
         this.setState({ visible: true });
-    };
+	};
 
-    handleOk() {
+	onClose = () => {
         this.setState({ visible: false });
-    };
-
-    handleCancel() {
-        this.setState({ visible: false });
-    };
+	};
 
     render() {
         return (
             <div>
-                <a onClick = { this.showModal }> <b> Ver Mais </b></a>
-                <Modal
-                    title = {`Informações do: ${ this.props.user.Nome }`}
-                    visible = { this.state.visible }
-                    onOk = { this.handleOk }
-                    onCancel = { this.handleCancel }
-                >
-                    <p><b> Nome: </b> { this.props.user.Nome } </p>
-                    <p><b> Email: </b> { this.props.user.Email } </p>
-                    <p><b> Setor: </b> { this.props.user.Setor } </p>
-                    <p><b> Ramal: </b> { this.props.user.Ramal } </p>
-                    <p><b> Permissão: </b> { this.props.user.Permissao } </p>
-                    <Card 
-                        cover = { <img alt = 'avatar' src = { this.props.user.image } /> } 
-                        hoverable className = 'imgUserInfo'>
-                    </Card>
-                </Modal>
-            </div>
+				<a onClick = { this.showDrawer }><b> Ver Mais </b></a>
+				<Drawer
+					width = { 640 }
+					placement = 'right'
+					closable = { false }
+					onClose = { this.onClose }
+					visible = { this.state.visible }
+				>
+					<p 
+						className = 'site-description-item-profile-p' 
+						style = {{ ...pStyle, marginBottom: 24 }}>
+							Perfil do Usuário: { this.props.user.name }
+					</p>
+					<p className = 'site-description-item-profile-p' style = { pStyle }>
+							Perfil
+					</p>
+					<Row>
+						<Col span = { 12 }>
+							<DescriptionItem title = 'Nome' content = { this.props.user.name } />
+						</Col>
+						<Col span = { 12 }>
+							<DescriptionItem title = 'Usuario' content = { this.props.user.username } />
+						</Col>
+					</Row>
+					<Row>
+						<Col span = { 12 }>
+							<DescriptionItem title = 'Ramal' content = { this.props.user.ramal } />
+						</Col>
+						<Col span={12}>
+							<DescriptionItem title = 'Permissão' content = { this.props.user.permission } />
+						</Col>
+					</Row>
+					<Row>
+						<Col span = { 24 }>
+							<DescriptionItem
+								title = 'Descrição' content = { this.props.user.description }
+							/>
+						</Col>
+					</Row>
+					<Divider/>
+					<p className = 'site-description-item-profile-p' style = { pStyle }>
+						Setor
+					</p>
+					<Divider/>
+					<p className = 'site-description-item-profile-p' style = { pStyle }>
+						Projetos Que Participa
+					</p>
+					<Divider/>
+            	</Drawer>
+			</div>
         );
     }
 }
+
+const pStyle = { fontSize: 16, lineHeight: '24px', display: 'block', marginBottom: 16 };
+const DescriptionItem = ({ title, content }) => (
+    <div
+      	className = 'site-description-item-profile-wrapper'
+      	style = {{ fontSize: 14, lineHeight: '22px', marginBottom: 7 }}
+    >
+		<p 
+			className = 'site-description-item-profile-p' 
+		  	style = {{ marginRight: 8, display: 'inline-block' }}
+      	>
+    		{ title }:
+      	</p>
+      	{ content }
+    </div>
+);
 
 export default UserInfo;
