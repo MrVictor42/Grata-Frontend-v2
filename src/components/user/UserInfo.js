@@ -36,10 +36,10 @@ class UserInfo extends Component {
 					<p 
 						className = 'site-description-item-profile-p' 
 						style = {{ ...pStyle, marginBottom: 24 }}>
-							Perfil do Usuário: { this.props.user.name }
+							<b> Perfil do Usuário: { this.props.user.name } </b>
 					</p>
 					<p className = 'site-description-item-profile-p' style = { pStyle }>
-							Perfil
+						<b> Perfil </b>
 					</p>
 					<Row>
 						<Col span = { 12 }>
@@ -66,11 +66,18 @@ class UserInfo extends Component {
 					</Row>
 					<Divider/>
 					<p className = 'site-description-item-profile-p' style = { pStyle }>
-						Setor
+						<b> Setor </b>
 					</p>
+					<Row>
+						<Col span = { 24 }>
+							<DescriptionItem
+								title = 'Nome do Setor' content = { this.props.user.sector }
+							/>
+						</Col>
+					</Row>
 					<Divider/>
 					<p className = 'site-description-item-profile-p' style = { pStyle }>
-						Projetos Que Participa
+						<b> Projetos Que Participa </b>
 					</p>
 					<Divider/>
             	</Drawer>

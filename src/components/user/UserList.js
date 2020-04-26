@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { List, Avatar } from 'antd';
 
-import { getUsers, getUserToken } from '../../store/user';
-import { getImage } from '../../store/images';
-import { typeUser } from '../../services/userService';
-
 import UserInfo from './UserInfo';
 import DefaultUser from '../../img/default_user.png';
+import Alert from '../alert/Alert';
+
+import { getUsers, getUserToken } from '../../store/user';
+import { getImage } from '../../store/images';
+import { typeUser, sortUsers } from '../../services/userService';
 
 class UserList extends Component {
 
@@ -21,9 +22,14 @@ class UserList extends Component {
 
     async componentDidMount() {
         const token = getUserToken();
+        const alert = this.props.location.state;
         let users = await getUsers(token);
         let imageUser = null;
-        let final_users = { users: [] }
+        let final_users = { users: [] };
+
+        if(alert !== undefined) {
+            this.setState({ alert: alert });
+        }
 
         for(let aux = 0; aux < users.length; aux ++) {
             if(users[aux].image === null) {
@@ -39,16 +45,28 @@ class UserList extends Component {
                 ramal: users[aux].ramal,
                 image: users[aux].image,
                 username: users[aux].username,
+                description: users[aux].description,
                 setor: 'Não Feito',
                 is_administrator: users[aux].is_administrator
             });
         }
+        
         this.setState({ users: final_users.users });
 	}
 	
     render() {
         let data = { users: [] };
         let typePermission = null;
+        let message = null;
+        let typeAlert = null;
+
+        if(this.state.alert === true) {
+            message = 'O Usuário Foi Cadastrado Com Sucesso!';
+            typeAlert = 'success';
+        } else if(this.state.alert === false){
+            message = 'Algo de Ruim Aconteceu! Tente Novamente.';
+            typeAlert = 'error';
+        }
 
         for(let aux = 0; aux < this.state.users.length; aux ++) {
             typePermission = typeUser(this.state.users[aux].is_administrator);
@@ -64,8 +82,17 @@ class UserList extends Component {
                 permission: typePermission
             });
         }
+
+        data.users.sort(sortUsers('name'));
         return (
             <div>
+                {
+                    message !== null ? (
+                        <Alert message = { message } type = { typeAlert } />
+                    ) : (
+                        null
+                    )
+                }
                 <List
                     dataSource = { data.users } pagination = {{ defaultPageSize: 4 }} 
                     bordered className = 'userList'

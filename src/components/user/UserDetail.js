@@ -6,10 +6,12 @@ import UserPhoto from './UserPhoto';
 import Alert from '../alert/Alert';
 
 import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/user';
+import { getImage } from '../../store/images';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
 const { confirm } = Modal;
+const { TextArea } = Input;
 
 class UserDetail extends Component {
 
@@ -29,15 +31,20 @@ class UserDetail extends Component {
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
         const alert = this.props.location.state;
+        let imageUser = null;
+
+        if(user.image === null) {
+
+        } else {
+            imageUser = await getImage(token, user.image);
+            user.image = imageUser.image;
+        }
 
         if(alert !== undefined) {
-            this.setState({ 
-                currentUser: user,
-                alert: alert 
-            });
-        } else {
-            this.setState({ currentUser: user });
-        }        
+            this.setState({ alert: alert });
+        }
+
+        this.setState({ currentUser: user });
     }
 
     async showDeleteConfirm(props) {
@@ -74,6 +81,7 @@ class UserDetail extends Component {
         const props = this.props;
         let message = null;
         let typeAlert = null;
+        
         if(this.state.alert === true) {
             message = 'Informações Alteradas Com Sucesso!';
             typeAlert = 'success';
@@ -101,7 +109,7 @@ class UserDetail extends Component {
                         </Form.Item>
 
                         <Form.Item label = 'Setor' className = 'inputsUserDetail'>
-                            <Input disabled = { true } value = { 'Não feito ainda' } />
+                            <Input disabled = { true } value = { currentUser.sector } />
                         </Form.Item>
 
                         <Form.Item label = 'Ramal' className = 'inputsUserDetail'>
@@ -110,6 +118,15 @@ class UserDetail extends Component {
 
                         <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
                             <Input disabled = { true } value = { type } />
+                        </Form.Item>
+
+                        <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
+                            <TextArea 
+                                disabled = { true } 
+                                rows = { 4 } 
+                                style = {{ width: 1000 }}
+                                value = { currentUser.description }
+                            />
                         </Form.Item>  
 
                         <Button type = 'primary' className = 'edit' 
@@ -123,8 +140,8 @@ class UserDetail extends Component {
                         </Button>            
                     </Form>
                 </Content>
-                <Content style = {{ marginTop: -470, marginLeft: 230 }}>
-                    <UserPhoto />
+                <Content style = {{ marginTop: -610, marginLeft: 230 }}>
+                    <UserPhoto user = { currentUser }/>
                 </Content>
             </div>
         );

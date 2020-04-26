@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, InputNumber,message } from 'antd';
+import { Form, Input, Button, InputNumber } from 'antd';
 import { SaveOutlined } from '@ant-design/icons';
 
 import { getUserToken, getCurrentUser, getUserId, authSignup } from '../../store/user';
 import { typeUserValidate } from '../../services/userService';
 
 import '../../css/forms.css';
+
+const { TextArea } = Input;
 
 class UserRegister extends Component {
 
@@ -38,15 +40,14 @@ class UserRegister extends Component {
             is_participant: !is_administrator_valid,
             password1: values.password1,
             password2: values.password2,
+            description: values.description
         };
         const status = await authSignup(user);
 
         if(status !== false ) {
-            message.success(`O Usuário ${ values.username } Foi Adicionado Com Sucesso!`)
-            this.props.history.push('/informacoes_usuario');
+            this.props.history.push({ pathname: '/lista_de_usuarios', state: true });
         } else {
-            message.success('Houve um Erro ao Registrar o Usuário! Entre em Contato com ' + 
-                            'o Desenvolvedor!');
+            this.props.history.push({ pathname: '/lista_de_usuarios', state: false });
         }
     };
 
@@ -56,7 +57,7 @@ class UserRegister extends Component {
             required: 'O Campo ${label} é Obrigatório!',
             types: {
                 email: 'Este Não é um Formato de Email Válido! Ex: grata@grata.com.',
-                number: 'O ${label} É Numérico! Ex: 1912.'
+                number: 'O ${label} É Numérico! Ex: 1912.',
             },
         };
         return(
@@ -132,6 +133,13 @@ class UserRegister extends Component {
                     rules = {[{ type: 'number', required: true }]} 
                 >
                     <InputNumber style = {{ width: 80, marginBottom: 10 }}/>
+                </Form.Item>
+
+                <Form.Item  
+                    name = { 'description' } label = 'Descrição (opcional)' 
+                    rules = {[{ required: false }]} 
+                >
+                    <TextArea rows = { 4 } style = {{ width: 500 }} maxLength = { 500 }/>
                 </Form.Item>
 
                 <Form.Item wrapperCol = {{ ...layout.wrapperCol, offset: 8 }}>

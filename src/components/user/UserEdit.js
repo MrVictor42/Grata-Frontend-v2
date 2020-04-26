@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 import UserPhoto from './UserPhoto';
 
 import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/user';
-import { saveImage, editImage } from '../../store/images';
+import { saveImage, editImage, getImage } from '../../store/images';
 import { validateUpdate } from '../../services/userService';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
+const { TextArea } = Input;
 
 class UserEdit extends Component {
 
@@ -30,6 +31,15 @@ class UserEdit extends Component {
         const token = getUserToken();
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
+        let imageUser = null;
+        
+        if(user.image === null) {
+
+        } else {
+            imageUser = await getImage(token, user.image);
+            user.image = imageUser.image;
+        }
+
         this.setState({ currentUser: user });
     };
 
@@ -87,6 +97,7 @@ class UserEdit extends Component {
             name: values.name,
             is_administrator: currentUser.is_administrator,
             is_participant: !currentUser.is_administrator,
+            description: values.description,
             image: imageID
         };
 
@@ -128,10 +139,10 @@ class UserEdit extends Component {
                     </Form.Item>  
                 </Form>
                 <Content style = {{ marginTop: -360, marginLeft: 240 }}>
-                    <UserPhoto />
+                    <UserPhoto user = { currentUser } />
                 </Content>
 
-                <Content style = {{ marginTop: 100 }}>
+                <Content style = {{ marginTop: 50 }}>
                     <br></br>
                     <h1 className = 'h1User'> Informações a Serem Alteradas </h1>
                     <h4 style = {{ color: 'red', marginLeft: -20 }} align = 'center'> 
@@ -152,6 +163,12 @@ class UserEdit extends Component {
 
                         <Form.Item name = {'ramal'} label = 'Ramal'>
                             <Input style = {{ width: 760 }}/>
+                        </Form.Item>
+
+                        <Form.Item name = { 'description' } label = 'Descrição (opcional)' 
+                            rules = {[{ required: false, maxLength: 500 }]} 
+                        >
+                            <TextArea rows = { 4 } style = {{ width: 760 }} maxLength = { 500 }/>
                         </Form.Item>
 
                         <Form.Item>
