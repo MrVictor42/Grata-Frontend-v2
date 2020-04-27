@@ -3,7 +3,8 @@ import { Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 import { 
     DownOutlined, UserOutlined, TeamOutlined, 
-    EditOutlined, UserAddOutlined 
+    EditOutlined, UserAddOutlined, EnvironmentOutlined,
+    OrderedListOutlined, AppstoreAddOutlined 
 } from '@ant-design/icons';
 
 import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
@@ -56,6 +57,25 @@ class DropdownNav extends Component {
                     </Menu> 
                 }>
                     <a className = 'ant-dropdown-link'><UserOutlined/> Usuário <DownOutlined /></a>
+                </Dropdown>
+
+                <Dropdown overlay = { 
+                    <Menu>
+                        <Menu.Item key = '1'> 
+                            <OrderedListOutlined /> 
+                            <Link to = { '/lista_de_setores' }> Lista de Setores </Link>
+                        </Menu.Item>
+                        {
+                            type === 'Administrador' ? (
+                                <Menu.Item key = '4'> 
+                                    <AppstoreAddOutlined />
+                                    <Link to = { '/registrar_setor' }> Adicionar Setor </Link>
+                                </Menu.Item>
+                            ) : null
+                        }
+                    </Menu> 
+                }>
+                    <a className = 'ant-dropdown-link'><EnvironmentOutlined/> Setor <DownOutlined /></a>
                 </Dropdown>
             </div>
         );
