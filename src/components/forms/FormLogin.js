@@ -10,25 +10,7 @@ class FormLogin extends Component {
     constructor(props) {
         super(props)
     
-        this.state = {
-            visible: false
-        }
-
-        this.visibleForm = this.visibleForm.bind(this);
-        this.cancel = this.cancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    visibleForm() {
-        this.setState({ 
-            visible: true 
-        });
-    }
-
-    cancel() {
-        this.setState({ 
-            visible: false 
-        });
     }
 
     handleSubmit(values) {
@@ -80,21 +62,17 @@ class FormLogin extends Component {
             );
         };
         return(
-            <CollectionCreateForm/>
+            <CollectionCreateForm />
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return {
-
-    };
+    return { };
 };
 
 const mapDispatchToProps = dispatch => {
-    return {
-        onAuth: (username, password) => dispatch(authLogin(username, password))
-    };
+    return { onAuth: (username, password) => dispatch(authLogin(username, password)) };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);

@@ -24,15 +24,11 @@ class Navbar extends Component {
     }
 
     visibleForm() {
-        this.setState({ 
-            visible: true 
-        });
+        this.setState({ visible: true });
     }
 
     cancel() {
-        this.setState({ 
-            visible: false 
-        });
+        this.setState({ visible: false });
     }
 
     render() {
@@ -52,10 +48,8 @@ class Navbar extends Component {
                     {
                         this.props.isLogged === null ? (
                             <Menu.Item>
-                                <span 
-                                    onClick = { this.visibleForm }
-                                    className = 'textNavbar'>
-                                        Login
+                                <span onClick = { this.visibleForm } className = 'textNavbar'>
+                                    Login
                                 </span>
                                 <FormLogin 
                                     visible = { visible } onCancel = { this.cancel } 

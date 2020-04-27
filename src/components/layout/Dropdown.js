@@ -7,6 +7,8 @@ import {
     OrderedListOutlined, AppstoreAddOutlined 
 } from '@ant-design/icons';
 
+import FormSector from '../forms/FormSector';
+
 import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { typeUser } from '../../services/userService';
 
@@ -17,8 +19,20 @@ class DropdownNav extends Component {
     
         this.state = {
             currentUser: {},
+            visibleSector: false
         }
+
+        this.showDrawerSector = this.showDrawerSector.bind(this);
+        this.onCloseSector = this.onCloseSector.bind(this);
     }
+
+    showDrawerSector = () => {
+        this.setState({ visibleSector: true });
+    };
+
+    onCloseSector = () => {
+        this.setState({ visibleSector: false });
+    };
 
     async componentDidMount() {
         const token = getUserToken();
@@ -30,6 +44,7 @@ class DropdownNav extends Component {
     render() {
         const { currentUser } = this.state;
         const type = typeUser(currentUser.is_administrator);
+        let visibleSector = this.state.visibleSector;
         return (
             <div>
                 <Dropdown overlay = { 
@@ -69,13 +84,21 @@ class DropdownNav extends Component {
                             type === 'Administrador' ? (
                                 <Menu.Item key = '4'> 
                                     <AppstoreAddOutlined />
-                                    <Link to = { '/registrar_setor' }> Adicionar Setor </Link>
+                                    <span onClick = { this.showDrawerSector }>
+                                        Adicionar Setor
+                                    </span>
+                                    <FormSector 
+                                        onClose = { this.onCloseSector } 
+                                        visibleSector = { visibleSector }
+                                    />
                                 </Menu.Item>
                             ) : null
                         }
                     </Menu> 
                 }>
-                    <a className = 'ant-dropdown-link'><EnvironmentOutlined/> Setor <DownOutlined /></a>
+                    <a className = 'ant-dropdown-link'>
+                        <EnvironmentOutlined/> Setor <DownOutlined />
+                    </a>
                 </Dropdown>
             </div>
         );
