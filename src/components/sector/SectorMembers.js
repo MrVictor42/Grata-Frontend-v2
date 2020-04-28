@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-class SectorDetail extends Component {
-    
+class SectorMembers extends Component {
+
     render() {
         return (
             <p> Ver Mais </p>
@@ -9,4 +9,4 @@ class SectorDetail extends Component {
     }
 }
 
-export default SectorDetail;
+export default SectorMembers;

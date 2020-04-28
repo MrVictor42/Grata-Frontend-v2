@@ -1,4 +1,4 @@
-import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT } from '../../components/consts';
+import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT } from '../../consts';
 import { updateObject } from '../utility';
 
 const initialState = {

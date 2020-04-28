@@ -7,7 +7,8 @@ import Alert from '../alert/Alert';
 
 import { getUsers, getUserToken } from '../../store/user';
 import { getImage } from '../../store/images';
-import { typeUser, sortUsers } from '../../services/userService';
+import { typeUser } from '../../services/userService';
+import { sort } from '../../services/sortService';
 
 class UserList extends Component {
 
@@ -16,6 +17,7 @@ class UserList extends Component {
     
         this.state = {
             users: [],
+            alert: false,
             visible: false
 		}
     }
@@ -83,7 +85,7 @@ class UserList extends Component {
             });
         }
 
-        data.users.sort(sortUsers('name'));
+        data.users.sort(sort('name'));
         return (
             <div>
                 {
@@ -100,10 +102,10 @@ class UserList extends Component {
                         <List.Item
                             key = { user.key } actions = {[ <UserInfo user = { user } /> ]}
                         >
-                        <List.Item.Meta
-                            avatar = { <Avatar src = { user.image } /> }
-                            title = { user.name} description = { user.description }
-                        />
+                            <List.Item.Meta
+                                avatar = { <Avatar src = { user.image } /> }
+                                title = { user.name } description = { user.description }
+                            />
                         </List.Item>
                     )}
                 />

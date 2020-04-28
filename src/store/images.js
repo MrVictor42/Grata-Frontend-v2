@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { BASE_URL_IMAGES } from '../components/consts';
+import { BASE_URL_IMAGES } from '../consts';
 
 export const getImage = async (token, imageID) => {
 	axios.defaults.headers = {
@@ -15,7 +15,7 @@ export const getImage = async (token, imageID) => {
 		console.log(err.message);
 		return false;
 	}
-}
+};
 
 export const saveImage = async (token, image) => {
 	axios.defaults.headers = {
@@ -30,7 +30,7 @@ export const saveImage = async (token, image) => {
 		console.log(err.message);
 		return false;
 	}
-}
+};
 
 export const editImage = async (token, image, imageID) => {
 	axios.defaults.headers = {
@@ -45,4 +45,4 @@ export const editImage = async (token, image, imageID) => {
 		console.log(err.message);
 		return false;
 	}
-}
+};

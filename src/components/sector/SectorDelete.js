@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-class SectorEdit extends Component {
+class SectorDelete extends Component {
 
     render() {
         return (
-            <p> Editar </p>
+            <a> Excluir </a>
         );
     }
 }
 
-export default SectorEdit;
+export default SectorDelete;

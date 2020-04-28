@@ -10,7 +10,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import './css/index.css';
 
-import authReducer from './store/reducers/authReducer';
+import authReducer from './store/authReducers/authReducer';
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

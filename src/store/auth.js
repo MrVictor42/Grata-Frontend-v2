@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT } from '../components/consts';
+import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, AUTH_LOGOUT } from '../consts';
 
 export const authStart = () => {
 	return {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { BASE_URL_USERS } from '../components/consts';
+import { BASE_URL_USERS } from '../consts';
 import { logout } from './auth';
 
 export const getUserId = () => {
@@ -8,7 +8,7 @@ export const getUserId = () => {
 	const userId = user.userId;
 	
 	return userId;
-}
+};
 
 export const getUserToken = () => {
 	let token = null;
@@ -20,7 +20,7 @@ export const getUserToken = () => {
 	} else {
 		return token;
 	}
-}
+};
 
 export const authSignup = async (user) => {
 	axios.defaults.headers = {
@@ -34,7 +34,7 @@ export const authSignup = async (user) => {
 		console.log(err.message);
 		return false;
 	}
-}
+};
 
 export const getCurrentUser = async (token, userId) => {
 	axios.defaults.headers = {
@@ -49,7 +49,7 @@ export const getCurrentUser = async (token, userId) => {
 		console.log(err.message);
 		return false;
 	}
-}
+};
 
 export const updateUser = async(token, user) => {
 	axios.defaults.headers = {
@@ -63,7 +63,7 @@ export const updateUser = async(token, user) => {
 	} catch(err) {
 		return false;
 	}
-}
+};
 
 export const deleteUser = async(token, userId) => {
 	axios.defaults.headers = {
@@ -78,7 +78,7 @@ export const deleteUser = async(token, userId) => {
 	} catch {
 		return false;
 	}
-}
+};
 
 export const getUsers = async(token) => {
 	axios.defaults.headers = {
@@ -92,4 +92,4 @@ export const getUsers = async(token) => {
 	} catch {
 		return false;
 	}
-}
+};
