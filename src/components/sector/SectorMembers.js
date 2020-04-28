@@ -4,7 +4,7 @@ class SectorMembers extends Component {
 
     render() {
         return (
-            <p> Ver Mais </p>
+            <p> <b> Ver Membros </b> </p>
         );
     }
 }

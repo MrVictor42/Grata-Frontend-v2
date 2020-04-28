@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Modal, Input } from 'antd';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 import { validateFields } from '../../services/userService';
 import { authLogin } from '../../store/auth';
@@ -9,8 +10,22 @@ class FormLogin extends Component {
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            visible: false
+        }
     
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.visibleForm = this.visibleForm.bind(this);
+        this.cancel = this.cancel.bind(this);
+    }
+
+    visibleForm() {
+        this.setState({ visible: true });
+    }
+
+    cancel() {
+        this.setState({ visible: false });
     }
 
     handleSubmit(values) {
@@ -26,14 +41,12 @@ class FormLogin extends Component {
     }
 
     render() {
-        let visible = this.props.visible;
-        let cancel = this.props.onCancel;
         const CollectionCreateForm = () => {
             const [form] = Form.useForm();
             return (
                 <Modal
-                    visible = { visible } title = 'Realize o Login' okText = 'Entrar'
-                    cancelText = 'Cancelar' onCancel = { cancel }
+                    visible = { this.state.visible } title = 'Realize o Login' okText = 'Entrar'
+                    cancelText = 'Cancelar' onCancel = { this.cancel }
                     onOk = {() => {
                         form.validateFields().then(values => {
                             form.resetFields();
@@ -62,7 +75,10 @@ class FormLogin extends Component {
             );
         };
         return(
-            <CollectionCreateForm />
+            <div>
+                <a className = 'textNavbar' onClick = { this.visibleForm }> Login </a>
+                <CollectionCreateForm />
+            </div>
         );
     }
 }
@@ -72,7 +88,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return { onAuth: (username, password) => dispatch(authLogin(username, password)) };
+    return { 
+        onAuth: (username, password) => dispatch(authLogin(username, password)) 
+    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FormLogin));

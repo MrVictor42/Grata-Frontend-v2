@@ -7,7 +7,7 @@ import {
     OrderedListOutlined, AppstoreAddOutlined 
 } from '@ant-design/icons';
 
-import FormSector from '../forms/FormSector';
+import FormSectorRegister from '../forms/sector/FormSectorRegister';
 
 import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { typeUser } from '../../services/userService';
@@ -19,20 +19,8 @@ class DropdownNav extends Component {
     
         this.state = {
             currentUser: {},
-            visibleSector: false
         }
-
-        this.showDrawerSector = this.showDrawerSector.bind(this);
-        this.onCloseSector = this.onCloseSector.bind(this);
     }
-
-    showDrawerSector = () => {
-        this.setState({ visibleSector: true });
-    };
-
-    onCloseSector = () => {
-        this.setState({ visibleSector: false });
-    };
 
     async componentDidMount() {
         const token = getUserToken();
@@ -44,7 +32,6 @@ class DropdownNav extends Component {
     render() {
         const { currentUser } = this.state;
         const type = typeUser(currentUser.is_administrator);
-        let visibleSector = this.state.visibleSector;
         return (
             <div>
                 <Dropdown overlay = { 
@@ -84,13 +71,7 @@ class DropdownNav extends Component {
                             type === 'Administrador' ? (
                                 <Menu.Item key = '4'> 
                                     <AppstoreAddOutlined />
-                                    <span onClick = { this.showDrawerSector }>
-                                        Adicionar Setor
-                                    </span>
-                                    <FormSector 
-                                        onClose = { this.onCloseSector } 
-                                        visibleSector = { visibleSector }
-                                    />
+                                    <FormSectorRegister />
                                 </Menu.Item>
                             ) : null
                         }

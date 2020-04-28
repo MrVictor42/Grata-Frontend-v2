@@ -1,0 +1,118 @@
+import React, { Component } from 'react';
+import { Drawer, Form, Button, Col, Row, Input, message } from 'antd';
+import { withRouter } from 'react-router';
+
+import { getUserToken } from '../../../store/user';
+import { saveSector } from '../../../store/sector';
+
+class FormSectorRegister extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            visible: false
+        }
+    
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.showDrawer = this.showDrawer.bind(this);
+        this.onClose = this.onClose.bind(this);
+    }
+
+    showDrawer = () => {
+        this.setState({ visible: true });
+    };
+
+    onClose = () => {
+        this.setState({ visible: false });
+    };
+
+    async handleSubmit(values) {
+        const token = getUserToken();
+        const initials = values.initials;
+        const name = values.name;
+        const sector = {
+            name: name,
+            initials: initials
+        }
+        const status = await saveSector(token, sector);
+
+        if(status === true) {
+            message.success('Setor Criado Com Sucesso!');
+            this.props.history.push('/lista_de_setores');
+        } else {
+            message.error('Erro Inesperado.. Tente Novamente!');
+            this.props.history.push('/lista_de_setores');
+        }
+    }
+
+    render() {
+        const CreateFormSector = () => {
+            const [form] = Form.useForm();
+            return(
+                <Drawer
+                    title = 'Registro de Setor' onClose = { this.onClose } width = { 720 }
+                    visible = { this.state.visible } style = {{ height: 320 }}
+                    footer = { 
+                        <div style = {{ textAlign: 'center' }}>
+                            <Button onClick = { this.onClose } style = {{ marginRight: 8 }}>
+                                Cancelar
+                            </Button>
+                            <Button onClose = { this.onClose } type = 'primary' 
+                                onClick = { () => {
+                                    form.validateFields().then(values => {
+                                        form.resetFields();
+                                        this.handleSubmit(values);
+                                    }).catch(info => {
+                                        console.log('Validate Failed:', info);
+                                    });
+                                }} >
+                                Cadastrar Setor
+                            </Button>
+                        </div>
+                    }
+                >
+                    <Form form = { form } hideRequiredMark layout = 'vertical'>
+                        <Row gutter = { 6 }>
+                            <Col span = { 16 }>
+                                <Form.Item
+                                    name = 'name' label = 'Nome'
+                                    rules = {[{ 
+                                        required: true, 
+                                        message: 'Por Favor, Insira o Nome do Setor',
+                                        max: 100 
+                                    }]}
+                                >
+                                    <Input placeholder = 'Insira o Nome do Setor' />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+
+                        <Row gutter = { 6 }>
+                            <Col span = { 4 }>
+                                <Form.Item
+                                    name = 'initials' label = 'Iniciais do Setor'
+                                    rules = {[{ 
+                                        required: true, 
+                                        message: 'Por Favor, Insira as Iniciais',
+                                        max: 6 
+                                    }]}
+                                >
+                                    <Input placeholder = 'Iniciais' />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Drawer>
+            )
+        };
+        return(
+            <div>
+                <a onClick = { this.showDrawer }> Adicionar Setor </a>
+                <CreateFormSector />
+            </div>
+        );
+    } 
+}
+
+export default withRouter(FormSectorRegister);

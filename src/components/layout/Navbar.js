@@ -12,27 +12,7 @@ const { Header } = Layout;
 
 class Navbar extends Component {
 
-    constructor(props) {
-        super(props)
-    
-        this.state = {
-            visible: false
-        }
-
-        this.visibleForm = this.visibleForm.bind(this);
-        this.cancel = this.cancel.bind(this);
-    }
-
-    visibleForm() {
-        this.setState({ visible: true });
-    }
-
-    cancel() {
-        this.setState({ visible: false });
-    }
-
     render() {
-        let visible = this.state.visible;
         return (
             <Header className = 'header'>
                 <Menu className = 'menu' mode = 'horizontal'>
@@ -48,13 +28,7 @@ class Navbar extends Component {
                     {
                         this.props.isLogged === null ? (
                             <Menu.Item>
-                                <span onClick = { this.visibleForm } className = 'textNavbar'>
-                                    Login
-                                </span>
-                                <FormLogin 
-                                    visible = { visible } onCancel = { this.cancel } 
-                                    props = { this.props }
-                                />
+                                <FormLogin props = { this.props } />
                             </Menu.Item>
                         ) : (
                             <Menu.Item onClick = { this.props.logout }>

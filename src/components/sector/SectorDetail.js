@@ -4,7 +4,7 @@ class SectorDetail extends Component {
     
     render() {
         return (
-            <p> Ver Mais </p>
+            <p> <b> Ver Projetos </b> </p>
         );
     }
 }

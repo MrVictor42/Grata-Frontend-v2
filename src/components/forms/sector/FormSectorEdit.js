@@ -2,29 +2,55 @@ import React, { Component } from 'react';
 import { Drawer, Form, Button, Col, Row, Input, message } from 'antd';
 import { withRouter } from 'react-router';
 
-import { getUserToken } from '../../store/user';
-import { saveSector } from '../../store/sector';
+import { getUserToken, getUserId, getCurrentUser } from '../../../store/user';
+import { editSector } from '../../../store/sector';
 
-class FormSector extends Component {
+class FormSectorEdit extends Component {
 
     constructor(props) {
         super(props)
     
+        this.state = {
+            currentUser: {},
+            visible: false
+        }
+
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    async componentDidMount() {
+        const token = getUserToken();
+        const userId = getUserId();
+        const user = await getCurrentUser(token, userId);
+
+        this.setState({ currentUser: user });
+
+        this.showDrawer = this.showDrawer.bind(this);
+        this.onClose = this.onClose.bind(this);
+    }
+
+    showDrawer = () => {
+        this.setState({ visible: true });
+    };
+    
+    onClose = () => {
+        this.setState({ visible: false });
+    };
 
     async handleSubmit(values) {
         const token = getUserToken();
         const initials = values.initials;
         const name = values.name;
         const sector = {
+            id: this.props.sector.key,
             name: name,
             initials: initials
         }
-        const status = await saveSector(token, sector);
+        const status = await editSector(token, sector);
 
         if(status === true) {
-            message.success('Setor Criado Com Sucesso!');
+            message.success('Setor Editado Com Sucesso!');
+            message.info('Por Favor, Recarregue a Página.');
             this.props.history.push('/lista_de_setores');
         } else {
             message.error('Erro Inesperado.. Tente Novamente!');
@@ -33,20 +59,18 @@ class FormSector extends Component {
     }
 
     render() {
-        let visible = this.props.visibleSector;
-        let cancel = this.props.onClose;
         const CreateFormSector = () => {
             const [form] = Form.useForm();
             return(
                 <Drawer
-                    title = 'Registro de Setor' onClose = { cancel } width = { 720 }
-                    visible = { visible } style = {{ height: 320 }}
+                    title = 'Editar Setor' onClose = { this.onClose } width = { 720 }
+                    visible = { this.state.visible } style = {{ height: 559 }}
                     footer = { 
                         <div style = {{ textAlign: 'center' }}>
-                            <Button onClick = { cancel } style = {{ marginRight: 8 }}>
+                            <Button onClick = { this.onClose } style = {{ marginRight: 8 }}>
                                 Cancelar
                             </Button>
-                            <Button onClose = { cancel } type = 'primary' 
+                            <Button onClose = { this.onClose } type = 'primary' 
                                 onClick = { () => {
                                     form.validateFields().then(values => {
                                         form.resetFields();
@@ -55,11 +79,34 @@ class FormSector extends Component {
                                         console.log('Validate Failed:', info);
                                     });
                                 }} >
-                                Cadastrar Setor
+                                Salvar Alterações
                             </Button>
                         </div>
                     }
                 >
+                    <Form layout = 'vertical'>
+                        <h1> Informações Cadastradas </h1>
+                        <Row gutter = { 6 }>
+                            <Col span = { 16 }>
+                                <Form.Item label = 'Nome'>
+                                    <Input 
+                                        disabled = { true } placeholder = { this.props.sector.name }
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+
+                        <Row gutter = { 6 }>
+                            <Col span = { 4 }>
+                                <Form.Item label = 'Iniciais'>
+                                    <Input 
+                                        disabled = { true } placeholder = { this.props.sector.initials } 
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Form>
+
                     <Form form = { form } hideRequiredMark layout = 'vertical'>
                         <Row gutter = { 6 }>
                             <Col span = { 16 }>
@@ -74,8 +121,8 @@ class FormSector extends Component {
                                     <Input placeholder = 'Insira o Nome do Setor' />
                                 </Form.Item>
                             </Col>
-                            
                         </Row>
+                        
                         <Row gutter = { 6 }>
                             <Col span = { 4 }>
                                 <Form.Item
@@ -95,9 +142,12 @@ class FormSector extends Component {
             )
         };
         return(
-            <CreateFormSector />
+            <div>
+                <a onClick = { this.showDrawer }><b> Editar </b></a>
+                <CreateFormSector />
+            </div>
         );
-    } 
+    }
 }
 
-export default withRouter(FormSector);
+export default withRouter(FormSectorEdit);

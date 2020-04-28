@@ -4,7 +4,7 @@ class SectorDelete extends Component {
 
     render() {
         return (
-            <a> Excluir </a>
+            <a> <b> Excluir </b> </a>
         );
     }
 }

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { List } from 'antd';
 
-import SectorEdit from './SectorEdit';
+import FormSectorEdit from '../forms/sector/FormSectorEdit';
+
 import SectorDelete from './SectorDelete';
 import SectorMembers from './SectorMembers';
+import SectorDetail from './SectorDetail';
 
 import { getSectors } from '../../store/sector';
 import { getUserToken, getUserId, getCurrentUser } from '../../store/user';
@@ -17,8 +19,7 @@ class SectorList extends Component {
     
         this.state = {
             currentUser: {},
-            sectors: [],
-            visible: false
+            sectors: []
 		}
     }
 
@@ -28,10 +29,6 @@ class SectorList extends Component {
         const user = await getCurrentUser(token, userId);
         const sectors = await getSectors(token);
         let final_sector = { sector: [] };
-
-        if(alert !== undefined) {
-            this.setState({ alert: alert });
-        }
 
         for(let aux = 0; aux < sectors.length; aux ++) {
             final_sector.sector.push({
@@ -73,7 +70,10 @@ class SectorList extends Component {
                             renderItem = { sector => (
                                 <List.Item
                                     key = { sector.key } 
-                                    actions = {[ ]}
+                                    actions = {[
+                                        <SectorDetail sector = { sector } />,
+                                        <SectorMembers sector = { sector } />
+                                    ]}
                                 >
                                     <List.Item.Meta 
                                         title = { sector.initials } description = { sector.name } />
@@ -89,13 +89,14 @@ class SectorList extends Component {
                                 <List.Item
                                     key = { sector.key } 
                                     actions = {[ 
-                                        <SectorEdit sector = { sector } />,
-                                        <SectorDelete sector = { sector } />
+                                        <SectorDetail sector = { sector } />,
+                                        <SectorMembers sector = { sector } />,
+                                        <FormSectorEdit sector = { sector } />,
+                                        <SectorDelete sector = { sector } />,
                                     ]}
                                 >
                                     <List.Item.Meta 
                                         title = { sector.initials } description = { sector.name } />
-                                    <SectorMembers sector = { sector } />
                                 </List.Item>
                             )}
                         /> 

@@ -11,8 +11,6 @@ import UserRegister from './components/user/UserRegister';
 import UserList from './components/user/UserList';
 
 import SectorDetail from './components/sector/SectorDetail';
-import SectorEdit from './components/sector/SectorEdit';
-import SectorRegister from './components/sector/SectorRegister';
 import SectorList from './components/sector/SectorList';
 
 import ProjectList from './components/project/ProjectList';
@@ -30,8 +28,6 @@ const BaseRouter = (props) => (
                     <Route exact path = '/lista_de_usuarios' component = { UserList } />
 
                     <Route exact path = '/setor/:slug' component = { SectorDetail } />
-                    <Route exact path = '/editar_setor/:slug' component = { SectorEdit } />
-                    <Route exact path = '/registrar_setor' component = { SectorRegister } />
                     <Route exact path = '/lista_de_setores' component = { SectorList } />
 
                     <Route exact path = '/lista_de_projetos' component = { ProjectList } />
