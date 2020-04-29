@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 import { 
     DownOutlined, UserOutlined, TeamOutlined, 
-    EditOutlined, UserAddOutlined, EnvironmentOutlined,
+    LogoutOutlined, UserAddOutlined, EnvironmentOutlined,
     OrderedListOutlined, AppstoreAddOutlined 
 } from '@ant-design/icons';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import FormSectorRegister from '../forms/sector/FormSectorRegister';
 
 import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { typeUser } from '../../services/userService';
+import { logout } from '../../store/auth';
 
 class DropdownNav extends Component {
 
@@ -31,6 +34,7 @@ class DropdownNav extends Component {
 
     render() {
         const { currentUser } = this.state;
+        const username = currentUser.username;
         const type = typeUser(currentUser.is_administrator);
         return (
             <div>
@@ -38,27 +42,37 @@ class DropdownNav extends Component {
                     <Menu>
                         <Menu.Item key = '1'> 
                             <UserOutlined /> 
-                            <Link to = { '/informacoes_usuario' }> Visualizar Perfil </Link>
+                            <Link to = { '/informacoes_usuario' }> Meu Perfil </Link>
                         </Menu.Item>
+                        <Divider/>
+
                         <Menu.Item key = '2'> 
-                            <EditOutlined />
-                            <Link to = { '/edicao_usuario' }> Editar Perfil </Link>
-                        </Menu.Item>
-                        <Menu.Item key = '3'> 
                             <TeamOutlined />
                             <Link to = { '/lista_de_usuarios' }> Lista de Usuários </Link>
                         </Menu.Item>
+                        <Divider/>
+
                         {
                             type === 'Administrador' ? (
-                                <Menu.Item key = '4'> 
+                                <Menu.Item key = '3'> 
                                     <UserAddOutlined />
                                     <Link to = { '/registrar_usuario' }> Adicionar Usuário </Link>
+                                    <Divider/>
                                 </Menu.Item>
                             ) : null
                         }
+
+                        <Menu.Item key = '2' onClick = { this.props.logout }> 
+                            <LogoutOutlined />
+                            <Link to = { '/' }> Sair </Link>
+                        </Menu.Item>
                     </Menu> 
                 }>
-                    <a className = 'ant-dropdown-link'><UserOutlined/> Usuário <DownOutlined /></a>
+                    <a className = 'ant-dropdown-link'>
+                        <UserOutlined/> 
+                            Olá, { username } 
+                        <DownOutlined />
+                    </a>
                 </Dropdown>
 
                 <Dropdown overlay = { 
@@ -86,4 +100,14 @@ class DropdownNav extends Component {
     }
 }
 
-export default DropdownNav;
+const mapStateToProps = state => {
+    
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => dispatch(logout())
+    };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DropdownNav));

@@ -3,8 +3,8 @@ import { Form, Modal, Input } from 'antd';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { validateFields } from '../../services/userService';
-import { authLogin } from '../../store/auth';
+import { validateFields } from '../../../services/userService';
+import { authLogin } from '../../../store/auth';
 
 class FormLogin extends Component {
 
@@ -36,7 +36,7 @@ class FormLogin extends Component {
 
         } else {
             this.props.onAuth(username, password);
-            this.props.props.history.push('/lista_de_projetos');
+            this.props.history.push('/lista_de_projetos');
         }
     }
 

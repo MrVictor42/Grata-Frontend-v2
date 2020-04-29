@@ -8,17 +8,17 @@ const { Meta } = Card;
 const UserPhoto = (props) => {
     let image = null;
 
-    if(props.user.image === null) {
+    if(props.image === null) {
         image = DefaultUser;
     } else {
-        image = props.user.image;
+        image = props.image;
     }
     
     return(
         <Card 
             cover = { <img alt = 'avatar' src = { image } /> } 
             hoverable className = 'imgAvatar'>
-            <Meta title = 'Foto do Usuário' description = 'Essa é Sua Foto de Usuário' />
+            <Meta title = 'Foto do Usuário' description = { `Foto de Perfil de ${ props.user.name }` } />
         </Card>
     );
 };

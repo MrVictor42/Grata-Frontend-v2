@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Input, Button, Form, message } from 'antd';
+import { Layout, Input, Button, Form, message, Descriptions, Divider } from 'antd';
 import { Link } from 'react-router-dom';
 
 import UserPhoto from './UserPhoto';
@@ -19,6 +19,7 @@ class UserEdit extends Component {
     
         this.state = {
             currentUser: {},
+            image: null,
             selectedFile: null,
         }
         
@@ -37,7 +38,7 @@ class UserEdit extends Component {
 
         } else {
             imageUser = await getImage(token, user.image);
-            user.image = imageUser.image;
+            this.setState({ image: imageUser.image });
         }
 
         this.setState({ currentUser: user });
@@ -104,9 +105,11 @@ class UserEdit extends Component {
         user = validateUpdate(user, currentUser);
         const status = await updateUser(token, user);
         if(status === true) {
-            this.props.history.push({ pathname: '/informacoes_usuario', state: true });
+            this.props.history.push('/informacoes_usuario');
+            message.success('Informações Atualizadas com Sucesso!');
         } else {
-            this.props.history.push({ pathname: '/informacoes_usuario', state: false });
+            this.props.history.push('/informacoes_usuario');
+            message.error('Houve um Erro ao Atualizar as Informações do Usuário');
         }
     }
 
@@ -115,39 +118,52 @@ class UserEdit extends Component {
         const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
         const type = typeUser(currentUser.is_administrator);
         return (
-            <Content className = 'painelContent' style = {{ position: 'flex' }}>
-                <h1 className = 'h1User'> Informações Cadastradas </h1>
-                <Form {...layout} name = 'nest-messages'>
-                    <Form.Item label = 'Nome' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { currentUser.name } />
-                    </Form.Item>
+            <Content className = 'painelContent'>
+                <h1 className = 'h1Content'> Informações Pré-Cadastradas de { currentUser.name } </h1>
+                <Descriptions 
+                    className = 'descriptionTitle'
+                    column = {{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+                >
+                    <Descriptions.Item label = { <b> Nome de Usuário </b> }> 
+                        { currentUser.username }
+                    </Descriptions.Item>
+                    
+                    <Descriptions.Item label = { <b> Tipo de Usuário </b> }> 
+                        { type }
+                    </Descriptions.Item>
+                    <Divider/>
+                    
+                    <Descriptions.Item label = { <b> Nome Completo </b> }> 
+                        { currentUser.name } 
+                    </Descriptions.Item>
+                    
+                    <Descriptions.Item label = { <b> Ramal </b> }> 
+                        { currentUser.ramal }
+                    </Descriptions.Item>
+                    <br></br>
+                    
+                    <Descriptions.Item label = { <b> Setor </b> }> 
+                        { currentUser.sector }
+                    </Descriptions.Item>
+                    <br></br>
+                    <br></br>
+                    
+                    <Descriptions.Item label = { <b> Descrição </b> }> 
+                        { currentUser.description }
+                    </Descriptions.Item>
+                </Descriptions>
 
-                    <Form.Item label = 'Usuário' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { currentUser.username } />
-                    </Form.Item>
-
-                    <Form.Item label = 'Setor' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { 'Não feito ainda' } />
-                    </Form.Item>
-
-                    <Form.Item label = 'Ramal' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { currentUser.ramal } />
-                    </Form.Item>
-
-                    <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
-                        <Input disabled = { true } value = { type } />
-                    </Form.Item>  
-                </Form>
-                <Content style = {{ marginTop: -360, marginLeft: 240 }}>
-                    <UserPhoto user = { currentUser } />
+                <Content style = {{ marginTop: 100, marginLeft: 178, marginBottom: -40 }}> 
+                    <UserPhoto user = { currentUser } image = { this.state.image }/>
                 </Content>
 
-                <Content style = {{ marginTop: 50 }}>
-                    <br></br>
-                    <h1 className = 'h1User'> Informações a Serem Alteradas </h1>
-                    <h4 style = {{ color: 'red', marginLeft: -20 }} align = 'center'> 
-                        Caso Não Queira Alterar um Campo, Basta Deixa-lo Em Branco. 
-                    </h4>
+                <Content>
+                    <h1 className = 'h1Content'> 
+                        Informações a Serem Cadastradas de { currentUser.name } 
+                    </h1>
+                    <h4 style = {{ color: 'red', marginLeft: -180 }} align = 'center'> 
+                         Caso Não Queira Alterar um Campo, Basta Deixa-lo Em Branco. 
+                     </h4>
                     <Form {...layout} name = 'nest-messages' onFinish = { this.handleSubmit }>
                         <Form.Item name = {'name'} label = 'Nome'>
                             <Input style = {{ width: 760 }}/>
@@ -167,7 +183,7 @@ class UserEdit extends Component {
 
                         <Form.Item name = { 'description' } label = 'Descrição (opcional)' 
                             rules = {[{ required: false, maxLength: 500 }]} 
-                        >
+                        >   
                             <TextArea rows = { 4 } style = {{ width: 760 }} maxLength = { 500 }/>
                         </Form.Item>
 

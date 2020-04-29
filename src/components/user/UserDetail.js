@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Input, Button, Modal, message, Descriptions, Divider } from 'antd';
+import { Layout, Button, Modal, message, Descriptions, Divider } from 'antd';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -19,6 +19,7 @@ class UserDetail extends Component {
     
         this.state = {
             currentUser: {},
+            image: null
         }
 
         this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
@@ -34,7 +35,7 @@ class UserDetail extends Component {
 
         } else {
             imageUser = await getImage(token, user.image);
-            user.image = imageUser.image;
+            this.setState({ image: imageUser.image });
         }
 
         this.setState({ currentUser: user });
@@ -70,20 +71,10 @@ class UserDetail extends Component {
     render() {
         const { currentUser } = this.state;
         const type = typeUser(currentUser.is_administrator);
-        let message = null;
-        let typeAlert = null;
-        
-        if(this.state.alert === true) {
-            message = 'Informações Alteradas Com Sucesso!';
-            typeAlert = 'success';
-        } else if(this.state.alert === false){
-            message = 'Algo de Ruim Aconteceu! Tente Novamente.';
-            typeAlert = 'error';
-        }
         return (
             <Content className = 'painelContent'>
+                <h1 className = 'h1Content'> Informações Pré-Cadastradas de { currentUser.name } </h1>
                 <Descriptions 
-                    title = { `Informações de ${ currentUser.name }` } 
                     className = 'descriptionTitle'
                     column = {{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
                 >
@@ -116,8 +107,8 @@ class UserDetail extends Component {
                     </Descriptions.Item>
                 </Descriptions>
 
-                <Content style = {{ marginTop: 140, marginLeft: 180, marginBottom: -40 }}> 
-                    <UserPhoto user = { currentUser }/>
+                <Content style = {{ marginTop: 140, marginLeft: 178, marginBottom: -40 }}> 
+                    <UserPhoto user = { currentUser } image = { this.state.image }/>
                 </Content>
                 
                 <Content>
