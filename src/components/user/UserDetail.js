@@ -114,7 +114,7 @@ class UserDetail extends Component {
                 <Content>
                     <Button 
                         type = 'ghost' className = 'edit' 
-                        style = {{ marginLeft: 320, marginBottom: 60, marginTop: 15 }}>
+                        style = {{ marginLeft: 340, marginBottom: 60, marginTop: 15 }}>
                             <Link to = { '/edicao_usuario' }> Editar Informações </Link>
                     </Button>
 

@@ -38,6 +38,8 @@ export const validateUpdate = (user, currentUser) => {
         user.image = currentUser.image;
     } if(user.description === '' || user.description === null || user.description === undefined) {
         user.description = currentUser.description;
+    } if(user.sector === '' || user.sector === null || user.sector === undefined) {
+        user.sector = currentUser.sector;
     }
     
     return user;

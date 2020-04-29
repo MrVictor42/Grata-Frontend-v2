@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Layout, Input, Button, Form, message, Descriptions, Divider } from 'antd';
+import { Layout, Input, Button, Form, message, Descriptions, Divider, Select } from 'antd';
 import { Link } from 'react-router-dom';
 
 import UserPhoto from './UserPhoto';
 
 import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../store/user';
 import { saveImage, editImage, getImage } from '../../store/images';
-import { validateUpdate } from '../../services/userService';
-import { typeUser } from '../../services/userService';
+import { getSectors } from '../../store/sector';
+import { validateUpdate, typeUser } from '../../services/userService';
+import { sort } from '../../services/sortService';
 
 const { Content } = Layout;
 const { TextArea } = Input;
+const { Option } = Select;
 
 class UserEdit extends Component {
 
@@ -19,6 +21,7 @@ class UserEdit extends Component {
     
         this.state = {
             currentUser: {},
+            sectors: [],
             image: null,
             selectedFile: null,
         }
@@ -31,8 +34,10 @@ class UserEdit extends Component {
     async componentDidMount() {
         const token = getUserToken();
         const userId = getUserId();
+        const sectors = await getSectors(token);
         const user = await getCurrentUser(token, userId);
         let imageUser = null;
+        let final_sector = { sector: [] };
         
         if(user.image === null) {
 
@@ -41,7 +46,17 @@ class UserEdit extends Component {
             this.setState({ image: imageUser.image });
         }
 
-        this.setState({ currentUser: user });
+        for(let aux = 0; aux < sectors.length; aux ++) {
+            final_sector.sector.push({
+                id: sectors[aux].id,
+                name: sectors[aux].name,
+            });
+        }
+
+        this.setState({ 
+            currentUser: user,
+            sectors: final_sector.sector 
+        });
     };
 
     beforeUpload(file) {
@@ -96,6 +111,7 @@ class UserEdit extends Component {
             username: currentUser.username,
             ramal: values.ramal,
             name: values.name,
+            sector: values.sector,
             is_administrator: currentUser.is_administrator,
             is_participant: !currentUser.is_administrator,
             description: values.description,
@@ -117,6 +133,16 @@ class UserEdit extends Component {
         const { currentUser } = this.state;
         const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
         const type = typeUser(currentUser.is_administrator);
+        let data = { sectors: [] };
+
+        for(let aux = 0; aux < this.state.sectors.length; aux ++) {
+            data.sectors.push({
+                key: this.state.sectors[aux].id,
+                name: this.state.sectors[aux].name,
+            });
+        }
+
+        data.sectors.sort(sort('name'));
         return (
             <Content className = 'painelContent'>
                 <h1 className = 'h1Content'> Informações Pré-Cadastradas de { currentUser.name } </h1>
@@ -174,7 +200,13 @@ class UserEdit extends Component {
                         </Form.Item>
 
                         <Form.Item name = {'sector'} label = 'Setor'>
-                            <Input style = {{ width: 760 }}/>
+                            <Select style = {{ width: 760 }}>
+                                { data.sectors.map(sector =>
+                                    <Option value = { sector.key } key = { sector.key }> 
+                                        { sector.name } 
+                                    </Option> 
+                                )}
+                            </Select>
                         </Form.Item>
 
                         <Form.Item name = {'ramal'} label = 'Ramal'>
@@ -189,7 +221,7 @@ class UserEdit extends Component {
 
                         <Form.Item>
                             <Button type = 'primary' htmlType = 'submit' className = 'save' 
-                                    style = {{ marginLeft: 500, marginBottom: 60 }}>
+                                    style = {{ marginLeft: 420, marginBottom: 60 }}>
                                 Alterar Informações
                             </Button>
                             <Button type = 'primary' htmlType = 'submit' 
