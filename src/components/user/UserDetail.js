@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Layout, Input, Button, Form, Modal, message } from 'antd';
+import { Layout, Input, Button, Modal, message, Descriptions, Divider } from 'antd';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import UserPhoto from './UserPhoto';
-import Alert from '../alert/Alert';
 
 import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/user';
 import { getImage } from '../../store/images';
@@ -11,7 +11,6 @@ import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
 const { confirm } = Modal;
-const { TextArea } = Input;
 
 class UserDetail extends Component {
 
@@ -20,7 +19,6 @@ class UserDetail extends Component {
     
         this.state = {
             currentUser: {},
-            alert: null
         }
 
         this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
@@ -30,7 +28,6 @@ class UserDetail extends Component {
         const token = getUserToken();
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
-        const alert = this.props.location.state;
         let imageUser = null;
 
         if(user.image === null) {
@@ -40,14 +37,10 @@ class UserDetail extends Component {
             user.image = imageUser.image;
         }
 
-        if(alert !== undefined) {
-            this.setState({ alert: alert });
-        }
-
         this.setState({ currentUser: user });
     }
 
-    showDeleteConfirm(props) {
+    showDeleteConfirm() {
         const { currentUser } = this.state;
         const name = currentUser.name;
         const userId = currentUser.id;
@@ -66,19 +59,17 @@ class UserDetail extends Component {
 					title: 'Ação Concluída!',
 					content: 'Conta Excluída Com Sucesso!',
 				});
-				props.history.push('/')
+				this.props.history.push('/')
 			},
 			onCancel() {
-				message.success('Exclusão de Conta Cancelada Com Sucesso!');
+				message.info('Exclusão de Conta Cancelada Com Sucesso!');
 			},
 		});
     }
 
     render() {
-        const layout = { labelCol: { span: 3, }, wrapperCol: { span: 14, }, };
         const { currentUser } = this.state;
         const type = typeUser(currentUser.is_administrator);
-        const props = this.props;
         let message = null;
         let typeAlert = null;
         
@@ -90,62 +81,60 @@ class UserDetail extends Component {
             typeAlert = 'error';
         }
         return (
-            <div>
-                {
-                    message !== null ? (
-                        <Alert message = { message } type = { typeAlert } />
-                    ) : (
-                        null
-                    )
-                }
-                <Content className = 'painelContent'>
-                    <Form {...layout} name = 'nest-messages'>
-                        <Form.Item label = 'Nome' className = 'inputsUserDetail'>
-                            <Input disabled = { true } value = { currentUser.name }/>
-                        </Form.Item>
+            <Content className = 'painelContent'>
+                <Descriptions 
+                    title = { `Informações de ${ currentUser.name }` } 
+                    className = 'descriptionTitle'
+                    column = {{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+                >
+                    <Descriptions.Item label = { <b> Nome de Usuário </b> }> 
+                        { currentUser.username }
+                    </Descriptions.Item>
+                    
+                    <Descriptions.Item label = { <b> Tipo de Usuário </b> }> 
+                        { type }
+                    </Descriptions.Item>
+                    <Divider/>
+                    
+                    <Descriptions.Item label = { <b> Nome Completo </b> }> 
+                        { currentUser.name } 
+                    </Descriptions.Item>
+                    
+                    <Descriptions.Item label = { <b> Ramal </b> }> 
+                        { currentUser.ramal }
+                    </Descriptions.Item>
+                    <br></br>
+                    
+                    <Descriptions.Item label = { <b> Setor </b> }> 
+                        { currentUser.sector }
+                    </Descriptions.Item>
+                    <br></br>
+                    <br></br>
+                    
+                    <Descriptions.Item label = { <b> Descrição </b> }> 
+                        { currentUser.description }
+                    </Descriptions.Item>
+                </Descriptions>
 
-                        <Form.Item label = 'Usuário' className = 'inputsUserDetail'>
-                            <Input disabled = { true } value = { currentUser.username } />
-                        </Form.Item>
-
-                        <Form.Item label = 'Setor' className = 'inputsUserDetail'>
-                            <Input disabled = { true } value = { currentUser.sector } />
-                        </Form.Item>
-
-                        <Form.Item label = 'Ramal' className = 'inputsUserDetail'>
-                            <Input disabled = { true } value = { currentUser.ramal } />
-                        </Form.Item>
-
-                        <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
-                            <Input disabled = { true } value = { type } />
-                        </Form.Item>
-
-                        <Form.Item label = 'Tipo de Usuário' className = 'inputsUserDetail'>
-                            <TextArea 
-                                disabled = { true } 
-                                rows = { 4 } 
-                                style = {{ width: 1000 }}
-                                value = { currentUser.description }
-                            />
-                        </Form.Item>  
-
-                        <Button type = 'primary' className = 'edit' 
-                                style = {{ marginLeft: 420, marginBottom: 60 }}>
-                            <Link to = { '/edicao_usuario' }> Editar Informações </Link>
-                        </Button>
-
-                        <Button type = 'primary' className = 'delete' style = {{ marginLeft: 20 }} 
-                                onClick = { () => this.showDeleteConfirm(props) }>
-                            Excluir Usuário
-                        </Button>            
-                    </Form>
-                </Content>
-                <Content style = {{ marginTop: -610, marginLeft: 230 }}>
+                <Content style = {{ marginTop: 140, marginLeft: 180, marginBottom: -40 }}> 
                     <UserPhoto user = { currentUser }/>
                 </Content>
-            </div>
+                
+                <Content>
+                    <Button 
+                        type = 'ghost' className = 'edit' 
+                        style = {{ marginLeft: 320, marginBottom: 60, marginTop: 15 }}>
+                            <Link to = { '/edicao_usuario' }> Editar Informações </Link>
+                    </Button>
+
+                    <Button type = 'primary' style = {{ marginLeft: 20 }} danger 
+                            onClick = { this.showDeleteConfirm }>
+                        Excluir Usuário
+                    </Button>
+                </Content>
+            </Content>
         );
     }
 }
 
-export default UserDetail;
+export default withRouter(UserDetail);
