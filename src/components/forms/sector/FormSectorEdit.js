@@ -143,7 +143,9 @@ class FormSectorEdit extends Component {
         };
         return(
             <div>
-                <a onClick = { this.showDrawer }><b> Editar </b></a>
+                <Button type = 'default' className = 'edit' onClick = { this.showDrawer }> 
+                    Editar 
+                </Button>
                 <CreateFormSector />
             </div>
         );

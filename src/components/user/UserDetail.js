@@ -47,7 +47,7 @@ class UserDetail extends Component {
         this.setState({ currentUser: user });
     }
 
-    async showDeleteConfirm(props) {
+    showDeleteConfirm(props) {
         const { currentUser } = this.state;
         const name = currentUser.name;
         const userId = currentUser.id;
