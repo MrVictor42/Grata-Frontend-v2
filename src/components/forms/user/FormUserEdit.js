@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Input, Button, Form, message, Drawer, Col, Row, Select, InputNumber } from 'antd';
 import { EditOutlined, SaveOutlined, StopOutlined } from '@ant-design/icons';
 
-import { getCurrentUser, getUserId, getUserToken, updateUser } from '../../../store/user';
-import { saveImage, editImage, getImage } from '../../../store/images';
+import { getUserToken, updateUser } from '../../../store/user';
+import { saveImage, editImage } from '../../../store/images';
 import { getSectors } from '../../../store/sector';
 import { validateUpdate, typeUser, typeUserValidate } from '../../../services/userService';
 import { sort } from '../../../services/sortService';
@@ -16,9 +16,7 @@ class FormUserEdit extends Component {
         super(props)
     
         this.state = {
-            currentUser: {},
             sectors: [],
-            sectorID: null,
             visible: false,
             image: null,
         }
@@ -31,41 +29,13 @@ class FormUserEdit extends Component {
         this.showDrawer = this.showDrawer.bind(this);
         this.onClose = this.onClose.bind(this);
     }
-
+    
     async componentDidMount() {
         const token = getUserToken();
         const sectors = await getSectors(token);
-        let user = this.props.user;
-        console.log(user)
-        let imageUser = null;
-        let final_sector = { sector: [] };
-        
-        if(user.image === null) {
 
-        } else {
-            imageUser = await getImage(token, user.image);
-            this.setState({ image: imageUser.image });
-        }
-
-        for(let aux = 0; aux < sectors.length; aux ++) {
-            if(user.sector === null) {
-
-            } else {
-                if(user.sector === sectors[aux].name) {
-                    this.setState({ sectorID: sectors[aux].id });
-                }
-            }
-            final_sector.sector.push({
-                id: sectors[aux].id,
-                name: sectors[aux].name,
-            });
-        }
-
-        this.setState({ 
-            currentUser: user,
-            sectors: final_sector.sector 
-        });
-    };
+        this.setState({ sectors: sectors });
+    }
 
     showDrawer = () => {
         this.setState({ visible: true });
@@ -100,9 +70,8 @@ class FormUserEdit extends Component {
         }
     }
 
-    async handleSubmit(values) {
+    async handleSubmit(values, sectorID) {
         const token = getUserToken();
-        const { currentUser } = this.state;
         const image = new FormData();
         const type = typeUserValidate(values.type);
         let imageUser = null;
@@ -112,8 +81,8 @@ class FormUserEdit extends Component {
         if(global.image === null) {
 
         } else {
-            if(currentUser.image !== null) {
-                imageID = currentUser.image;
+            if(this.props.user.image !== null) {
+                imageID = this.props.user.image;
                 image.append('image', global.image, global.image.name);
                 imageUser = await editImage(token, image, imageID);
             } else {
@@ -124,15 +93,15 @@ class FormUserEdit extends Component {
         }
 
         if(sector === undefined || sector === null) {
-            sector = this.state.sectorID;
+            sector = sectorID;
         } else {
 
         }
 
         let user = {
-            id: currentUser.id,
-            email: currentUser.email,
-            username: currentUser.username,
+            id: this.props.user.id,
+            email: this.props.user.email,
+            username: this.props.user.username,
             ramal: values.ramal,
             name: values.name,
             sector: sector,
@@ -142,35 +111,41 @@ class FormUserEdit extends Component {
             image: imageID
         };
 
-        user = validateUpdate(user, currentUser);
+        user = validateUpdate(user, this.props.user);
         const status = await updateUser(token, user);
         global.image = null;
         if(status === true) {
             message.success('Informações Atualizadas com Sucesso!');
-            message.info('Atualize a Página');
+            message.info('Por Favor, Atualize a Página');
         } else {
             message.error('Houve um Erro ao Atualizar as Informações do Usuário');
         }
     }
 
     render() {
-        const { currentUser } = this.state;
-        const type = typeUser(currentUser.is_administrator);
+        let sectorID = null;
         let data = { sectors: [] };
+        const type = typeUser(this.props.user.is_administrator);
 
         for(let aux = 0; aux < this.state.sectors.length; aux ++) {
+            if(this.props.user.sector === null) {
+
+            } else {
+                if(this.props.user.sector === this.state.sectors[aux].name) {
+                    sectorID =  this.state.sectors[aux].id;
+                }
+            }
             data.sectors.push({
                 key: this.state.sectors[aux].id,
                 name: this.state.sectors[aux].name,
             });
         }
-
         data.sectors.sort(sort('name'));
         const FormUserEdit = () => {
             const [form] = Form.useForm();
             return(
                 <Drawer
-                    title = { `Edição da Conta de ${ currentUser.name }` }
+                    title = { `Edição da Conta de ${ this.props.user.name }` }
                     width = { 720 } onClose = { this.onClose } visible = { this.state.visible }
                     bodyStyle = {{ paddingBottom: 80 }}
                     footer = {
@@ -182,7 +157,7 @@ class FormUserEdit extends Component {
                                 onClick = { () => {
                                     form.validateFields().then(values => {
                                         form.resetFields();
-                                        this.handleSubmit(values);
+                                        this.handleSubmit(values, sectorID);
                                     }).catch(info => {
                                         console.log('Validate Failed:', info);
                                     });
@@ -268,7 +243,6 @@ class FormUserEdit extends Component {
                 </Drawer>
             );
         }
-
         return(
             <div>
                 <Button type = 'ghost' className = 'edit' onClick = { this.showDrawer }> 
