@@ -32,7 +32,6 @@
     bottom: 0;
     width: 100%;
     height: 65px;
-    margin-top: 20px;
     margin-bottom: 0px;
 }
 
@@ -140,6 +139,8 @@ div.op2 {
 .painelContent {
     margin-bottom: 20px;
     background: white;
+    text-align: justify;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .ant-dropdown-link {
@@ -147,15 +148,15 @@ div.op2 {
 }
 
 .contentBottomEdit {
-    margin-left: 350px;
-    margin-top: -30px;
-    position: fixed;
+    margin-left: 400px;
+    margin-top: 360px;
+    position: absolute;
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .contentBottomDelete {
-    margin-top: -30px;
     margin-left: 550px;
-    position: fixed;
+    margin-top: 360px;
+    position: absolute;
     font-family: Arial, Helvetica, sans-serif;
 }

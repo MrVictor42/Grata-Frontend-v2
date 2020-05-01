@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { List, Avatar } from 'antd';
 
 import UserInfo from './UserInfo';
+import FormUserEdit from '../forms/user/FormUserEdit';
+import FormUserDelete from '../forms/user/FormUserDelete';
 import DefaultUser from '../../img/default_user.jpg';
-import Alert from '../alert/Alert';
 
 import { getUsers, getUserToken } from '../../store/user';
 import { getImage } from '../../store/images';
@@ -25,7 +26,7 @@ class UserList extends Component {
     async componentDidMount() {
         const token = getUserToken();
         const alert = this.props.location.state;
-        let users = await getUsers(token);
+        const users = await getUsers(token);
         let imageUser = null;
         let final_users = { users: [] };
 
@@ -48,7 +49,7 @@ class UserList extends Component {
                 image: users[aux].image,
                 username: users[aux].username,
                 description: users[aux].description,
-                setor: 'Não Feito',
+                sector: users[aux].sector,
                 is_administrator: users[aux].is_administrator
             });
         }
@@ -59,17 +60,7 @@ class UserList extends Component {
     render() {
         let data = { users: [] };
         let typePermission = null;
-        let message = null;
-        let typeAlert = null;
-
-        if(this.state.alert === true) {
-            message = 'O Usuário Foi Cadastrado Com Sucesso!';
-            typeAlert = 'success';
-        } else if(this.state.alert === false){
-            message = 'Algo de Ruim Aconteceu! Tente Novamente.';
-            typeAlert = 'error';
-        }
-
+        
         for(let aux = 0; aux < this.state.users.length; aux ++) {
             typePermission = typeUser(this.state.users[aux].is_administrator);
             data.users.push({
@@ -87,29 +78,25 @@ class UserList extends Component {
 
         data.users.sort(sort('name'));
         return (
-            <div>
-                {
-                    message !== null ? (
-                        <Alert message = { message } type = { typeAlert } />
-                    ) : (
-                        null
-                    )
-                }
-                <List
-                    dataSource = { data.users } pagination = {{ defaultPageSize: 4 }} 
-                    bordered className = 'userList'
-                    renderItem = { user => (
-                        <List.Item
-                            key = { user.key } actions = {[ <UserInfo user = { user } /> ]}
-                        >
-                            <List.Item.Meta
-                                avatar = { <Avatar src = { user.image } /> }
-                                title = { user.name } description = { user.description }
-                            />
-                        </List.Item>
-                    )}
-                />
-          	</div>
+            <List
+                dataSource = { data.users } pagination = {{ defaultPageSize: 4 }} 
+                bordered className = 'userList'
+                renderItem = { user => (
+                    <List.Item
+                        key = { user.key } 
+                        actions = {[
+                            <UserInfo user = { user } />,
+                            <FormUserEdit user = { user } />, 
+                            <FormUserDelete user = { user } />
+                        ]}
+                    >
+                        <List.Item.Meta
+                            avatar = { <Avatar src = { user.image } /> }
+                            title = { user.name } description = { user.description }
+                        />
+                    </List.Item>
+                )}
+            />
         );
 	}    
 }

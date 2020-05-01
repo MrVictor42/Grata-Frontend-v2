@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal, message } from 'antd';
 import { withRouter } from 'react-router';
+import { DeleteOutlined } from '@ant-design/icons';
 
 import { 
     getUserToken, deleteUser, deleteUserLogout, getCurrentUser, getUserId } 
@@ -31,10 +32,10 @@ class FormUserDelete extends Component {
 
     showDeleteConfirm() {
         const { currentUser } = this.state;
-        const name = currentUser.name;
-        const userId = currentUser.id;
         const token = getUserToken();
         const propsForms = this.props;
+        let name = this.props.user.name
+        let userID = this.props.user.key;
 
         if(currentUser.name === this.props.user.name) {
             confirm ({
@@ -45,7 +46,7 @@ class FormUserDelete extends Component {
                 cancelText: 'Não',
             
                 onOk() {
-                    deleteUserLogout(token, userId);
+                    deleteUserLogout(token, userID);
                     Modal.success({
                         title: 'Ação Concluída!',
                         content: 'Conta Excluída Com Sucesso!',
@@ -65,10 +66,10 @@ class FormUserDelete extends Component {
                 cancelText: 'Não',
             
                 onOk() {
-                    deleteUser(token, userId);
+                    deleteUser(token, userID);
                     Modal.success({
                         title: 'Ação Concluída!',
-                        content: 'Conta Excluída Com Sucesso!',
+                        content: 'Conta Excluída Com Sucesso! Atualize a Página!',
                     });
                 },
                 onCancel() {
@@ -79,9 +80,10 @@ class FormUserDelete extends Component {
     }
 
     render() {
+        console.log(this.props.user)
         return (
             <Button type = 'primary' danger onClick = { this.showDeleteConfirm }> 
-                <b> Excluir Conta </b> 
+                <DeleteOutlined /> <b> Excluir Conta </b> 
             </Button>
         );
     }

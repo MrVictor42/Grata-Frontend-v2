@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Drawer, Divider, Col, Row } from 'antd';
+import { Drawer, Divider, Col, Row, Button } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 
 class UserInfo extends Component {
 
@@ -25,7 +26,9 @@ class UserInfo extends Component {
     render() {
         return (
             <div>
-				<a onClick = { this.showDrawer }><b> Ver Mais </b></a>
+				<Button type = 'primary' onClick = { this.showDrawer }> 
+					<EyeOutlined /> <b> Ver Mais </b> 
+				</Button>
 				<Drawer
 					width = { 640 }
 					placement = 'right'
@@ -53,7 +56,7 @@ class UserInfo extends Component {
 						<Col span = { 12 }>
 							<DescriptionItem title = 'Ramal' content = { this.props.user.ramal } />
 						</Col>
-						<Col span={12}>
+						<Col span = { 12 }>
 							<DescriptionItem title = 'Permissão' content = { this.props.user.permission } />
 						</Col>
 					</Row>

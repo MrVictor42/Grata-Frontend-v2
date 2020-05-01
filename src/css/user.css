@@ -13,10 +13,6 @@
 .upload {
     width: 128px;
     height: 128px;
-    /* margin-left: 990px; */
-    /* margin-top: -340px; */
-    /* margin-bottom: 20px; */
-    /* position: absolute; */
 }
 
 .userList {
@@ -37,6 +33,33 @@
 }
 
 .descriptionTitle {
-    padding-top: 30px;
+    position: absolute;
+    padding-top: 80px;
     margin-left: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.itemsatuais{
+    background-color:white;
+    width: 95%;
+    display: flex;
+    justify-content: 10px;
+    height: auto;
+    margin-top: 20px;
+    margin-left: 30px;
+    position: absolute;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.item{
+    position: absolute;
+    width:800px;
+    margin-top: -20px;
+}
+
+.item2 {
+    width: 100px;
+    position: absolute;
+    margin-left: 200px;
+    margin-top: 350px;
 }

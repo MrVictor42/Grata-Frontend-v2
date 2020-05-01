@@ -73,7 +73,7 @@ class FormUserEdit extends Component {
     async handleSubmit(values, sectorID) {
         const token = getUserToken();
         const image = new FormData();
-        const type = typeUserValidate(values.type);
+        let type = typeUserValidate(values.type);
         let imageUser = null;
         let imageID = '';
         let sector = values.sector;
@@ -105,8 +105,8 @@ class FormUserEdit extends Component {
             ramal: values.ramal,
             name: values.name,
             sector: sector,
-            is_administrator: type,
-            is_participant: !type,
+            is_administrator: !type,
+            is_participant: type,
             description: values.description,
             image: imageID
         };
@@ -247,7 +247,7 @@ class FormUserEdit extends Component {
         return(
             <div>
                 <Button type = 'ghost' className = 'edit' onClick = { this.showDrawer }> 
-                    <EditOutlined /> Editar Informação 
+                    <EditOutlined /> <b> Editar </b>  
                 </Button>
                 <FormUserEdit />
             </div>

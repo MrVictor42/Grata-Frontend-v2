@@ -42,53 +42,58 @@ class UserDetail extends Component {
         const { currentUser } = this.state;
         const type = typeUser(currentUser.is_administrator);
         return (
-            <Content className = 'painelContent'>
+            <div className = 'itemsatuais'>
                 <h1 className = 'h1Content'> Informações Pré-Cadastradas de { currentUser.name } </h1>
-                <Descriptions 
-                    className = 'descriptionTitle'
-                    column = {{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-                >
-                    <Descriptions.Item label = { <b> Nome de Usuário </b> }> 
-                        { currentUser.username }
-                    </Descriptions.Item>
-                    
-                    <Descriptions.Item label = { <b> Tipo de Usuário </b> }> 
-                        { type }
-                    </Descriptions.Item>
-                    <Divider/>
-                    
-                    <Descriptions.Item label = { <b> Nome Completo </b> }> 
-                        { currentUser.name } 
-                    </Descriptions.Item>
-                    
-                    <Descriptions.Item label = { <b> Ramal </b> }> 
-                        { currentUser.ramal }
-                    </Descriptions.Item>
-                    <br></br>
-                    
-                    <Descriptions.Item label = { <b> Setor </b> }> 
-                        { currentUser.sector }
-                    </Descriptions.Item>
-                    <br></br>
-                    <br></br>
-                    
-                    <Descriptions.Item label = { <b> Descrição </b> }> 
-                        { currentUser.description }
-                    </Descriptions.Item>
-                </Descriptions>
+                <div className = 'item'>
+                    <Content className = 'painelContent'>
+                        <Descriptions 
+                            className = 'descriptionTitle'
+                            column = {{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+                        >
+                            <Descriptions.Item label = { <b> Nome de Usuário </b> }> 
+                                { currentUser.username }
+                            </Descriptions.Item>
 
-                <Content style = {{ marginTop: 140, marginLeft: 178 }}> 
-                    <UserPhoto user = { currentUser } image = { this.state.image }/>
-                </Content>
-                
-                <Content className = 'contentBottomEdit'>
-                    <FormUserEdit user = { currentUser } />
-                </Content>
+                            <Descriptions.Item label = { <b> Tipo de Usuário </b> }> 
+                                { type }
+                            </Descriptions.Item>
+                            <Divider/>
+            
+                            <Descriptions.Item label = { <b> Nome Completo </b> }> 
+                                { currentUser.name } 
+                            </Descriptions.Item>
+                        
+                            <Descriptions.Item label = { <b> Ramal </b> }> 
+                                { currentUser.ramal }
+                            </Descriptions.Item>
+                            <br></br>
+                        
+                            <Descriptions.Item label = { <b> Setor </b> }> 
+                                { currentUser.sector }
+                            </Descriptions.Item>
+                            <br></br>
+                            <br></br>
+            
+                            <Descriptions.Item label = { <b> Descrição </b> }> 
+                                { currentUser.description }
+                            </Descriptions.Item>
+                        </Descriptions>
+                    </Content>
 
-                <Content className = 'contentBottomDelete'>
-                    <FormUserDelete user = { currentUser } />
-                </Content>
-            </Content>
+                    <Content className = 'contentBottomEdit'>
+                        <FormUserEdit user = { currentUser } />
+                    </Content>
+
+                    <Content className = 'contentBottomDelete'>
+                        <FormUserDelete user = { currentUser } />
+                    </Content>
+                </div>
+                <div class = 'item2'>
+                     <Content> 
+                         <UserPhoto user = { currentUser } image = { this.state.image }/>
+                     </Content>
+                </div>
+            </div>
         );
     }
 }
