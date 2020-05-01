@@ -65,7 +65,7 @@ export const updateUser = async(token, user) => {
 	}
 };
 
-export const deleteUser = async(token, userId) => {
+export const deleteUserLogout = async(token, userId) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
 		Authorization: `Token ${ token }`
@@ -74,6 +74,20 @@ export const deleteUser = async(token, userId) => {
 	try {
 		await axios.delete(`${ BASE_URL_USERS }user_delete/${ userId }/`);
 		logout();
+		return true;
+	} catch {
+		return false;
+	}
+};
+
+export const deleteUser = async(token, userId) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+		await axios.delete(`${ BASE_URL_USERS }user_delete/${ userId }/`);
 		return true;
 	} catch {
 		return false;

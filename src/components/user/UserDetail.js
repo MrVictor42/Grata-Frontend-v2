@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { Layout, Modal, message, Descriptions, Divider } from 'antd';
-import { withRouter } from 'react-router';
+import { Layout, Descriptions, Divider } from 'antd';
 
 import UserPhoto from './UserPhoto';
 import FormUserEdit from '../forms/user/FormUserEdit';
+import FormUserDelete from '../forms/user/FormUserDelete';
 
-import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/user';
+import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { getImage } from '../../store/images';
 import { typeUser } from '../../services/userService';
 
 const { Content } = Layout;
-const { confirm } = Modal;
 
 class UserDetail extends Component {
 
@@ -21,8 +20,6 @@ class UserDetail extends Component {
             currentUser: {},
             image: null
         }
-
-        this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
     }
 
     async componentDidMount() {
@@ -39,33 +36,6 @@ class UserDetail extends Component {
         }
 
         this.setState({ currentUser: user });
-    }
-
-    showDeleteConfirm() {
-        const { currentUser } = this.state;
-        const name = currentUser.name;
-        const userId = currentUser.id;
-        const token = getUserToken();
-
-        confirm ({
-			title: 'Exclusão de Conta',
-			content: 'Tem Certeza Que Deseja Excluir Sua Conta, Caro(a) ' + name  + '?',
-			okText: 'Sim',
-			okType: 'danger',
-			cancelText: 'Não',
-		
-			onOk() {
-                deleteUser(token, userId);
-				Modal.success({
-					title: 'Ação Concluída!',
-					content: 'Conta Excluída Com Sucesso!',
-				});
-				this.props.history.push('/')
-			},
-			onCancel() {
-				message.info('Exclusão de Conta Cancelada Com Sucesso!');
-			},
-		});
     }
 
     render() {
@@ -107,16 +77,20 @@ class UserDetail extends Component {
                     </Descriptions.Item>
                 </Descriptions>
 
-                <Content style = {{ marginTop: 140, marginLeft: 178, marginBottom: -30 }}> 
+                <Content style = {{ marginTop: 140, marginLeft: 178 }}> 
                     <UserPhoto user = { currentUser } image = { this.state.image }/>
                 </Content>
                 
-                <Content style = {{ marginLeft: 340, marginTop: 0, marginBottom: 20 }}>
+                <Content className = 'contentBottomEdit'>
                     <FormUserEdit user = { currentUser } />
+                </Content>
+
+                <Content className = 'contentBottomDelete'>
+                    <FormUserDelete user = { currentUser } />
                 </Content>
             </Content>
         );
     }
 }
 
-export default withRouter(UserDetail);
+export default UserDetail;

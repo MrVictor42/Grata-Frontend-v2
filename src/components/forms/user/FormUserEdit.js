@@ -114,6 +114,7 @@ class FormUserEdit extends Component {
         user = validateUpdate(user, this.props.user);
         const status = await updateUser(token, user);
         global.image = null;
+
         if(status === true) {
             message.success('Informações Atualizadas com Sucesso!');
             message.info('Por Favor, Atualize a Página');

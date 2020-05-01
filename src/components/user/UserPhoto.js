@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 
-import DefaultUser from '../../img/default_user.png';
+import DefaultUser from '../../img/default_user.jpg';
 
 const { Meta } = Card;
 

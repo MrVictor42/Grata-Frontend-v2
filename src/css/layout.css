@@ -145,3 +145,17 @@ div.op2 {
 .ant-dropdown-link {
     color: white;
 }
+
+.contentBottomEdit {
+    margin-left: 350px;
+    margin-top: -30px;
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.contentBottomDelete {
+    margin-top: -30px;
+    margin-left: 550px;
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+}

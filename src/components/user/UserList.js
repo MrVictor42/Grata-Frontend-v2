@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { List, Avatar } from 'antd';
 
 import UserInfo from './UserInfo';
-import DefaultUser from '../../img/default_user.png';
+import DefaultUser from '../../img/default_user.jpg';
 import Alert from '../alert/Alert';
 
 import { getUsers, getUserToken } from '../../store/user';

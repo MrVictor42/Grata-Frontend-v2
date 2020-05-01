@@ -36,7 +36,10 @@ export const validateUpdate = (user, currentUser) => {
         user.image = currentUser.image;
     } if(user.description === '' || user.description === null || user.description === undefined) {
         user.description = currentUser.description;
-    } 
+    } if(user.is_administrator === '' || user.is_administrator === null || user.is_administrator === undefined) {
+        user.is_administrator = currentUser.is_administrator;
+        user.is_participant = !currentUser.is_administrator;
+    }
     
     return user;
 }
