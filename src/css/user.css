@@ -13,9 +13,10 @@
 .upload {
     width: 128px;
     height: 128px;
-    margin-left: 990px;
-    margin-top: -340px;
-    position: absolute;
+    /* margin-left: 990px; */
+    /* margin-top: -340px; */
+    /* margin-bottom: 20px; */
+    /* position: absolute; */
 }
 
 .userList {

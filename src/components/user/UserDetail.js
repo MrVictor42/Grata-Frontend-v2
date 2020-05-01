@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Layout, Button, Modal, message, Descriptions, Divider } from 'antd';
+import { Layout, Modal, message, Descriptions, Divider } from 'antd';
 import { withRouter } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import UserPhoto from './UserPhoto';
+import FormUserEdit from '../forms/user/FormUserEdit';
 
 import { getCurrentUser, getUserToken, getUserId, deleteUser } from '../../store/user';
 import { getImage } from '../../store/images';
@@ -107,21 +107,12 @@ class UserDetail extends Component {
                     </Descriptions.Item>
                 </Descriptions>
 
-                <Content style = {{ marginTop: 140, marginLeft: 178, marginBottom: -40 }}> 
+                <Content style = {{ marginTop: 140, marginLeft: 178, marginBottom: -30 }}> 
                     <UserPhoto user = { currentUser } image = { this.state.image }/>
                 </Content>
                 
-                <Content>
-                    <Button 
-                        type = 'ghost' className = 'edit' 
-                        style = {{ marginLeft: 340, marginBottom: 60, marginTop: 15 }}>
-                            <Link to = { '/edicao_usuario' }> Editar Informações </Link>
-                    </Button>
-
-                    <Button type = 'primary' style = {{ marginLeft: 20 }} danger 
-                            onClick = { this.showDeleteConfirm }>
-                        Excluir Usuário
-                    </Button>
+                <Content style = {{ marginLeft: 340, marginTop: 0, marginBottom: 20 }}>
+                    <FormUserEdit user = { currentUser } />
                 </Content>
             </Content>
         );

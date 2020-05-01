@@ -66,7 +66,7 @@ class FormSectorRegister extends Component {
                                     }).catch(info => {
                                         console.log('Validate Failed:', info);
                                     });
-                                }} >
+                                }}>
                                 Cadastrar Setor
                             </Button>
                         </div>
@@ -80,10 +80,9 @@ class FormSectorRegister extends Component {
                                     rules = {[{ 
                                         required: true, 
                                         message: 'Por Favor, Insira o Nome do Setor',
-                                        max: 100 
                                     }]}
                                 >
-                                    <Input placeholder = 'Insira o Nome do Setor' />
+                                    <Input maxLength = { 100 } placeholder = 'Insira o Nome do Setor'/>
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -95,10 +94,9 @@ class FormSectorRegister extends Component {
                                     rules = {[{ 
                                         required: true, 
                                         message: 'Por Favor, Insira as Iniciais',
-                                        max: 6 
                                     }]}
                                 >
-                                    <Input placeholder = 'Iniciais' />
+                                    <Input maxLength = { 6 } placeholder = 'Iniciais' />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -108,7 +106,7 @@ class FormSectorRegister extends Component {
         };
         return(
             <div>
-                <a onClick = { this.showDrawer }> Adicionar Setor </a>
+                <span onClick = { this.showDrawer }> Adicionar Setor </span>
                 <CreateFormSector />
             </div>
         );

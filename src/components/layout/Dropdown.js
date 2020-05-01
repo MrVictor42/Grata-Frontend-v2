@@ -64,7 +64,7 @@ class DropdownNav extends Component {
 
                         <Menu.Item key = '2' onClick = { this.props.logout }> 
                             <LogoutOutlined />
-                            <Link to = { '/' }> Sair </Link>
+                            <Link to = { '/' }> Sair da Sessão </Link>
                         </Menu.Item>
                     </Menu> 
                 }>

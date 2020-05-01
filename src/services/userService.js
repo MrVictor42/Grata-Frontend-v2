@@ -28,8 +28,6 @@ export const typeUserValidate = (is_administrator) => {
 export const validateUpdate = (user, currentUser) => {
     if(user.name === '' || user.name === null || user.name === undefined) {
         user.name = currentUser.name;
-    } if(user.username === '' || user.username === null || user.username === undefined){
-        user.username = currentUser.username;
     } if(user.ramal === '' || user.ramal === null || user.ramal === undefined) {
         user.ramal = currentUser.ramal;
     } if(user.email === '' || user.email === null || user.email === undefined) {
@@ -38,9 +36,7 @@ export const validateUpdate = (user, currentUser) => {
         user.image = currentUser.image;
     } if(user.description === '' || user.description === null || user.description === undefined) {
         user.description = currentUser.description;
-    } if(user.sector === '' || user.sector === null || user.sector === undefined) {
-        user.sector = currentUser.sector;
-    }
+    } 
     
     return user;
 }
