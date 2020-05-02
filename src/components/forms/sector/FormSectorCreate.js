@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Drawer, Form, Button, Col, Row, Input, message } from 'antd';
+import { SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router';
 
 import { getUserToken } from '../../../store/user';
 import { saveSector } from '../../../store/sector';
 
-class FormSectorRegister extends Component {
+class FormSectorCreate extends Component {
 
     constructor(props) {
         super(props)
@@ -56,7 +57,7 @@ class FormSectorRegister extends Component {
                     footer = { 
                         <div style = {{ textAlign: 'center' }}>
                             <Button onClick = { this.onClose } style = {{ marginRight: 8 }}>
-                                Cancelar
+                                <StopOutlined /> Cancelar
                             </Button>
                             <Button onClose = { this.onClose } type = 'primary' 
                                 onClick = { () => {
@@ -67,7 +68,7 @@ class FormSectorRegister extends Component {
                                         console.log('Validate Failed:', info);
                                     });
                                 }}>
-                                Cadastrar Setor
+                                <SaveOutlined /> Cadastrar Setor
                             </Button>
                         </div>
                     }
@@ -113,4 +114,4 @@ class FormSectorRegister extends Component {
     } 
 }
 
-export default withRouter(FormSectorRegister);
+export default withRouter(FormSectorCreate);

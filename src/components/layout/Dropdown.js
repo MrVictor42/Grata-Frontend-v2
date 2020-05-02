@@ -9,7 +9,8 @@ import {
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import FormSectorRegister from '../forms/sector/FormSectorRegister';
+import FormSectorCreate from '../forms/sector/FormSectorCreate';
+import FormUserCreate from '../forms/user/FormUserCreate';
 
 import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { typeUser } from '../../services/userService';
@@ -56,13 +57,13 @@ class DropdownNav extends Component {
                             type === 'Administrador' ? (
                                 <Menu.Item key = '3'> 
                                     <UserAddOutlined />
-                                    <Link to = { '/registrar_usuario' }> Adicionar Usuário </Link>
+                                    <FormUserCreate />
                                     <Divider/>
                                 </Menu.Item>
                             ) : null
                         }
 
-                        <Menu.Item key = '2' onClick = { this.props.logout }> 
+                        <Menu.Item key = '4' onClick = { this.props.logout }> 
                             <LogoutOutlined />
                             <Link to = { '/' }> Sair da Sessão </Link>
                         </Menu.Item>
@@ -77,15 +78,15 @@ class DropdownNav extends Component {
 
                 <Dropdown overlay = { 
                     <Menu>
-                        <Menu.Item key = '1'> 
+                        <Menu.Item key = '5'> 
                             <OrderedListOutlined /> 
                             <Link to = { '/lista_de_setores' }> Lista de Setores </Link>
                         </Menu.Item>
                         {
                             type === 'Administrador' ? (
-                                <Menu.Item key = '4'> 
+                                <Menu.Item key = '6'> 
                                     <AppstoreAddOutlined />
-                                    <FormSectorRegister />
+                                    <FormSectorCreate />
                                 </Menu.Item>
                             ) : null
                         }

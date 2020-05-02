@@ -115,10 +115,9 @@ class FormSectorEdit extends Component {
                                     rules = {[{ 
                                         required: true, 
                                         message: 'Por Favor, Insira o Nome do Setor',
-                                        max: 100 
                                     }]}
                                 >
-                                    <Input placeholder = 'Insira o Nome do Setor' />
+                                    <Input maxLength = { 100 } placeholder = 'Insira o Nome do Setor'/>
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -130,10 +129,9 @@ class FormSectorEdit extends Component {
                                     rules = {[{ 
                                         required: true, 
                                         message: 'Por Favor, Insira as Iniciais',
-                                        max: 6 
                                     }]}
                                 >
-                                    <Input placeholder = 'Iniciais' />
+                                    <Input maxLength = { 8 } placeholder = 'Iniciais' />
                                 </Form.Item>
                             </Col>
                         </Row>
