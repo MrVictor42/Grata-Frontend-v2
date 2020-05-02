@@ -80,7 +80,6 @@ class FormUserDelete extends Component {
     }
 
     render() {
-        console.log(this.props.user)
         return (
             <Button type = 'primary' danger onClick = { this.showDeleteConfirm }> 
                 <DeleteOutlined /> <b> Excluir Conta </b> 

@@ -6,7 +6,6 @@ import Hoc from './hoc/hoc';
 import Homepage from './components/homepage/Homepage';
 
 import UserDetail from './components/user/UserDetail';
-import UserRegister from './components/user/UserRegister';
 import UserList from './components/user/UserList';
 
 import SectorDetail from './components/sector/SectorDetail';
@@ -22,7 +21,6 @@ const BaseRouter = (props) => (
             ) : (
                 <div>
                     <Route exact path = '/informacoes_usuario' component = { UserDetail } />
-                    <Route exact path = '/registrar_usuario' component = { UserRegister } />
                     <Route exact path = '/lista_de_usuarios' component = { UserList } />
 
                     <Route exact path = '/setor/:slug' component = { SectorDetail } />
