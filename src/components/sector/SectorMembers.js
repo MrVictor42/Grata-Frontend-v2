@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+import { Button } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 
 class SectorMembers extends Component {
 
     render() {
         return (
-            <p> <b> Ver Membros </b> </p>
+            <Button type = 'primary'> 
+                <EyeOutlined /> <b> Ver Projetos </b> 
+            </Button>
         );
     }
 }

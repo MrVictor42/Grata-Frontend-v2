@@ -44,9 +44,6 @@ class FormUserCreate extends Component {
             ramal: values.ramal,
             sector: values.sector,
         };
-
-        console.log(user)
-
         const status = await authSignup(user);
 
         if(status !== false) {
@@ -207,7 +204,11 @@ class FormUserCreate extends Component {
 
                             <Col span = { 16 }>
                                 <Form.Item
-                                    name = 'sector' label = 'Setor' rules = {[{ required: true }]}
+                                    name = 'sector' label = 'Setor' 
+                                    rules = {[{ 
+                                        required: true,
+                                        message: 'Por Favor, Escolha o Setor' 
+                                    }]}
                                 >
                                     <Select>
                                         { data.sectors.map(sector =>

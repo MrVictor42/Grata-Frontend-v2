@@ -15,7 +15,8 @@ class FormUserDelete extends Component {
         super(props)
     
         this.state = {
-            currentUser: {}
+            currentUser: {},
+            token: null
         }
 
         this.showDeleteConfirm = this.showDeleteConfirm.bind(this);
@@ -26,13 +27,16 @@ class FormUserDelete extends Component {
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
 
-        this.setState({ currentUser: user });
+        this.setState({ 
+            currentUser: user,
+            token: token 
+        });
     }
     
 
     showDeleteConfirm() {
         const { currentUser } = this.state;
-        const token = getUserToken();
+        const token = this.state.token;
         const propsForms = this.props;
         let name = this.props.user.name
         let userID = this.props.user.key;

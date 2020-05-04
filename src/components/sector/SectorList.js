@@ -3,7 +3,7 @@ import { List } from 'antd';
 
 import FormSectorEdit from '../forms/sector/FormSectorEdit';
 
-import SectorDelete from './SectorDelete';
+import SectorDelete from '../forms/sector/FormSectorDelete';
 import SectorMembers from './SectorMembers';
 import SectorDetail from './SectorDetail';
 

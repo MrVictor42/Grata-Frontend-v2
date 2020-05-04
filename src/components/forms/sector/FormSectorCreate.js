@@ -12,7 +12,7 @@ class FormSectorCreate extends Component {
         super(props)
 
         this.state = {
-            visible: false
+            visible: false,
         }
     
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +35,7 @@ class FormSectorCreate extends Component {
         const sector = {
             name: name,
             initials: initials
-        }
+        };
         const status = await saveSector(token, sector);
 
         if(status === true) {

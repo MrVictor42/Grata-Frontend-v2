@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Drawer, Form, Button, Col, Row, Input, message } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router';
 
 import { getUserToken, getUserId, getCurrentUser } from '../../../store/user';
@@ -12,10 +13,13 @@ class FormSectorEdit extends Component {
     
         this.state = {
             currentUser: {},
-            visible: false
+            visible: false,
+            token: null
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.showDrawer = this.showDrawer.bind(this);
+        this.onClose = this.onClose.bind(this);
     }
 
     async componentDidMount() {
@@ -23,10 +27,10 @@ class FormSectorEdit extends Component {
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
 
-        this.setState({ currentUser: user });
-
-        this.showDrawer = this.showDrawer.bind(this);
-        this.onClose = this.onClose.bind(this);
+        this.setState({ 
+            currentUser: user,
+            token: token 
+        });
     }
 
     showDrawer = () => {
@@ -38,14 +42,14 @@ class FormSectorEdit extends Component {
     };
 
     async handleSubmit(values) {
-        const token = getUserToken();
+        const token = this.state.token;
         const initials = values.initials;
         const name = values.name;
         const sector = {
             id: this.props.sector.key,
             name: name,
             initials: initials
-        }
+        };
         const status = await editSector(token, sector);
 
         if(status === true) {
@@ -142,7 +146,7 @@ class FormSectorEdit extends Component {
         return(
             <div>
                 <Button type = 'default' className = 'edit' onClick = { this.showDrawer }> 
-                    Editar 
+                    <EditOutlined/> Editar 
                 </Button>
                 <CreateFormSector />
             </div>

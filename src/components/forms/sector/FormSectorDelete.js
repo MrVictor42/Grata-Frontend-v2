@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Modal, Button, message } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 
-import { getUserToken } from '../../store/user';
-import { deleteSector } from '../../store/sector';
+import { getUserToken } from '../../../store/user';
+import { deleteSector } from '../../../store/sector';
 
 const { confirm } = Modal;
 
@@ -40,7 +41,7 @@ class SectorDelete extends Component {
     render() {
         return (
             <Button type = 'primary' onClick = { this.handleSubmit } danger>
-                Excluir 
+                <DeleteOutlined /> <b> Excluir </b> 
             </Button>
         );
     }

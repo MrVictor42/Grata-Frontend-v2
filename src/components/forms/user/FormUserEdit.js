@@ -19,6 +19,7 @@ class FormUserEdit extends Component {
             sectors: [],
             visible: false,
             image: null,
+            token: null
         }
 
         global.image = null;
@@ -34,7 +35,10 @@ class FormUserEdit extends Component {
         const token = getUserToken();
         const sectors = await getSectors(token);
 
-        this.setState({ sectors: sectors });
+        this.setState({ 
+            sectors: sectors,
+            token: token 
+        });
     }
 
     showDrawer = () => {
@@ -71,7 +75,7 @@ class FormUserEdit extends Component {
     }
 
     async handleSubmit(values, sectorID) {
-        const token = getUserToken();
+        const token = this.state.token;
         const image = new FormData();
         let type = typeUserValidate(values.type);
         let imageUser = null;

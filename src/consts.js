@@ -1,6 +1,7 @@
 export const BASE_URL_USERS = 'http://0.0.0.0:8000/users/';
 export const BASE_URL_IMAGES = 'http://0.0.0.0:8000/images/';
 export const BASE_URL_SECTORS = 'http://0.0.0.0:8000/sectors/';
+export const BASE_URL_PROJECTS = 'http://0.0.0.0:8000/projects/';
 
 export const AUTH_START = 'AUTH_START';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';

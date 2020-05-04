@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 
 import FormSectorCreate from '../forms/sector/FormSectorCreate';
 import FormUserCreate from '../forms/user/FormUserCreate';
+import FormProjectCreate from '../forms/project/FormProjectCreate';
 
 import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { typeUser } from '../../services/userService';
@@ -96,6 +97,23 @@ class DropdownNav extends Component {
                         <EnvironmentOutlined/> Setor <DownOutlined />
                     </a>
                 </Dropdown>
+
+                {
+                    type === 'Administrador' ? (
+                        <Dropdown overlay = { 
+                            <Menu>
+                                <Menu.Item key = '7'> 
+                                    <AppstoreAddOutlined />
+                                    <FormProjectCreate />
+                                </Menu.Item>
+                            </Menu> 
+                        }>
+                            <a className = 'ant-dropdown-link'>
+                                <EnvironmentOutlined/> Projetos <DownOutlined />
+                            </a>
+                        </Dropdown>
+                    ) : null
+                }
             </div>
         );
     }
