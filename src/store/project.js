@@ -2,14 +2,14 @@ import axios from 'axios';
 
 import { BASE_URL_PROJECTS } from '../consts';
 
-export const getProjects = async (token) => {
+export const getProjects = async (token, sectorID) => {
     axios.defaults.headers = {
 		'Content-Type': 'application/json',
 		Authorization: `Token ${ token }`
 	};
 
 	try {
-        const { data } = await axios.get(`${ BASE_URL_PROJECTS }`);
+        const { data } = await axios.get(`${ BASE_URL_PROJECTS }projects_in_sector/${ sectorID }/`);
 		return data;    
 	} catch (err) {
 		console.log(err.message);

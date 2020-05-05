@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { List } from 'antd';
+import { List, Button } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 import FormSectorEdit from '../forms/sector/FormSectorEdit';
 
 import SectorDelete from '../forms/sector/FormSectorDelete';
 import SectorMembers from './SectorMembers';
-import SectorDetail from './SectorDetail';
 
 import { getSectors } from '../../store/sector';
 import { getUserToken, getUserId, getCurrentUser } from '../../store/user';
@@ -28,20 +29,10 @@ class SectorList extends Component {
         const userId = getUserId();
         const user = await getCurrentUser(token, userId);
         const sectors = await getSectors(token);
-        let final_sector = { sector: [] };
-
-        for(let aux = 0; aux < sectors.length; aux ++) {
-            final_sector.sector.push({
-                id: sectors[aux].id,
-                name: sectors[aux].name,
-                initials: sectors[aux].initials,
-                slug: sectors[aux].slug,
-            });
-        }
 
         this.setState({
             currentUser: user, 
-            sectors: final_sector.sector
+            sectors: sectors
         });
 	}
 
@@ -71,12 +62,17 @@ class SectorList extends Component {
                                 <List.Item
                                     key = { sector.key } 
                                     actions = {[
-                                        <SectorDetail sector = { sector } />,
+                                        <Link to = { `/setor/${ sector.slug }` }>
+                                            <Button type = 'primary'> 
+                                                <EyeOutlined /> <b> Ver Projetos </b> 
+                                            </Button>
+                                        </Link>,
                                         <SectorMembers sector = { sector } />
                                     ]}
                                 >
-                                    <List.Item.Meta 
-                                        title = { sector.initials } description = { sector.name } />
+                                <List.Item.Meta 
+                                    title = { sector.initials } description = { sector.name } 
+                                />
                                     <SectorMembers sector = { sector } />
                                 </List.Item>
                             )}
@@ -88,8 +84,12 @@ class SectorList extends Component {
                             renderItem = { sector => (
                                 <List.Item
                                     key = { sector.key } 
-                                    actions = {[ 
-                                        <SectorDetail sector = { sector } />,
+                                    actions = {[
+                                        <Link to = { `/setor/${ sector.slug }` }>
+                                            <Button type = 'primary'> 
+                                                <EyeOutlined /> <b> Ver Projetos </b> 
+                                            </Button>
+                                        </Link>, 
                                         <SectorMembers sector = { sector } />,
                                         <FormSectorEdit sector = { sector } />,
                                         <SectorDelete sector = { sector } />,

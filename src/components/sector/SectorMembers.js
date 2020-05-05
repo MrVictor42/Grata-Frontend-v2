@@ -7,7 +7,7 @@ class SectorMembers extends Component {
     render() {
         return (
             <Button type = 'primary'> 
-                <EyeOutlined /> <b> Ver Projetos </b> 
+                <EyeOutlined /> <b> Ver Membros </b> 
             </Button>
         );
     }

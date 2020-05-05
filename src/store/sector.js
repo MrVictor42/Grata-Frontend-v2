@@ -17,14 +17,14 @@ export const getSectors = async (token) => {
 	}
 };
 
-export const getSector = async (token, sectorID) => {
+export const getSector = async (token, slug) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
 		Authorization: `Token ${ token }`
 	};
 
 	try {
-        const { data } = await axios.get(`${ BASE_URL_SECTORS }detail/${ sectorID }/`);
+        const { data } = await axios.get(`${ BASE_URL_SECTORS }detail/${ slug }/`);
 		return data;    
 	} catch (err) {
 		console.log(err.message);
