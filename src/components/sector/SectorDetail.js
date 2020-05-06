@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { List, Button } from 'antd';
+import { Button, Table, Tag, Space } from 'antd';
 import { Link } from 'react-router-dom';
 import { EyeOutlined } from '@ant-design/icons';
+
+import FormProjectEdit from '../forms/project/FormProjectEdit';
+import FormProjectDelete from '../forms/project/FormProjectDelete';
 
 import { getSector } from '../../store/sector';
 import { getUserToken, getUserId, getCurrentUser } from '../../store/user';
@@ -43,61 +46,89 @@ class SectorDetail extends Component {
             data.projects.push({
                 key: this.state.projects[aux].id,
                 title: this.state.projects[aux].title,
-                status: this.state.projects[aux].status,
                 slug: this.state.projects[aux].slug,
+                tags: [ this.state.projects[aux].status ],
             });
         }
 
         data.projects.sort(sort('title'));
         return (
-            <div>
-                {
-                    currentUser.is_administrator === 'true' ? (
-                        <List
-                            dataSource = { data.projects } pagination = {{ defaultPageSize: 4 }} 
-                            bordered className = 'userList'
-                            renderItem = { project => (
-                                <List.Item
-                                    key = { project.key } 
-                                    actions = {[
-                                        <Link to = { `/projeto/${ project.slug }` }>
+            <Table 
+                dataSource = { data.projects } bordered className = 'userList'
+                pagination = {{ defaultPageSize: 4 }} 
+                columns = {
+                    [{
+                        title: 'Título da Reunião',
+                        dataIndex: 'title',
+                        key: 'title',
+                    },
+                    {
+                        title: 'Status',
+                        key: 'tags',
+                        dataIndex: 'tags',
+                        render: tags => (
+                            <span>
+                                {
+                                tags.map(tag => {
+                                    let color = null;
+
+                                    if (tag === 'Pendente') {
+                                        color = 'orange';
+                                    } else if(tag === 'Cancelada') {
+                                        color = 'red'
+                                    } 
+                                    else {
+                                        color = 'green';
+                                    }
+
+                                    return (
+                                    <Tag color = { color } key = { tag }>
+                                        <b> { tag.toUpperCase() } </b> 
+                                    </Tag>
+                                    );
+                                })
+                            }
+                            </span>
+                        ),
+                    },
+                    {
+                        title: 'Opções',
+                        key: 'action',
+                        render: (record) => (
+                            <span>
+                                {
+                                    currentUser.is_administrator === 'true' ? (
+                                        <Space 
+                                            size = 'middle'
+                                            style = {{ marginLeft: 180, marginRight: -220 }}
+                                        >
                                             <Button type = 'primary'> 
-                                                <EyeOutlined /> <b> Ver Reuniões </b> 
+                                                <Link to = { `/projeto/${ record.slug }/`}>
+                                                    <EyeOutlined /> <b> Ver Reuniões </b>
+                                                </Link>
                                             </Button>
-                                        </Link>,
-                                    ]}
-                                >
-                                    <List.Item.Meta 
-                                        title = { project.title } description = { project.title } 
-                                    />
-                                </List.Item>
-                            )}
-                        /> 
-                    ) : (
-                        <List
-                            dataSource = { data.projects } pagination = {{ defaultPageSize: 4 }} 
-                            bordered className = 'userList'
-                            renderItem = { project => (
-                                <List.Item
-                                    key = { project.key } 
-                                    actions = {[
-                                        <Link to = { `/projeto/${ project.slug }` }>
+                                        </Space>
+                                    ) : (
+                                        <Space 
+                                            size = 'middle' 
+                                            style = {{ marginLeft: 180, marginRight: -220 }}
+                                        >
                                             <Button type = 'primary'> 
-                                                <EyeOutlined /> <b> Ver Reuniões </b> 
+                                                <Link to = { `/projeto/${ record.slug }/`}>
+                                                    <EyeOutlined /> <b> Ver Reuniões </b>
+                                                </Link>
                                             </Button>
-                                        </Link>,
-                                    ]}
-                                >
-                                    <List.Item.Meta 
-                                        title = { project.title } description = { project.title } 
-                                    />
-                                </List.Item>
-                            )}
-                        />
-                    )
-                }
-            </div>
-        );
+                                            <FormProjectEdit />
+                                            <FormProjectDelete />
+                                        </Space>
+                                    )
+                                }
+                            </span>
+                        ),
+                    },
+                ]}
+            />
+        )
     }
 }
 
