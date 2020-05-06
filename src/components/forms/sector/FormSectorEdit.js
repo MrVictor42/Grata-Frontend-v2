@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Drawer, Form, Button, Col, Row, Input, message } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router';
 
-import { getUserToken, getUserId, getCurrentUser } from '../../../store/user';
+import { getUserToken } from '../../../store/user';
 import { editSector } from '../../../store/sector';
 
 class FormSectorEdit extends Component {
@@ -12,7 +12,6 @@ class FormSectorEdit extends Component {
         super(props)
     
         this.state = {
-            currentUser: {},
             visible: false,
             token: null
         }
@@ -24,13 +23,8 @@ class FormSectorEdit extends Component {
 
     async componentDidMount() {
         const token = getUserToken();
-        const userId = getUserId();
-        const user = await getCurrentUser(token, userId);
 
-        this.setState({ 
-            currentUser: user,
-            token: token 
-        });
+        this.setState({ token: token });
     }
 
     showDrawer = () => {
@@ -63,16 +57,17 @@ class FormSectorEdit extends Component {
     }
 
     render() {
-        const CreateFormSector = () => {
+        const FormSectorEdit = () => {
             const [form] = Form.useForm();
             return(
                 <Drawer
-                    title = 'Editar Setor' onClose = { this.onClose } width = { 720 }
+                    title = { `Editar Setor: ${ this.props.sector.name }` } 
+                    onClose = { this.onClose } width = { 720 }
                     visible = { this.state.visible } style = {{ height: 559 }}
                     footer = { 
                         <div style = {{ textAlign: 'center' }}>
                             <Button onClick = { this.onClose } style = {{ marginRight: 8 }}>
-                                Cancelar
+                                <StopOutlined /> Cancelar
                             </Button>
                             <Button onClose = { this.onClose } type = 'primary' 
                                 onClick = { () => {
@@ -83,12 +78,12 @@ class FormSectorEdit extends Component {
                                         console.log('Validate Failed:', info);
                                     });
                                 }} >
-                                Salvar Alterações
+                                <SaveOutlined /> Salvar Alterações
                             </Button>
                         </div>
                     }
                 >
-                    <Form layout = 'vertical'>
+                    <Form layout = 'vertical' hideRequiredMark>
                         <h1> Informações Cadastradas </h1>
                         <Row gutter = { 6 }>
                             <Col span = { 16 }>
@@ -148,7 +143,7 @@ class FormSectorEdit extends Component {
                 <Button type = 'default' className = 'edit' onClick = { this.showDrawer }> 
                     <EditOutlined/> Editar 
                 </Button>
-                <CreateFormSector />
+                <FormSectorEdit />
             </div>
         );
     }

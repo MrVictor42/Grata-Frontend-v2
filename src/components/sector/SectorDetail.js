@@ -82,9 +82,9 @@ class SectorDetail extends Component {
                                     }
 
                                     return (
-                                    <Tag color = { color } key = { tag }>
-                                        <b> { tag.toUpperCase() } </b> 
-                                    </Tag>
+                                        <Tag color = { color } key = { tag }>
+                                            <b> { tag.toUpperCase() } </b> 
+                                        </Tag>
                                     );
                                 })
                             }
@@ -118,7 +118,7 @@ class SectorDetail extends Component {
                                                     <EyeOutlined /> <b> Ver Reuniões </b>
                                                 </Link>
                                             </Button>
-                                            <FormProjectEdit />
+                                            <FormProjectEdit project = { record }/>
                                             <FormProjectDelete />
                                         </Space>
                                     )
