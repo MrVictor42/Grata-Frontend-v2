@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { EyeOutlined } from '@ant-design/icons';
 
 import FormProjectEdit from '../forms/project/FormProjectEdit';
-import FormProjectDelete from '../forms/project/FormProjectDelete';
 
 import { getSector } from '../../store/sector';
 import { getUserToken, getUserId, getCurrentUser } from '../../store/user';
@@ -47,6 +46,7 @@ class SectorDetail extends Component {
                 key: this.state.projects[aux].id,
                 title: this.state.projects[aux].title,
                 slug: this.state.projects[aux].slug,
+                status: this.state.projects[aux].status,
                 tags: [ this.state.projects[aux].status ],
             });
         }
@@ -109,18 +109,25 @@ class SectorDetail extends Component {
                                             </Button>
                                         </Space>
                                     ) : (
-                                        <Space 
-                                            size = 'middle' 
-                                            style = {{ marginLeft: 180, marginRight: -220 }}
-                                        >
-                                            <Button type = 'primary'> 
-                                                <Link to = { `/projeto/${ record.slug }/`}>
-                                                    <EyeOutlined /> <b> Ver Reuniões </b>
-                                                </Link>
-                                            </Button>
-                                            <FormProjectEdit project = { record }/>
-                                            <FormProjectDelete />
-                                        </Space>
+                                        <span>
+                                            {
+                                                record.status === 'Cancelada' ? (
+                                                    null 
+                                                ) : (
+                                                    <Space 
+                                                        size = 'middle' 
+                                                        style = {{ marginLeft: 180, marginRight: -220 }}
+                                                    >
+                                                        <Button type = 'primary'> 
+                                                            <Link to = { `/projeto/${ record.slug }/`}>
+                                                                <EyeOutlined /> <b> Ver Reuniões </b>
+                                                            </Link>
+                                                        </Button>
+                                                        <FormProjectEdit project = { record }/>
+                                                    </Space>
+                                                )
+                                            }
+                                        </span>
                                     )
                                 }
                             </span>

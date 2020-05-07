@@ -34,12 +34,19 @@ class FormProjectEdit extends Component {
         let title = null;
         let statusProject = null;
 
-        if(values.status === 'empty' || values.status === 'pending') {
+        if(values.title === undefined || values.title === '') {
+            title = this.props.project.title;
+        } else {
+            title = values.title;
+        }
+
+        if(values.status === undefined || values.status === 'pending' || values.status === 'empty') {
             const project = {
                 id: idProject,
-                status: 'Cancelada',
-                title: values.title
+                status: 'Pendente',
+                title: title
             };
+
             statusProject = await editProject(token, project);
 
             if(statusProject === true) {
@@ -53,7 +60,8 @@ class FormProjectEdit extends Component {
             title = this.props.project.title;
             confirm ({
                 title: 'Cancelamento de Projeto',
-                content: 'Tem Certeza Que Deseja Cancelar Este Projeto? Todas as Reuniões do Projeto Serão Canceladas!',
+                content: 'Tem Certeza Que Deseja Cancelar Este Projeto? Todas as Reuniões e ' + 
+                'Seus Documentos Serão Perdidos! do Projeto Serão Canceladas!',
                 okText: 'Sim',
                 okType: 'danger',
                 cancelText: 'Não',
@@ -69,6 +77,7 @@ class FormProjectEdit extends Component {
                         title: 'Ação Concluída!',
                         content: 'Projeto Cancelado Com Sucesso!',
                     });
+                    message.info('Por Favor, Atualize a Página!');
                 },
                 onCancel() {
                     message.info('Cancelamento de Conta Cancelada Com Sucesso!');
@@ -139,9 +148,9 @@ class FormProjectEdit extends Component {
                         <Row gutter = { 16 }>
                             <Col span = { 16 }>
                                 <Form.Item
-                                    name = 'name' label = 'Nome'
+                                    name = 'title' label = 'Nome do Projeto'
                                     rules = {[{ 
-                                        required: true, 
+                                        required: false, 
                                         message: 'Por Favor, Insira o Nome do Projeto',
                                     }]}
                                 >
