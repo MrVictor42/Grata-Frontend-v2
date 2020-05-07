@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Drawer, Form, Button, Col, Row, Input, message } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, notification } from 'antd';
 import { EditOutlined, SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router';
 
@@ -47,11 +47,23 @@ class FormSectorEdit extends Component {
         const status = await editSector(token, sector);
 
         if(status === true) {
-            message.success('Setor Editado Com Sucesso!');
-            message.info('Por Favor, Recarregue a Página.');
+            notification.open({ 
+                type: 'success',
+                message: 'Setor Editado',
+                description: 'Setor Editado Com Sucesso!',
+            });
+            notification.open({
+                type: 'info',
+                message: 'Ação Requerida',
+                description: 'Por Favor, Atualize a Página!',
+            });
             this.props.history.push('/lista_de_setores');
         } else {
-            message.error('Erro Inesperado.. Tente Novamente!');
+            notification.open({
+                type: 'error',
+                message: 'Ação Cancelada',
+                description: 'Erro Inesperado.. Tente Novamente!',
+            });
             this.props.history.push('/lista_de_setores');
         }
     }

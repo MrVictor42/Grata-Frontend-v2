@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Drawer, Form, Button, Col, Row, Input, message, Select, Modal } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, Select, Modal, notification } from 'antd';
 import { EditOutlined, SaveOutlined, StopOutlined } from '@ant-design/icons';
 
 import { getUserToken } from '../../../store/user';
@@ -30,7 +30,6 @@ class FormProjectEdit extends Component {
     async handleSubmit(values) {
         const idProject = this.props.project.key;
         const token = this.state.token;
-        let status = null;
         let title = null;
         let statusProject = null;
 
@@ -50,11 +49,27 @@ class FormProjectEdit extends Component {
             statusProject = await editProject(token, project);
 
             if(statusProject === true) {
-                message.success('Projeto Atualizado Com Sucesso!');
-                message.info('Atualize a Página');
+                notification.open({ 
+                    type: 'success',
+                    message: 'Projeto Atualizado',
+                    description: 'O Projeto Foi Atualizado Com Sucesso!.',
+                });
+                notification.open({
+                    type: 'info',
+                    message: 'Ação Requerida',
+                    description: 'Por Favor, Atualize a Página.',
+                });
             } else {
-                message.error('Erro ao Atualizar o Projeto, Tente Novamente!');
-                message.info('Caso o Problema Persista, Entre em Contato com o Desenvolvedor!');
+                notification.open({ 
+                    type: 'error',
+                    message: 'Erro em Ação',
+                    description: 'Erro ao Atualizar o Projeto, Tente Novamente!.',
+                });
+                notification.open({
+                    type: 'info',
+                    message: 'Ação Requerida',
+                    description: 'Caso o Problema Persista, Entre em Contato com o Desenvolvedor!',
+                });
             }
         } else {
             title = this.props.project.title;
@@ -77,10 +92,18 @@ class FormProjectEdit extends Component {
                         title: 'Ação Concluída!',
                         content: 'Projeto Cancelado Com Sucesso!',
                     });
-                    message.info('Por Favor, Atualize a Página!');
+                    notification.open({
+                        type: 'info',
+                        message: 'Ação Requerida',
+                        description: 'Por Favor, Atualize a Página.',
+                    });
                 },
                 onCancel() {
-                    message.info('Cancelamento de Conta Cancelada Com Sucesso!');
+                    notification.open({
+                        type: 'info',
+                        message: 'Ação Cancelada',
+                        description: 'Cancelamento de Conta Cancelada Com Sucesso!',
+                    });
                 },
             });
         }

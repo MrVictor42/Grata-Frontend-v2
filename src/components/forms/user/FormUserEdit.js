@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Input, Button, Form, message, Drawer, Col, Row, Select, InputNumber } from 'antd';
+import { 
+    Input, Button, Form, message, Drawer, Col, Row, Select, InputNumber, notification 
+} from 'antd';
 import { EditOutlined, SaveOutlined, StopOutlined } from '@ant-design/icons';
+
 
 import { getUserToken, updateUser } from '../../../store/user';
 import { saveImage, editImage } from '../../../store/images';
@@ -120,10 +123,27 @@ class FormUserEdit extends Component {
         global.image = null;
 
         if(status === true) {
-            message.success('Informações Atualizadas com Sucesso!');
-            message.info('Por Favor, Atualize a Página');
+            notification.open({ 
+                type: 'success',
+                message: 'Usuário Atualizado',
+                description: 'Informações Atualizadas com Sucesso!',
+            });
+            notification.open({
+                type: 'info',
+                message: 'Ação Requerida',
+                description: 'Por Favor, Atualize a Página.',
+            });
         } else {
-            message.error('Houve um Erro ao Atualizar as Informações do Usuário');
+            notification.open({ 
+                type: 'error',
+                message: 'Erro em Ação',
+                description: 'Erro ao Atualizar o Usuário, Tente Novamente!.',
+            });
+            notification.open({
+                type: 'info',
+                message: 'Ação Requerida',
+                description: 'Caso o Problema Persista, Entre em Contato com o Desenvolvedor!',
+            });
         }
     }
 

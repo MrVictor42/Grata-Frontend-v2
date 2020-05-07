@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, message } from 'antd';
+import { Button, Modal, notification } from 'antd';
 import { withRouter } from 'react-router';
 import { DeleteOutlined } from '@ant-design/icons';
 
@@ -32,7 +32,6 @@ class FormUserDelete extends Component {
             token: token 
         });
     }
-    
 
     showDeleteConfirm() {
         const { currentUser } = this.state;
@@ -58,7 +57,11 @@ class FormUserDelete extends Component {
                     propsForms.history.push('/')
                 },
                 onCancel() {
-                    message.info('Exclusão de Conta Cancelada Com Sucesso!');
+                    notification.open({
+                        type: 'info',
+                        message: 'Ação Cancelada',
+                        description: 'Exclusão de Conta Cancelada Com Sucesso!',
+                    });
                 },
             });
         } else {
@@ -77,7 +80,11 @@ class FormUserDelete extends Component {
                     });
                 },
                 onCancel() {
-                    message.info('Exclusão de Conta Cancelada Com Sucesso!');
+                    notification.open({
+                        type: 'info',
+                        message: 'Ação Cancelada',
+                        description: 'Exclusão de Conta Cancelada Com Sucesso!',
+                    });
                 },
             });
         }

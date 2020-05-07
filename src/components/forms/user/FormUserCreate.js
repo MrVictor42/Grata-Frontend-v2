@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Drawer, Form, Button, Col, Row, Input, Select, InputNumber, message } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, Select, InputNumber, notification } from 'antd';
 import { SaveOutlined, StopOutlined } from '@ant-design/icons';
 
 import { getUserToken, authSignup } from '../../../store/user';
@@ -47,11 +47,27 @@ class FormUserCreate extends Component {
         const status = await authSignup(user);
 
         if(status !== false) {
-            message.success(`O Usuário ${ user.user } Foi Salvo Com Sucesso!`);
-            message.info('O Usuário já Foi Adicionado, Verifique a Lista de Usuários');
+            notification.open({ 
+                type: 'success',
+                message: 'Usuário Criado',
+                description: `O Usuário ${ user.user } Foi Salvo Com Sucesso!`,
+            });
+            notification.open({
+                type: 'info',
+                message: 'Ação Requerida',
+                description: 'O Usuário já Foi Adicionado, Verifique a Lista de Usuários.',
+            });
         } else {
-            message.error('Não Foi Possível Cadastrar o Usuário!');
-            message.info('Se o Problema Persistir, Entre em Contato Com o Desenvolvedor');
+            notification.open({ 
+                type: 'error',
+                message: 'Usuário Não Cadastrado',
+                description: 'Não Foi Possível Cadastrar o Usuário!',
+            });
+            notification.open({
+                type: 'info',
+                message: 'Ação Requerida',
+                description: 'Se o Problema Persistir, Entre em Contato Com o Desenvolvedor.',
+            });
         }
     }
 

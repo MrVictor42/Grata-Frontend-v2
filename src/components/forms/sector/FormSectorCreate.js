@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Drawer, Form, Button, Col, Row, Input, message } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, notification } from 'antd';
 import { SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router';
 
@@ -39,10 +39,18 @@ class FormSectorCreate extends Component {
         const status = await saveSector(token, sector);
 
         if(status === true) {
-            message.success('Setor Criado Com Sucesso!');
+            notification.open({ 
+                type: 'success',
+                message: 'Setor Criado',
+                description: 'Setor Criado Com Sucesso!',
+            });
             this.props.history.push('/lista_de_setores');
         } else {
-            message.error('Erro Inesperado.. Tente Novamente!');
+            notification.open({ 
+                type: 'error',
+                message: 'Ação Requerida',
+                description: 'Erro Inesperado.. Tente Novamente!',
+            });
             this.props.history.push('/lista_de_setores');
         }
     }

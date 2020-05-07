@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, message } from 'antd';
+import { Modal, Button, notification } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
 import { getUserToken } from '../../../store/user';
@@ -29,11 +29,23 @@ class SectorDelete extends Component {
 		
 			onOk() {
                 deleteSector(token, sectorID);
-                message.success('Setor Excluído Com Sucesso!');
-                message.info('Atualize Esta Página!');
+                notification.open({ 
+                    type: 'success',
+                    message: 'Setor Excluído',
+                    description: 'Setor Excluído Com Sucesso!',
+                });
+                notification.open({
+                    type: 'info',
+                    message: 'Ação Requerida',
+                    description: 'Por Favor, Atualize a Página!',
+                });
 			},
 			onCancel() {
-                message.info('Ação de Exclusão de Setor Cancelada');
+                notification.open({
+                    type: 'info',
+                    message: 'Ação Cancelada',
+                    description: 'Exclusão de Setor Cancelada Com Sucesso!',
+                });
 			},
 		});
     }
