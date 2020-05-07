@@ -18,21 +18,15 @@ class UserList extends Component {
     
         this.state = {
             users: [],
-            alert: false,
             visible: false
 		}
     }
 
     async componentDidMount() {
         const token = getUserToken();
-        const alert = this.props.location.state;
         const users = await getUsers(token);
         let imageUser = null;
         let final_users = { users: [] };
-
-        if(alert !== undefined) {
-            this.setState({ alert: alert });
-        }
 
         for(let aux = 0; aux < users.length; aux ++) {
             if(users[aux].image === null) {

@@ -257,7 +257,7 @@ class FormUserCreate extends Component {
                     </Form>
                 </Drawer>
             );
-        }
+        };
         return (
             <div>
                 <span onClick = { this.showDrawer }> Adicionar Usuário </span>

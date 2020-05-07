@@ -111,7 +111,7 @@ class FormSectorCreate extends Component {
                         </Row>
                     </Form>
                 </Drawer>
-            )
+            );
         };
         return(
             <div>

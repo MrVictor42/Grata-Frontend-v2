@@ -148,7 +148,7 @@ class FormProjectCreate extends Component {
                         </Row>
                     </Form>
                 </Drawer>
-            )
+            );
         };
         return(
             <div>

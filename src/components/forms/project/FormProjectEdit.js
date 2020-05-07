@@ -201,7 +201,7 @@ class FormProjectEdit extends Component {
                         </Row>
                     </Form>
                 </Drawer>
-            )
+            );
         };
         return(
             <div>

@@ -71,7 +71,7 @@ class FormSectorEdit extends Component {
     render() {
         const FormSectorEdit = () => {
             const [form] = Form.useForm();
-            return(
+            return (
                 <Drawer
                     title = { `Editar Setor: ${ this.props.sector.name }` } 
                     onClose = { this.onClose } width = { 720 }
@@ -148,7 +148,7 @@ class FormSectorEdit extends Component {
                         </Row>
                     </Form>
                 </Drawer>
-            )
+            );
         };
         return(
             <div>

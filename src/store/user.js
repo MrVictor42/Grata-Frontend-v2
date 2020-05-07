@@ -51,7 +51,7 @@ export const getCurrentUser = async (token, userId) => {
 	}
 };
 
-export const updateUser = async(token, user) => {
+export const updateUser = async (token, user) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
 		Authorization: `Token ${ token }`
@@ -65,7 +65,7 @@ export const updateUser = async(token, user) => {
 	}
 };
 
-export const deleteUserLogout = async(token, userId) => {
+export const deleteUserLogout = async (token, userId) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
 		Authorization: `Token ${ token }`
@@ -80,7 +80,7 @@ export const deleteUserLogout = async(token, userId) => {
 	}
 };
 
-export const deleteUser = async(token, userId) => {
+export const deleteUser = async (token, userId) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
 		Authorization: `Token ${ token }`
@@ -94,7 +94,7 @@ export const deleteUser = async(token, userId) => {
 	}
 };
 
-export const getUsers = async(token) => {
+export const getUsers = async (token) => {
 	axios.defaults.headers = {
 		'Content-Type': 'application/json',
 		Authorization: `Token ${ token }`
@@ -102,6 +102,20 @@ export const getUsers = async(token) => {
 
 	try {
 		const { data } = await axios.get(`${ BASE_URL_USERS }`);
+		return data;
+	} catch {
+		return false;
+	}
+};
+
+export const getUsersInSector = async (token, sectorID) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+		const { data } = await axios.get(`${ BASE_URL_USERS }users_in_sector/${ sectorID }/`);
 		return data;
 	} catch {
 		return false;
