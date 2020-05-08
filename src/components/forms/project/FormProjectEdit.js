@@ -100,7 +100,7 @@ class FormProjectEdit extends Component {
                 },
                 onCancel() {
                     notification.open({
-                        type: 'info',
+                        type: 'success',
                         message: 'Ação Cancelada',
                         description: 'Cancelamento de Conta Cancelada Com Sucesso!',
                     });
