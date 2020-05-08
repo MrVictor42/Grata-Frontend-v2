@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { EyeOutlined } from '@ant-design/icons';
 
 import FormProjectEdit from '../forms/project/FormProjectEdit';
-import Teste from '../forms/project/Teste';
+import FormAddUsersProject from '../forms/project/FormAddUsersProject';
+import FormRemoveUserProject from '../forms/project/FormRemoveUsersProject';
 
 import { getSector } from '../../store/sector';
 import { getUserToken, getUserId, getCurrentUser } from '../../store/user';
@@ -117,11 +118,10 @@ class SectorDetail extends Component {
                                                 ) : (
                                                     <Space 
                                                         size = 'middle' 
-                                                        style = {{ marginLeft: 180, marginRight: -220 }}
+                                                        style = {{ marginLeft: 100, marginRight: -220 }}
                                                     >
-                                                        <Button type = 'primary'> 
-                                                            <Teste />
-                                                        </Button>
+                                                        <FormAddUsersProject project = { record } />
+                                                        <FormRemoveUserProject project = { record } />
                                                         <Button type = 'primary'> 
                                                             <Link to = { `/projeto/${ record.slug }/`}>
                                                                 <EyeOutlined /> <b> Ver Reuniões </b>
