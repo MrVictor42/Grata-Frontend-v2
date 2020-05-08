@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Drawer, Button, List } from 'antd';
+import { Drawer, Button, List, Avatar } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 
+import DefaultUser from '../../img/default_user.jpg';
+
 import { getUserToken, getUsersInSector } from '../../store/user';
+import { getImage } from '../../store/images';
 import { sort } from '../../services/sortService';
 
 class SectorMembers extends Component {
@@ -19,8 +22,26 @@ class SectorMembers extends Component {
     async componentDidMount() {
         const token = getUserToken();
         const users = await getUsersInSector(token, this.props.sector.key);
+        let imageUser = null;
+        let final_users = { users: [] };
 
-        this.setState({ users: users });
+        for(let aux = 0; aux < users.length; aux ++) {
+            if(users[aux].image === null) {
+                users[aux].image = DefaultUser;
+            } else {
+                imageUser = await getImage(token, users[aux].image);
+                users[aux].image = imageUser.image;                
+            }
+            final_users.users.push({
+                id: users[aux].id,
+                name: users[aux].name,
+                email: users[aux].email,
+                ramal: users[aux].ramal,
+                image: users[aux].image
+            });
+        }
+        
+        this.setState({ users: final_users.users });
     }
 
     showDrawer = () => {
@@ -36,9 +57,11 @@ class SectorMembers extends Component {
         
         for(let aux = 0; aux < this.state.users.length; aux ++) {
             data.users.push({
+                key: this.state.users[aux].id,
                 name: this.state.users[aux].name,
                 email: this.state.users[aux].email,
                 ramal: this.state.users[aux].ramal,
+                image: this.state.users[aux].image
             });
         }
 
@@ -57,6 +80,7 @@ class SectorMembers extends Component {
                         renderItem = { user => (
                             <List.Item key = { user.key } >
                                 <List.Item.Meta
+                                    avatar = { <Avatar src = { user.image } /> }
                                     title = { `Nome: ${ user.name }` } 
                                     description = {
                                         <div>
