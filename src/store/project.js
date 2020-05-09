@@ -54,7 +54,7 @@ export const editProject = async (token, project) => {
 	};
 
 	try {
-        await axios.put(`${ BASE_URL_PROJECTS }update/${ project.id }/`, project);
+        await axios.put(`${ BASE_URL_PROJECTS }update/${ project.projectID }/`, project);
 		return true;    
 	} catch (err) {
 		console.log(err.message);
@@ -70,6 +70,20 @@ export const deleteProject = async (token, projectID) => {
 
 	try {
 		await axios.delete(`${ BASE_URL_PROJECTS }delete/${ projectID }/`);
+		return true;
+	} catch {
+		return false;
+	}
+};
+
+export const addUsersProject = async (token, project) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+	
+	try {
+		await axios.put(`${ BASE_URL_PROJECTS }add_users_project/${ project.projectID }/`, project);
 		return true;
 	} catch {
 		return false;

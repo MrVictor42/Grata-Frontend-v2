@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
+import { GithubOutlined, InstagramOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -33,7 +34,13 @@ const CustomLayout = (props) => {
 			<Footer className = 'footer'>
 				<b> 
 					Grata - Gerenciamento de Reuniões e Atas ©2020 
-					Criado por Victor Hugo Lopes Mota. 
+					Criado por Victor Hugo Lopes Mota. Contatos:
+					<a href = 'https://github.com/MrVictor42/'>
+						<GithubOutlined />
+					</a>
+					<a href = 'https://www.instagram.com/mrvictor42/'>
+						<InstagramOutlined />
+					</a>
 				</b>
 			</Footer>
 		</Layout>

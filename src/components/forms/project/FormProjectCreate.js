@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Drawer, Form, Button, Col, Row, Input, Select, Transfer, notification, Tag, Table } from 'antd';
+import { Drawer, Form, Button, Col, Row, Input, Select, notification } from 'antd';
 import { SaveOutlined, StopOutlined } from '@ant-design/icons';
-import difference from 'lodash/difference';
 import { withRouter } from 'react-router';
 
 import { getUserToken } from '../../../store/user';

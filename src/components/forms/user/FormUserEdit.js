@@ -77,19 +77,13 @@ class FormUserEdit extends Component {
         }
     }
 
-    async handleSubmit(values) {
+    async handleSubmit(values, sectorID) {
         const token = this.state.token;
         const image = new FormData();
         let type = typeUserValidate(values.type);
         let imageUser = null;
-        let imageID = null;
-        let sector = null;
-
-        if(values.sector === undefined || values.sector === null || values.sector === '') {
-            sector = null;
-        } else {
-            sector = values.sector;
-        }
+        let imageID = '';
+        let sector = values.sector;
 
         if(global.image === null) {
 
@@ -102,8 +96,13 @@ class FormUserEdit extends Component {
                 image.append('image', global.image, global.image.name);
                 imageUser = await saveImage(token, image);
                 imageID = imageUser.id;
-                console.log('imageID: ' + imageID)
             }
+        }
+
+        if(sector === undefined || sector === null) {
+            sector = sectorID;
+        } else {
+
         }
 
         let user = {
@@ -118,8 +117,6 @@ class FormUserEdit extends Component {
             description: values.description,
             image: imageID
         };
-
-        console.log(user)
 
         user = validateUpdate(user, this.props.user);
         const status = await updateUser(token, user);
@@ -185,7 +182,7 @@ class FormUserEdit extends Component {
                                 onClick = { () => {
                                     form.validateFields().then(values => {
                                         form.resetFields();
-                                        this.handleSubmit(values);
+                                        this.handleSubmit(values, sectorID);
                                     }).catch(info => {
                                         console.log('Validate Failed:', info);
                                     });

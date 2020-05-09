@@ -50,7 +50,7 @@ class FormUserCreate extends Component {
             notification.open({ 
                 type: 'success',
                 message: 'Usuário Criado',
-                description: `O Usuário ${ user.user } Foi Salvo Com Sucesso!`,
+                description: `O Usuário ${ values.name } Foi Salvo Com Sucesso!`,
             });
             notification.open({
                 type: 'info',

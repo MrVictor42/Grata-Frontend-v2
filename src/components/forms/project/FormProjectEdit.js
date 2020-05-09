@@ -41,8 +41,9 @@ class FormProjectEdit extends Component {
 
         if(values.status === undefined || values.status === 'pending' || values.status === 'empty') {
             const project = {
-                id: idProject,
+                projectID: idProject,
                 status: 'Pendente',
+                sector: this.props.sector.id,
                 title: title
             };
 
@@ -83,8 +84,9 @@ class FormProjectEdit extends Component {
             
                 onOk() {
                     const project = {
-                        id: idProject,
+                        projectID: idProject,
                         title: title,
+                        sector: this.props.sector.id,
                         status: 'Cancelada'
                     }
                     editProject(token, project);

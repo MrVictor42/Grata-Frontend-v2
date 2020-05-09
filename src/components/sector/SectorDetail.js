@@ -84,7 +84,9 @@ class SectorDetail extends Component {
                                     }
 
                                     return (
-                                        <Tag color = { color } key = { tag }>
+                                        <Tag color = { color } key = { tag } 
+                                            style = {{ marginLeft: 40, marginRight: -40 }}
+                                        >
                                             <b> { tag.toUpperCase() } </b> 
                                         </Tag>
                                     );
@@ -120,14 +122,20 @@ class SectorDetail extends Component {
                                                         size = 'middle' 
                                                         style = {{ marginLeft: 100, marginRight: -220 }}
                                                     >
-                                                        <FormAddUsersProject project = { record } />
+                                                        <FormAddUsersProject 
+                                                            project = { record }
+                                                            sector = { this.state.sector } 
+                                                        />
                                                         <FormRemoveUserProject project = { record } />
                                                         <Button type = 'primary'> 
                                                             <Link to = { `/projeto/${ record.slug }/`}>
                                                                 <EyeOutlined /> <b> Ver Reuniões </b>
                                                             </Link>
                                                         </Button>
-                                                        <FormProjectEdit project = { record }/>
+                                                        <FormProjectEdit 
+                                                            project = { record } 
+                                                            sector = { this.state.sector }
+                                                        />
                                                     </Space>
                                                 )
                                             }
