@@ -32,6 +32,14 @@ class FormUserCreate extends Component {
 
     async handleSubmit(values) {
         let is_administrator_valid = typeUserValidate(values.type_user);
+        let description = null;
+
+        if(values.description === undefined || values.description === '') {
+            description = 'Descrição Padrão';
+        } else {
+            description = values.description;
+        }
+
         const user = {
             username: values.username,
             email: values.email,
@@ -39,11 +47,12 @@ class FormUserCreate extends Component {
             password2: values.password1,
             is_administrator: is_administrator_valid,
             is_participant: !is_administrator_valid,
-            description: values.description,
+            description: description,
             name: values.name,
             ramal: values.ramal,
             sector: values.sector,
         };
+
         const status = await authSignup(user);
 
         if(status !== false) {
@@ -69,6 +78,8 @@ class FormUserCreate extends Component {
                 description: 'Se o Problema Persistir, Entre em Contato Com o Desenvolvedor.',
             });
         }
+
+        this.setState({ visible: false });
     }
 
     showDrawer = () => {

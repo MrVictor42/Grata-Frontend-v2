@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Drawer, Button, Transfer, Table, notification } from 'antd';
-import { SaveOutlined, StopOutlined } from '@ant-design/icons';
+import { SaveOutlined, StopOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import difference from 'lodash/difference';
 
@@ -77,11 +77,16 @@ class FormAddUsersProject extends Component {
 
 			status = await addUsersProject(token, project);
 
-			if(status !== true) {
+			if(status === true) {
 				notification.open({
 					type: 'success',
 					message: 'Membros Adicionados',
 					description: 'Os Usuários Foram Adicionados ao Projeto Com Sucesso!',
+				});
+				notification.open({
+					type: 'info',
+					message: 'Ação Requerida',
+					description: 'Por Favor, Atualize a Página!',
 				});
 				this.props.history.push(`/setor/${ this.props.sector.slug }`);
 			} else {
@@ -118,7 +123,7 @@ class FormAddUsersProject extends Component {
 		return (
 			<div>
 				<Button type = 'primary' onClick = { this.showDrawer } ghost>
-					Adicionar Membros
+					<UsergroupAddOutlined /> Adicionar Membros
 				</Button>
 				<Drawer
 					title = { `Adicionar/Remover Usuários do Projeto: ${ this.props.project.title }` }

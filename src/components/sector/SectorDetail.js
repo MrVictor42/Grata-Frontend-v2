@@ -6,6 +6,7 @@ import { EyeOutlined } from '@ant-design/icons';
 import FormProjectEdit from '../forms/project/FormProjectEdit';
 import FormAddUsersProject from '../forms/project/FormAddUsersProject';
 import FormRemoveUserProject from '../forms/project/FormRemoveUsersProject';
+import ProjectMembers from '../project/ProjectMembers';
 
 import { getSector } from '../../store/sector';
 import { getUserToken, getUserId, getCurrentUser } from '../../store/user';
@@ -85,7 +86,7 @@ class SectorDetail extends Component {
 
                                     return (
                                         <Tag color = { color } key = { tag } 
-                                            style = {{ marginLeft: 40, marginRight: -40 }}
+                                            style = {{ marginLeft: 20, marginRight: -20 }}
                                         >
                                             <b> { tag.toUpperCase() } </b> 
                                         </Tag>
@@ -101,11 +102,12 @@ class SectorDetail extends Component {
                         render: (record) => (
                             <span>
                                 {
-                                    currentUser.is_administrator === 'true' ? (
+                                    currentUser.is_administrator === false ? (
                                         <Space 
                                             size = 'middle'
-                                            style = {{ marginLeft: 180, marginRight: -220 }}
+                                            style = {{ marginLeft: 180, marginRight: -30 }}
                                         >
+                                            <ProjectMembers  project = { record } />
                                             <Button type = 'primary'> 
                                                 <Link to = { `/projeto/${ record.slug }/`}>
                                                     <EyeOutlined /> <b> Ver Reuniões </b>
@@ -120,13 +122,14 @@ class SectorDetail extends Component {
                                                 ) : (
                                                     <Space 
                                                         size = 'middle' 
-                                                        style = {{ marginLeft: 100, marginRight: -220 }}
+                                                        style = {{ marginLeft: 20, marginRight: -220 }}
                                                     >
                                                         <FormAddUsersProject 
                                                             project = { record }
                                                             sector = { this.state.sector } 
                                                         />
                                                         <FormRemoveUserProject project = { record } />
+                                                        <ProjectMembers  project = { record } />
                                                         <Button type = 'primary'> 
                                                             <Link to = { `/projeto/${ record.slug }/`}>
                                                                 <EyeOutlined /> <b> Ver Reuniões </b>
