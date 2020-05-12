@@ -128,7 +128,10 @@ class SectorDetail extends Component {
                                                             project = { record }
                                                             sector = { this.state.sector } 
                                                         />
-                                                        <FormRemoveUserProject project = { record } />
+                                                        <FormRemoveUserProject 
+                                                            project = { record }
+                                                            sector = { this.state.sector } 
+                                                        />
                                                         <ProjectMembers  project = { record } />
                                                         <Button type = 'primary'> 
                                                             <Link to = { `/projeto/${ record.slug }/`}>

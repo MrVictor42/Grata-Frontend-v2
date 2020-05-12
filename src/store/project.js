@@ -89,3 +89,17 @@ export const addUsersProject = async (token, project) => {
 		return false;
 	}
 };
+
+export const removeUsersProject = async (token, project) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+	
+	try {
+		await axios.put(`${ BASE_URL_PROJECTS }remove_users_project/${ project.projectID }/`, project);
+		return true;
+	} catch {
+		return false;
+	}
+};

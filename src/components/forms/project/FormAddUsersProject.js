@@ -4,7 +4,7 @@ import { SaveOutlined, StopOutlined, UsergroupAddOutlined } from '@ant-design/ic
 import { withRouter } from 'react-router-dom';
 import difference from 'lodash/difference';
 
-import { getUserToken, getUsers } from '../../../store/user';
+import { getUserToken, getUserNotInProject } from '../../../store/user';
 import { addUsersProject } from '../../../store/project';
 import { sort } from '../../../services/sortService';
 
@@ -29,7 +29,8 @@ class FormAddUsersProject extends Component {
 
 	async componentDidMount() {
         const token = getUserToken();
-		const users = await getUsers(token);
+		const projectID = this.props.project.key;
+		const users = await getUserNotInProject(token, projectID);
 
         this.setState({ 
 			users: users,
@@ -126,7 +127,7 @@ class FormAddUsersProject extends Component {
 					<UsergroupAddOutlined /> Adicionar Membros
 				</Button>
 				<Drawer
-					title = { `Adicionar/Remover Usuários do Projeto: ${ this.props.project.title }` }
+					title = { `Adicionar Usuários no Projeto: ${ this.props.project.title }` }
 					width = { 'auto' }
 					closable = { false }
 					onClose = { this.onClose }
@@ -139,7 +140,7 @@ class FormAddUsersProject extends Component {
                             <Button onClose = { this.onClose } type = 'primary' 
 								onClick = { this.handleSubmit }
 							>
-                                <SaveOutlined /> Cadastrar Membros na Reunião
+                                <SaveOutlined /> Cadastrar Membros no Projeto
                             </Button>
                         </div>
                     }
@@ -147,6 +148,7 @@ class FormAddUsersProject extends Component {
 					<TableTransfer
 						dataSource = { users_data.users }
 						targetKeys = { targetKeys }
+						operations = {[ 'Adicionar Usuários', 'Não Adicionar' ]}
 						onChange = { this.onChange }
 						showSearch = { showSearch }
 						filterOption = {( inputValue, item ) =>

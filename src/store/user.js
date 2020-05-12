@@ -135,3 +135,17 @@ export const getUserInProject = async (token, projectID) => {
 		return false;
 	}
 };
+
+export const getUserNotInProject = async (token, projectID) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+		const { data } = await axios.get(`${ BASE_URL_USERS }users_not_in_project/${ projectID }/`);
+		return data;
+	} catch {
+		return false;
+	}
+}

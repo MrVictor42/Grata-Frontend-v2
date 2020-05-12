@@ -70,7 +70,7 @@ class ProjectMembers extends Component {
         const FormProjectMembers = () => {
             return (
                 <Drawer
-                    title = { `Membros do Projeto: ${ this.props.project.title }` } 
+                    title = { `Membros no Projeto: ${ this.props.project.title }` } 
                     onClose = { this.onClose } width = { 720 }
                     visible = { this.state.visible } style = {{ height: 559 }}
                     footer = { null }
