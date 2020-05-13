@@ -76,7 +76,7 @@ class FormLogin extends Component {
         };
         return(
             <div>
-                <a className = 'textNavbar' onClick = { this.visibleForm }> Login </a>
+                <span className = 'textNavbar' onClick = { this.visibleForm }> Login </span>
                 <CollectionCreateForm />
             </div>
         );

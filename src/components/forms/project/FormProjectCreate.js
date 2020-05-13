@@ -45,6 +45,8 @@ class FormProjectCreate extends Component {
             sector: sector,
             status: statusProject
         }
+
+        console.log(project)
         const status = await saveProject(token, project);
 
         if(status !== false) {

@@ -70,11 +70,11 @@ class DropdownNav extends Component {
                         </Menu.Item>
                     </Menu> 
                 }>
-                    <a className = 'ant-dropdown-link'>
+                    <span className = 'ant-dropdown-link'>
                         <UserOutlined/> 
                             Olá, { username } 
                         <DownOutlined />
-                    </a>
+                    </span>
                 </Dropdown>
 
                 <Dropdown overlay = { 
@@ -93,9 +93,9 @@ class DropdownNav extends Component {
                         }
                     </Menu> 
                 }>
-                    <a className = 'ant-dropdown-link'>
+                    <span className = 'ant-dropdown-link'>
                         <EnvironmentOutlined/> Setor <DownOutlined />
-                    </a>
+                    </span>
                 </Dropdown>
 
                 {
@@ -108,9 +108,9 @@ class DropdownNav extends Component {
                                 </Menu.Item>
                             </Menu> 
                         }>
-                            <a className = 'ant-dropdown-link'>
+                            <span className = 'ant-dropdown-link'>
                                 <EnvironmentOutlined/> Projetos <DownOutlined />
-                            </a>
+                            </span>
                         </Dropdown>
                     ) : null
                 }
