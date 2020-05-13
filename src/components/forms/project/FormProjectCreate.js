@@ -5,7 +5,7 @@ import { withRouter } from 'react-router';
 
 import { getUserToken } from '../../../store/user';
 import { getSectors } from '../../../store/sector';
-import { saveProject } from '../../../store/project';
+import { saveProject, getAllProjects } from '../../../store/project';
 
 const { Option } = Select;
 
@@ -17,6 +17,7 @@ class FormProjectCreate extends Component {
         this.state = {
             visible: false,
             token: null,
+            projects: [],
             sectors: [],
         }
 
@@ -28,10 +29,12 @@ class FormProjectCreate extends Component {
     async componentDidMount() {
         const token = getUserToken();
         const sectors = await getSectors(token);
+        const projects = await getAllProjects(token);
 
         this.setState({ 
             sectors: sectors,
-            token: token 
+            token: token,
+            projects: projects 
         });
     }
 
@@ -44,29 +47,46 @@ class FormProjectCreate extends Component {
             title: title,
             sector: sector,
             status: statusProject
+        };
+        let project_valid = null;
+
+        for(let aux = 0; aux < this.state.projects.length; aux ++) {
+            if(this.state.projects[aux].title === title) {
+                project_valid = false;
+            } else {
+                project_valid = true;
+            }
         }
 
-        console.log(project)
-        const status = await saveProject(token, project);
-
-        if(status !== false) {
-            notification.open({ 
-                type: 'success',
-                message: 'Projeto Criado',
-                description: `O Projeto ${ project.title } Foi Salvo Com Sucesso!`,
-            });
-            this.props.history.push('/lista_de_setores');
-        } else {
+        if(project_valid === false) {
             notification.open({ 
                 type: 'error',
-                message: 'Projeto Não Foi Criado',
-                description: 'Não Foi Possível Cadastrar o Projeto! Tente Novamente!',
+                message: 'Projeto Não Criado',
+                description: 'Já Existe Um Projeto Com Este Nome/Título Neste ou em Outro Setor. ' +
+                             'Cadastre Com Outro Nome!' 
             });
-            notification.open({
-                type: 'info',
-                message: 'Ação Requerida',
-                description: 'Se o Problema Persistir, Entre em Contato Com o Desenvolvedor!',
-            });
+        } else {
+            const status = await saveProject(token, project);
+
+            if(status === true) {
+                notification.open({ 
+                    type: 'success',
+                    message: 'Projeto Criado',
+                    description: `O Projeto ${ project.title } Foi Salvo Com Sucesso!`,
+                });
+                this.props.history.push('/lista_de_setores');
+            } else {
+                notification.open({ 
+                    type: 'error',
+                    message: 'Projeto Não Foi Criado',
+                    description: 'Não Foi Possível Cadastrar o Projeto! Tente Novamente!',
+                });
+                notification.open({
+                    type: 'info',
+                    message: 'Ação Requerida',
+                    description: 'Se o Problema Persistir, Entre em Contato Com o Desenvolvedor!',
+                });
+            }
         }
     }
 

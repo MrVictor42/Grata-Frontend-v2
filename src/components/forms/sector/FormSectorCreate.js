@@ -4,7 +4,7 @@ import { SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router';
 
 import { getUserToken } from '../../../store/user';
-import { saveSector } from '../../../store/sector';
+import { saveSector, getSectors } from '../../../store/sector';
 
 class FormSectorCreate extends Component {
 
@@ -13,11 +13,23 @@ class FormSectorCreate extends Component {
 
         this.state = {
             visible: false,
+            token: null,
+            sectors: []
         }
     
         this.handleSubmit = this.handleSubmit.bind(this);
         this.showDrawer = this.showDrawer.bind(this);
         this.onClose = this.onClose.bind(this);
+    }
+
+    async componentDidMount() {
+        const token = getUserToken();
+        const sectors = await getSectors(token);
+
+        this.setState({ 
+            sectors: sectors,
+            token: token,
+        });
     }
 
     showDrawer = () => {
@@ -29,29 +41,49 @@ class FormSectorCreate extends Component {
     };
 
     async handleSubmit(values) {
-        const token = getUserToken();
-        const initials = values.initials;
-        const name = values.name;
-        const sector = {
-            name: name,
-            initials: initials
-        };
-        const status = await saveSector(token, sector);
 
-        if(status === true) {
-            notification.open({ 
-                type: 'success',
-                message: 'Setor Criado',
-                description: 'Setor Criado Com Sucesso!',
-            });
-            this.props.history.push('/lista_de_setores');
+        const sectors = this.state.sectors;
+
+        let found = sectors.find(sector => {
+            if(sector.name === values.name) {
+                return true;
+            } else {
+                return undefined;
+            }
+        });
+
+        if(found === 'undefined' || found === undefined) {
+            const token = this.state.token;
+            const initials = values.initials;
+            const name = values.name;
+
+            const sector = {
+                name: name,
+                initials: initials
+            };
+            const status = await saveSector(token, sector);
+
+            if(status === true) {
+                notification.open({ 
+                    type: 'success',
+                    message: 'Setor Criado',
+                    description: 'Setor Criado Com Sucesso!',
+                });
+                this.props.history.push('/lista_de_setores');
+            } else {
+                notification.open({ 
+                    type: 'error',
+                    message: 'Ação Requerida',
+                    description: 'Erro Inesperado.. Tente Novamente!',
+                });
+                this.props.history.push('/lista_de_setores');
+            }
         } else {
             notification.open({ 
                 type: 'error',
-                message: 'Ação Requerida',
-                description: 'Erro Inesperado.. Tente Novamente!',
+                message: 'Setor Não Criado',
+                description: 'Já Existe um Setor Com Este Nome! Por Favor, Cadastre Outro!',
             });
-            this.props.history.push('/lista_de_setores');
         }
     }
 

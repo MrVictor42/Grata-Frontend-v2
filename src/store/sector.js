@@ -54,7 +54,7 @@ export const editSector = async (token, sector) => {
 	};
 
 	try {
-        await axios.put(`${ BASE_URL_SECTORS }update/${ sector.id }/`, sector);
+        await axios.put(`${ BASE_URL_SECTORS }update/${ sector.sectorID }/`, sector);
 		return true;    
 	} catch (err) {
 		console.log(err.message);

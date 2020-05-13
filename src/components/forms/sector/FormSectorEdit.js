@@ -4,7 +4,7 @@ import { EditOutlined, SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router';
 
 import { getUserToken } from '../../../store/user';
-import { editSector } from '../../../store/sector';
+import { editSector, getSectors } from '../../../store/sector';
 
 class FormSectorEdit extends Component {
 
@@ -13,7 +13,8 @@ class FormSectorEdit extends Component {
     
         this.state = {
             visible: false,
-            token: null
+            token: null,
+            sectors: []
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,8 +24,12 @@ class FormSectorEdit extends Component {
 
     async componentDidMount() {
         const token = getUserToken();
+        const sectors = await getSectors(token);
 
-        this.setState({ token: token });
+        this.setState({ 
+            token: token,
+            sectors: sectors 
+        });
     }
 
     showDrawer = () => {
@@ -36,33 +41,54 @@ class FormSectorEdit extends Component {
     };
 
     async handleSubmit(values) {
-        const token = this.state.token;
-        const initials = values.initials;
-        const name = values.name;
-        const sector = {
-            id: this.props.sector.key,
-            name: name,
-            initials: initials
-        };
-        const status = await editSector(token, sector);
+        const sectors = this.state.sectors;
 
-        if(status === true) {
-            notification.open({ 
-                type: 'success',
-                message: 'Setor Editado',
-                description: 'Setor Editado Com Sucesso!',
-            });
-            notification.open({
-                type: 'info',
-                message: 'Ação Requerida',
-                description: 'Por Favor, Atualize a Página!',
-            });
-            this.props.history.push('/lista_de_setores');
+        let found = sectors.find(sector => {
+            if(sector.name === values.name) {
+                return true;
+            } else {
+                return undefined;
+            }
+        });
+
+        if(found === 'undefined' || found === undefined || this.props.sector.name === values.name) {
+            const token = this.state.token;
+            const initials = values.initials;
+            const name = values.name;
+            const sector = {
+                sectorID: this.props.sector.key,
+                name: name,
+                initials: initials
+            };
+            let status = null;
+
+            status = await editSector(token, sector);
+    
+            if(status === true) {
+                notification.open({ 
+                    type: 'success',
+                    message: 'Setor Editado',
+                    description: 'Setor Editado Com Sucesso!',
+                });
+                notification.open({
+                    type: 'info',
+                    message: 'Ação Requerida',
+                    description: 'Por Favor, Atualize a Página!',
+                });
+                this.props.history.push('/lista_de_setores');
+            } else {
+                notification.open({
+                    type: 'error',
+                    message: 'Ação Cancelada',
+                    description: 'Erro Inesperado.. Tente Novamente!',
+                });
+                this.props.history.push('/lista_de_setores');
+            }
         } else {
-            notification.open({
+            notification.open({ 
                 type: 'error',
-                message: 'Ação Cancelada',
-                description: 'Erro Inesperado.. Tente Novamente!',
+                message: 'Setor Não Atualizado',
+                description: 'Já Existe um Setor Com Este Nome! Por Favor, Cadastre Outro!',
             });
             this.props.history.push('/lista_de_setores');
         }

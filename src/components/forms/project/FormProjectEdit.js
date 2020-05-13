@@ -3,7 +3,7 @@ import { Drawer, Form, Button, Col, Row, Input, Select, Modal, notification } fr
 import { EditOutlined, SaveOutlined, StopOutlined } from '@ant-design/icons';
 
 import { getUserToken } from '../../../store/user';
-import { editProject } from '../../../store/project';
+import { editProject, getAllProjects } from '../../../store/project';
 
 const { Option } = Select;
 const { confirm } = Modal;
@@ -15,7 +15,8 @@ class FormProjectEdit extends Component {
     
         this.state = {
             visible: false,
-            token: null
+            token: null,
+            projects: []
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,8 +24,12 @@ class FormProjectEdit extends Component {
 
     async componentDidMount() {
         const token = getUserToken();
+        const projects = await getAllProjects(token);
 
-        this.setState({ token: token });
+        this.setState({ 
+            token: token,
+            projects: projects 
+        });
     }
 
     async handleSubmit(values) {
@@ -32,6 +37,7 @@ class FormProjectEdit extends Component {
         const token = this.state.token;
         let title = null;
         let statusProject = null;
+        let project_valid = null;
 
         if(values.title === undefined || values.title === '') {
             title = this.props.project.title;
@@ -39,75 +45,92 @@ class FormProjectEdit extends Component {
             title = values.title;
         }
 
-        if(values.status === undefined || values.status === 'pending' || values.status === 'empty') {
-            const project = {
-                projectID: idProject,
-                status: 'Pendente',
-                sector: this.props.sector.id,
-                title: title
-            };
-
-            statusProject = await editProject(token, project);
-
-            if(statusProject === true) {
-                notification.open({ 
-                    type: 'success',
-                    message: 'Projeto Atualizado',
-                    description: 'O Projeto Foi Atualizado Com Sucesso!.',
-                });
-                notification.open({
-                    type: 'info',
-                    message: 'Ação Requerida',
-                    description: 'Por Favor, Atualize a Página.',
-                });
+        for(let aux = 0; aux < this.state.projects.length; aux ++) {
+            if(this.state.projects[aux].title === title) {
+                project_valid = false;
             } else {
-                notification.open({ 
-                    type: 'error',
-                    message: 'Erro em Ação',
-                    description: 'Erro ao Atualizar o Projeto, Tente Novamente!.',
-                });
-                notification.open({
-                    type: 'info',
-                    message: 'Ação Requerida',
-                    description: 'Caso o Problema Persista, Entre em Contato com o Desenvolvedor!',
-                });
+                project_valid = true;
             }
+        }
+
+        if(project_valid === false) {
+            notification.open({ 
+                type: 'error',
+                message: 'Projeto Não Atualizado',
+                description: 'Já Existe Um Projeto Com Este Nome/Título Neste ou em Outro Setor. ' +
+                             'Utilize Outro Nome!'
+            });
         } else {
-            title = this.props.project.title;
-            confirm ({
-                title: 'Cancelamento de Projeto',
-                content: 'Tem Certeza Que Deseja Cancelar Este Projeto? Todas as Reuniões e ' + 
-                'Seus Documentos Serão Perdidos! do Projeto Serão Canceladas!',
-                okText: 'Sim',
-                okType: 'danger',
-                cancelText: 'Não',
-            
-                onOk() {
-                    const project = {
-                        projectID: idProject,
-                        title: title,
-                        sector: this.props.sector.id,
-                        status: 'Cancelada'
-                    }
-                    editProject(token, project);
-                    Modal.success({
-                        title: 'Ação Concluída!',
-                        content: 'Projeto Cancelado Com Sucesso!',
+            if(values.status === undefined || values.status === 'pending' || values.status === 'empty') {
+                const project = {
+                    projectID: idProject,
+                    status: 'Pendente',
+                    sector: this.props.sector.id,
+                    title: title
+                };
+    
+                statusProject = await editProject(token, project);
+    
+                if(statusProject === true) {
+                    notification.open({ 
+                        type: 'success',
+                        message: 'Projeto Atualizado',
+                        description: 'O Projeto Foi Atualizado Com Sucesso!.',
                     });
                     notification.open({
                         type: 'info',
                         message: 'Ação Requerida',
                         description: 'Por Favor, Atualize a Página.',
                     });
-                },
-                onCancel() {
-                    notification.open({
-                        type: 'success',
-                        message: 'Ação Cancelada',
-                        description: 'Cancelamento de Conta Cancelada Com Sucesso!',
+                } else {
+                    notification.open({ 
+                        type: 'error',
+                        message: 'Erro em Ação',
+                        description: 'Erro ao Atualizar o Projeto, Tente Novamente!.',
                     });
-                },
-            });
+                    notification.open({
+                        type: 'info',
+                        message: 'Ação Requerida',
+                        description: 'Caso o Problema Persista, Entre em Contato com o Desenvolvedor!',
+                    });
+                }
+            } else {
+                title = this.props.project.title;
+                confirm ({
+                    title: 'Cancelamento de Projeto',
+                    content: 'Tem Certeza Que Deseja Cancelar Este Projeto? Todas as Reuniões e ' + 
+                    'Seus Documentos Serão Perdidos! do Projeto Serão Canceladas!',
+                    okText: 'Sim',
+                    okType: 'danger',
+                    cancelText: 'Não',
+                
+                    onOk() {
+                        const project = {
+                            projectID: idProject,
+                            title: title,
+                            sector: this.props.sector.id,
+                            status: 'Cancelada'
+                        }
+                        editProject(token, project);
+                        Modal.success({
+                            title: 'Ação Concluída!',
+                            content: 'Projeto Cancelado Com Sucesso!',
+                        });
+                        notification.open({
+                            type: 'info',
+                            message: 'Ação Requerida',
+                            description: 'Por Favor, Atualize a Página.',
+                        });
+                    },
+                    onCancel() {
+                        notification.open({
+                            type: 'success',
+                            message: 'Ação Cancelada',
+                            description: 'Cancelamento de Conta Cancelada Com Sucesso!',
+                        });
+                    },
+                });
+            }
         }
     }
 
@@ -124,7 +147,7 @@ class FormProjectEdit extends Component {
             const [form] = Form.useForm();
             return(
                 <Drawer
-                    title = { `Editar o Setor: ${ this.props.project.title }` } 
+                    title = { `Editar o Projeto: ${ this.props.project.title }` } 
                     onClose = { this.onClose } width = { 720 }
                     visible = { this.state.visible } style = {{ height: 559 }}
                     footer = { 
