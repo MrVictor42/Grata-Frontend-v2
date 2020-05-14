@@ -33,45 +33,45 @@ class FormProjectEdit extends Component {
     }
 
     async handleSubmit(values) {
-        const idProject = this.props.project.key;
-        const token = this.state.token;
-        let title = null;
-        let statusProject = null;
-        let project_valid = null;
 
-        if(values.title === undefined || values.title === '') {
-            title = this.props.project.title;
-        } else {
-            title = values.title;
-        }
+        const projects = this.state.projects;
 
-        for(let aux = 0; aux < this.state.projects.length; aux ++) {
-            if(this.state.projects[aux].title === title) {
-                project_valid = false;
+        let found = projects.find(project => {
+            if(project.title === values.title) {
+                return true;
             } else {
-                project_valid = true;
+                return undefined;
             }
-        }
+        });
 
-        if(project_valid === false) {
-            notification.open({ 
-                type: 'error',
-                message: 'Projeto Não Atualizado',
-                description: 'Já Existe Um Projeto Com Este Nome/Título Neste ou em Outro Setor. ' +
-                             'Utilize Outro Nome!'
-            });
-        } else {
-            if(values.status === undefined || values.status === 'pending' || values.status === 'empty') {
+        if(found === 'undefined' || found === undefined 
+        || values.title === '' || values.title === undefined) {
+
+            const idProject = this.props.project.key;
+            const token = this.state.token;
+            let statusProject = null;
+            let title = null;
+            let sector = this.props.sector.id;
+
+            if(values.title === undefined || values.title === '') {
+                title = this.props.project.title;
+            } else {
+                title = values.title;
+            }
+
+            if(values.status === undefined || values.status === 'pending' 
+            || values.status === 'empty') {
+
                 const project = {
                     projectID: idProject,
                     status: 'Pendente',
                     sector: this.props.sector.id,
                     title: title
                 };
-    
+
                 statusProject = await editProject(token, project);
-    
-                if(statusProject === true) {
+
+                if(statusProject !== true) {
                     notification.open({ 
                         type: 'success',
                         message: 'Projeto Atualizado',
@@ -108,7 +108,7 @@ class FormProjectEdit extends Component {
                         const project = {
                             projectID: idProject,
                             title: title,
-                            sector: this.props.sector.id,
+                            sector: sector,
                             status: 'Cancelada'
                         }
                         editProject(token, project);
@@ -131,6 +131,13 @@ class FormProjectEdit extends Component {
                     },
                 });
             }
+        } else {
+            notification.open({ 
+                type: 'error',
+                message: 'Projeto Não Atualizado',
+                description: 'Já Existe Um Projeto Com Este Nome/Título Neste ou em Outro Setor. ' +
+                            'Utilize Outro Nome!'
+            });
         }
     }
 

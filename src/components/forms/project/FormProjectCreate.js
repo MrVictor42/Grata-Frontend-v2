@@ -39,36 +39,32 @@ class FormProjectCreate extends Component {
     }
 
     async handleSubmit(values) {
-        const token = this.state.token;
-        const title = values.title;
-        const sector = values.sector;
-        const statusProject = 'Pendente';
-        const project = {
-            title: title,
-            sector: sector,
-            status: statusProject
-        };
-        let project_valid = null;
 
-        for(let aux = 0; aux < this.state.projects.length; aux ++) {
-            if(this.state.projects[aux].title === title) {
-                project_valid = false;
+        const projects = this.state.projects;
+
+        let found = projects.find(project => {
+            if(project.title === values.title) {
+                return true;
             } else {
-                project_valid = true;
+                return undefined;
             }
-        }
+        });
 
-        if(project_valid === false) {
-            notification.open({ 
-                type: 'error',
-                message: 'Projeto Não Criado',
-                description: 'Já Existe Um Projeto Com Este Nome/Título Neste ou em Outro Setor. ' +
-                             'Cadastre Com Outro Nome!' 
-            });
-        } else {
+        if(found === 'undefined' || found === undefined) {
+            const token = this.state.token;
+            const title = values.title;
+            const sector = values.sector;
+            const statusProject = 'Pendente';
+            const project = {
+                title: title,
+                sector: sector,
+                status: statusProject,
+                slug: ''
+            };
+
             const status = await saveProject(token, project);
 
-            if(status === true) {
+            if(status !== true) {
                 notification.open({ 
                     type: 'success',
                     message: 'Projeto Criado',
@@ -87,6 +83,13 @@ class FormProjectCreate extends Component {
                     description: 'Se o Problema Persistir, Entre em Contato Com o Desenvolvedor!',
                 });
             }
+        } else {
+            notification.open({ 
+                type: 'error',
+                message: 'Projeto Não Criado',
+                description: 'Já Existe Um Projeto Com Este Nome/Título Neste ou em Outro Setor. ' +
+                             'Cadastre Com Outro Nome!' 
+            });
         }
     }
 

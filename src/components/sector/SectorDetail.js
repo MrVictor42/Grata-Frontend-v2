@@ -122,7 +122,7 @@ class SectorDetail extends Component {
                                                 ) : (
                                                     <Space 
                                                         size = 'middle' 
-                                                        style = {{ marginLeft: 20, marginRight: -220 }}
+                                                        style = {{ marginLeft: 20, marginRight: -240 }}
                                                     >
                                                         <FormAddUsersProject 
                                                             project = { record }
