@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { 
     DownOutlined, UserOutlined, TeamOutlined, 
     LogoutOutlined, UserAddOutlined, EnvironmentOutlined,
-    OrderedListOutlined, AppstoreAddOutlined 
+    OrderedListOutlined, AppstoreAddOutlined, AuditOutlined 
 } from '@ant-design/icons';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import FormSectorCreate from '../forms/sector/FormSectorCreate';
 import FormUserCreate from '../forms/user/FormUserCreate';
 import FormProjectCreate from '../forms/project/FormProjectCreate';
+import FormMeetingCreate from '../forms/meeting/FormMeetingCreate';
 
 import { getCurrentUser, getUserToken, getUserId } from '../../store/user';
 import { typeUser } from '../../services/userService';
@@ -110,6 +111,23 @@ class DropdownNav extends Component {
                         }>
                             <span className = 'ant-dropdown-link'>
                                 <EnvironmentOutlined/> Projetos <DownOutlined />
+                            </span>
+                        </Dropdown>
+                    ) : null
+                }
+
+                {
+                    type === 'Administrador' ? (
+                        <Dropdown overlay = { 
+                            <Menu>
+                                <Menu.Item key = '7'> 
+                                    <AppstoreAddOutlined />
+                                    <FormMeetingCreate />
+                                </Menu.Item>
+                            </Menu> 
+                        }>
+                            <span className = 'ant-dropdown-link'>
+                                <AuditOutlined/> Reuniões <DownOutlined />
                             </span>
                         </Dropdown>
                     ) : null
