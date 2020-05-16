@@ -9,6 +9,7 @@ import locale from 'antd/es/date-picker/locale/pt_BR';
 import moment from 'moment';
 
 import { getUserToken, getUsers } from '../../../store/user';
+import { getSectors } from '../../../store/sector';
 import { getAllProjects } from '../../../store/project';
 
 const { TextArea } = Input;
@@ -24,27 +25,26 @@ class FormMeetingCreate extends Component {
             token: null,
             projects: [],
             users: [],
-            initial_hour: null,
-            initial_date: null,
-            value: undefined
+            sector: [],
         }
 
         this.showDrawer = this.showDrawer.bind(this);
         this.onClose = this.onClose.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.onChangeInitialDate = this.onChangeInitialDate.bind(this);
     }
 
     async componentDidMount() {
         const token = getUserToken();
         const users = await getUsers(token);
         const projects = await getAllProjects(token);
+        const sector = await getSectors(token);
 
         this.setState({ 
             users: users,
             token: token,
-            projects: projects
+            projects: projects,
+            sector: sector
         });
     }
 
@@ -62,17 +62,12 @@ class FormMeetingCreate extends Component {
         console.log(values)
     }
     
-    onChangeInitialDate(date, dateString) {
-        this.setState({ initial_date: dateString });
-    }
-      
     onSearch(val) {
         console.log('search:', val);
     }
 
     render() {
         let data_users = { users: [] };
-        let data_project = { projects: [] };
 
         for(let aux = 0; aux < this.state.users.length; aux ++) {
             data_users.users.push({
@@ -81,18 +76,33 @@ class FormMeetingCreate extends Component {
             });
         }
 
-        for(let aux = 0; aux < this.state.projects.length; aux ++) {
-            if(this.state.projects[aux].status === 'Cancelada') {
+        let projects_list = [];
+        let data = { projects: [] }
+        let count = 0;
 
-            } else {
-                data_project.projects.push({
-                    key: this.state.projects[aux].id,
-                    title: this.state.projects[aux].sector,
-                    children: [{
-                        title: this.state.projects[aux].title
-                    }]
-                });
+        for(let aux = 0; aux < this.state.sector.length; aux ++) {
+            data.projects.push({
+                id: this.state.sector[aux].id,
+                title: this.state.sector[aux].name,
+                disabled: true
+            });
+            for(let auxProject = 0; auxProject < this.state.projects.length; auxProject ++) {
+                if(this.state.sector[aux].id === this.state.projects[auxProject].sector) {
+                    if(this.state.projects[auxProject].status === 'Cancelada') {
+
+                    } else {
+                        data.projects.push({
+                            pId: this.state.projects[auxProject].id,
+                            value: this.state.projects[auxProject].id,
+                            title: this.state.projects[auxProject].title
+                        });
+                    }
+                    projects_list[count] = this.state.projects[auxProject];
+                    count ++;
+                }
             }
+            count = 0;
+            projects_list = [];
         }
 
         const CreateFormMeeting = () => {
@@ -233,10 +243,9 @@ class FormMeetingCreate extends Component {
                                         style = {{ width: '100%' }}
                                         value = { this.state.value }
                                         dropdownStyle = {{ maxHeight: 400, overflow: 'auto' }}
-                                        treeData = { data_project.projects }
+                                        treeData = { data.projects }
                                         placeholder = 'Selecione o Projeto'
                                         treeDefaultExpandAll
-                                        onChange = { this.onChange }
                                     />
                                 </Form.Item>
                             </Col>
