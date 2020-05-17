@@ -11,6 +11,8 @@ import UserList from './components/user/UserList';
 import SectorDetail from './components/sector/SectorDetail';
 import SectorList from './components/sector/SectorList';
 
+import ProjectList from './components/project/ProjectList';
+
 const BaseRouter = (props) => (
     <Hoc>
         {
@@ -23,6 +25,8 @@ const BaseRouter = (props) => (
 
                     <Route exact path = '/setor/:slug' component = { SectorDetail } />
                     <Route exact path = '/lista_de_setores' component = { SectorList } />
+
+                    <Route exact path = '/projeto/:slug' component = { ProjectList } />
                 </div>
             )
         }

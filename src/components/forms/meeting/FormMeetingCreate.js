@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { 
     Drawer, Form, Button, Col, Row, Input, DatePicker, TimePicker, 
-    TreeSelect, Select 
+    TreeSelect, Select, notification 
 } from 'antd';
 import { SaveOutlined, StopOutlined } from '@ant-design/icons';
 import { withRouter } from 'react-router';
@@ -11,6 +11,7 @@ import moment from 'moment';
 import { getUserToken, getUsers } from '../../../store/user';
 import { getSectors } from '../../../store/sector';
 import { getAllProjects } from '../../../store/project';
+import { saveMeeting, getMeetings } from '../../../store/meeting';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -26,6 +27,7 @@ class FormMeetingCreate extends Component {
             projects: [],
             users: [],
             sector: [],
+            meetings: []
         }
 
         this.showDrawer = this.showDrawer.bind(this);
@@ -39,12 +41,14 @@ class FormMeetingCreate extends Component {
         const users = await getUsers(token);
         const projects = await getAllProjects(token);
         const sector = await getSectors(token);
+        const meetings = await getMeetings(token);
 
         this.setState({ 
             users: users,
             token: token,
             projects: projects,
-            sector: sector
+            sector: sector,
+            meetings: meetings
         });
     }
 
@@ -56,10 +60,66 @@ class FormMeetingCreate extends Component {
         this.setState({ visible: false });
     };
 
-    handleSubmit(values) {
-        console.log(values['initial_hour'].format('HH:mm:ss'))
-        console.log(values['initial_date'].format('DD/MM/YYYY'))
-        console.log(values)
+    async handleSubmit(values) {
+
+        const meetings = this.state.meetings;
+
+        let found = meetings.find(meeting => {
+            if(meeting.title === values.title) {
+                return true;
+            } else {
+                return undefined;
+            }
+        });
+
+        if(found === 'undefined' || found === undefined) {
+            const token = this.state.token;
+            const meeting = {
+                title: values.title,
+                meeting_leader: values.meeting_leader,
+                project: values.project,
+                subject_matter: values.subject_matter,
+                initial_date: values['initial_date'].format('DD/MM/YYYY'),
+                initial_hour: values['initial_hour'].format('HH:mm:ss'),
+                status: 'Pendente'
+            };
+            let slug = null;
+
+            for(let aux = 0; aux < this.state.projects.length; aux ++) {
+                if(this.state.projects[aux].id === values.project) {
+                    slug = this.state.projects[aux].slug;
+                }
+            }
+            
+            const status = await saveMeeting(token, meeting);
+
+            if(status !== true) {
+                notification.open({ 
+                    type: 'success',
+                    message: 'Reunião Criada',
+                    description: `A Reunião ${ meeting.title } Foi Salva Com Sucesso!`,
+                });
+                this.props.history.push(`/projeto/${ slug }`);
+            } else {
+                notification.open({ 
+                    type: 'error',
+                    message: 'Reunião Não Criada',
+                    description: 'Não Foi Possível Cadastrar a Reunião! Tente Novamente!',
+                });
+                notification.open({
+                    type: 'info',
+                    message: 'Ação Requerida',
+                    description: 'Se o Problema Persistir, Entre em Contato Com o Desenvolvedor!',
+                });
+            }            
+        } else {
+            notification.open({ 
+                type: 'error',
+                message: 'Reunião Não Criada',
+                description: 'Já Existe Uma Reunião Com Este Nome/Título Neste ou em Outro Setor. ' +
+                             'Cadastre Com Outro Nome!' 
+            });
+        }    
     }
     
     onSearch(val) {
@@ -213,7 +273,7 @@ class FormMeetingCreate extends Component {
                                 >
                                     <DatePicker
                                         locale = { locale }
-                                        defaultValue = { moment('09/07/2020', 'DD/MM/YYYY')} 
+                                        initialValues = { moment('09/07/2020', 'DD/MM/YYYY')} 
                                         format = { dateFormatList } 
                                     />
                                 </Form.Item>
@@ -228,7 +288,7 @@ class FormMeetingCreate extends Component {
                                 >
                                     <TimePicker 
                                         use24Hours
-                                        defaultOpenValue = { moment('00:00:00', 'HH:mm:ss')}
+                                        initialValues = { moment('00:00:00', 'HH:mm:ss')}
                                     />
                                 </Form.Item>
                             </Col>
