@@ -123,7 +123,7 @@ class FormRemoveUserProject extends Component {
         return (
             <div>
                 <Button onClick = { this.showDrawer } danger> 
-                    <UsergroupDeleteOutlined /> Remover Membros 
+                    <UsergroupDeleteOutlined /> <b> Remover Membros </b> 
                 </Button>
                 <Drawer
 					title = { `Remover Usuários do Projeto: ${ this.props.project.title }` }

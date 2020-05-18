@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Button } from 'antd';
+import { CaretRightOutlined } from '@ant-design/icons';
 
-export class MeetingDetail extends Component {
+class MeetingDetail extends Component {
     render() {
         return (
-            <div>
-                
-            </div>
+            <Button className = 'save'>
+                <CaretRightOutlined/> <b> Começar Reunião </b>
+            </Button>
         );
     }
 }

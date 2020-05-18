@@ -7,6 +7,7 @@ import FormProjectEdit from '../forms/project/FormProjectEdit';
 import FormAddUsersProject from '../forms/project/FormAddUsersProject';
 import FormRemoveUserProject from '../forms/project/FormRemoveUsersProject';
 import ProjectMembers from '../project/ProjectMembers';
+import TimeOfLine from '../project/TimeOfLineProject';
 
 import { getSector } from '../../store/sector';
 import { getUserToken, getUserId, getCurrentUser } from '../../store/user';
@@ -58,7 +59,7 @@ class SectorDetail extends Component {
         return (
             <Table 
                 dataSource = { data.projects } bordered className = 'userList'
-                pagination = {{ defaultPageSize: 4 }} 
+                pagination = {{ defaultPageSize: 4 }}
                 columns = {
                     [{
                         title: 'Título da Reunião',
@@ -85,9 +86,7 @@ class SectorDetail extends Component {
                                     }
 
                                     return (
-                                        <Tag color = { color } key = { tag } 
-                                            style = {{ marginLeft: 20, marginRight: -20 }}
-                                        >
+                                        <Tag color = { color } key = { tag } >
                                             <b> { tag.toUpperCase() } </b> 
                                         </Tag>
                                     );
@@ -120,10 +119,7 @@ class SectorDetail extends Component {
                                                 record.status === 'Cancelada' ? (
                                                     null 
                                                 ) : (
-                                                    <Space 
-                                                        size = 'middle' 
-                                                        style = {{ marginLeft: 20, marginRight: -240 }}
-                                                    >
+                                                    <Space size = 'middle'>
                                                         <FormAddUsersProject 
                                                             project = { record }
                                                             sector = { this.state.sector } 
@@ -133,6 +129,7 @@ class SectorDetail extends Component {
                                                             sector = { this.state.sector } 
                                                         />
                                                         <ProjectMembers  project = { record } />
+                                                        <TimeOfLine project = { record } />
                                                         <Button type = 'primary'> 
                                                             <Link to = { `/projeto/${ record.slug }/`}>
                                                                 <EyeOutlined /> <b> Ver Reuniões </b>
@@ -153,7 +150,7 @@ class SectorDetail extends Component {
                     },
                 ]}
             />
-        )
+        );
     }
 }
 

@@ -124,7 +124,7 @@ class FormAddUsersProject extends Component {
 		return (
 			<div>
 				<Button type = 'primary' onClick = { this.showDrawer } ghost>
-					<UsergroupAddOutlined /> Adicionar Membros
+					<UsergroupAddOutlined /> <b> Adicionar Membros </b>
 				</Button>
 				<Drawer
 					title = { `Adicionar Usuários no Projeto: ${ this.props.project.title }` }

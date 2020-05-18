@@ -11,7 +11,7 @@ import moment from 'moment';
 import { getUserToken, getUsers } from '../../../store/user';
 import { getSectors } from '../../../store/sector';
 import { getAllProjects } from '../../../store/project';
-import { saveMeeting, getMeetings } from '../../../store/meeting';
+import { saveMeeting, getAllMeetings } from '../../../store/meeting';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -41,7 +41,7 @@ class FormMeetingCreate extends Component {
         const users = await getUsers(token);
         const projects = await getAllProjects(token);
         const sector = await getSectors(token);
-        const meetings = await getMeetings(token);
+        const meetings = await getAllMeetings(token);
 
         this.setState({ 
             users: users,

@@ -99,7 +99,7 @@ class ProjectMembers extends Component {
         return (
             <div>
                 <Button type = 'default' onClick = { this.showDrawer }>
-                    <EyeOutlined /> Membros no Projeto
+                    <EyeOutlined /> <b> Membros no Projeto </b>
                 </Button>
                 <FormProjectMembers/>
             </div>
