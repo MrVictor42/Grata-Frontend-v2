@@ -61,3 +61,18 @@ export const saveMeeting = async (token, meeting) => {
 		return false;
 	}
 };
+
+export const editMeeting = async (token, meeting) => {
+    axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+        await axios.put(`${ BASE_URL_MEETING }update/${ meeting.meetingID }/`, meeting);
+		return true;    
+	} catch (err) {
+		console.log(err.message);
+		return false;
+	}
+}

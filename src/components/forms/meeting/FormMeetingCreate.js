@@ -61,7 +61,6 @@ class FormMeetingCreate extends Component {
     };
 
     async handleSubmit(values) {
-
         const meetings = this.state.meetings;
 
         let found = meetings.find(meeting => {

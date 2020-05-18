@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Table, Tag, Space } from 'antd';
+import { Table, Tag, Space } from 'antd';
 
 import MeetingMembers from '../meeting/MeetingMembers';
 import FormAddMembersMeeting from '../forms/meeting/FormAddMembersMeeting';
@@ -8,7 +8,7 @@ import FormEditMeeting from '../forms/meeting/FormEditMeeting';
 import StartMeeting from '../meeting/MeetingDetail';
 import Items from '../forms/meeting/items/Items';
 
-import { getUserId, getUserToken, getCurrentUser } from '../../store/user';
+import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
 import { getMeetings } from '../../store/meeting';
 import { sort } from '../../services/sortService';
 
@@ -19,7 +19,8 @@ export class ProjectList extends Component {
 	
 		this.state = {
 			currentUser: {},
-			meetings: []
+            meetings: [],
+            users: []
 		}
 	}
 
@@ -28,23 +29,39 @@ export class ProjectList extends Component {
         const slug = this.props.match.params.slug;
         const userId = getUserId();
 		const user = await getCurrentUser(token, userId);
-		const meetings = await getMeetings(token, slug);
+        const meetings = await getMeetings(token, slug);
+        const users = await getUsers(token);
 
         this.setState({ 
 			currentUser: user,
-			meetings: meetings 
+            meetings: meetings,
+            users: users 
 		});
 	}
 	
   	render() {
         const { currentUser } = this.state;
-		let data_meeting = { meeting: [] };
+        let data_meeting = { meeting: [] };
+        let meeting_leader = null;
+        let userID = null;
 
 		for(let aux = 0; aux < this.state.meetings.length; aux ++) {
+            for(let auxUsers = 0; auxUsers < this.state.users.length; auxUsers ++) {
+                if(this.state.meetings[aux].meeting_leader === this.state.users[auxUsers].id) {
+                    meeting_leader = this.state.users[auxUsers].name;
+                    userID = this.state.users[auxUsers].id;
+                }
+            }
 			data_meeting.meeting.push({
                 key: this.state.meetings[aux].id,
                 title: this.state.meetings[aux].title,
                 slug: this.state.meetings[aux].slug,
+                project: this.state.meetings[aux].project,
+                subject_matter: this.state.meetings[aux].subject_matter,
+                meeting_leader: meeting_leader,
+                userID: userID,
+                initial_date: this.state.meetings[aux].initial_date,
+                initial_hour: this.state.meetings[aux].initial_hour,
                 status: this.state.meetings[aux].status,
                 tags: [ this.state.meetings[aux].status ],
             });
@@ -109,7 +126,10 @@ export class ProjectList extends Component {
                                                         <MeetingMembers meeting = { record } />
                                                         <Items meeting = { record }/>
                                                         <StartMeeting meeting = { record } />
-                                                        <FormEditMeeting meeting = { record } />
+                                                        <FormEditMeeting 
+                                                            meeting = { record } 
+                                                            slug = { this.props.match.params.slug }
+                                                        />
                                                     </Space>
                                                 )
                                             }

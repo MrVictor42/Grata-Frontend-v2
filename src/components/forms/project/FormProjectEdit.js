@@ -20,6 +20,8 @@ class FormProjectEdit extends Component {
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onClose = this.onClose.bind(this);
+        this.showDrawer = this.showDrawer.bind(this);
     }
 
     async componentDidMount() {
@@ -111,7 +113,9 @@ class FormProjectEdit extends Component {
                             sector: sector,
                             status: 'Cancelada'
                         }
+
                         editProject(token, project);
+                        
                         Modal.success({
                             title: 'Ação Concluída!',
                             content: 'Projeto Cancelado Com Sucesso!',
@@ -126,7 +130,7 @@ class FormProjectEdit extends Component {
                         notification.open({
                             type: 'success',
                             message: 'Ação Cancelada',
-                            description: 'Cancelamento de Conta Cancelada Com Sucesso!',
+                            description: 'Cancelamento de Projeto Cancelado Com Sucesso!',
                         });
                     },
                 });
