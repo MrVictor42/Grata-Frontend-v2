@@ -106,7 +106,7 @@ class SectorDetail extends Component {
                                             size = 'middle'
                                             style = {{ marginLeft: 180, marginRight: -30 }}
                                         >
-                                            <ProjectMembers  project = { record } />
+                                            <ProjectMembers project = { record } />
                                             <Button type = 'primary'> 
                                                 <Link to = { `/projeto/${ record.slug }/`}>
                                                     <EyeOutlined /> <b> Ver Reuniões </b>

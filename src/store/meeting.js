@@ -76,3 +76,31 @@ export const editMeeting = async (token, meeting) => {
 		return false;
 	}
 }
+
+export const addUsersMeeting = async (token, meeting) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+	
+	try {
+		await axios.put(`${ BASE_URL_MEETING }add_users_meeting/${ meeting.meetingID }/`, meeting);
+		return true;
+	} catch {
+		return false;
+	}
+};
+
+export const removeUsersMeeting = async (token, meeting) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+	
+	try {
+		await axios.put(`${ BASE_URL_MEETING }remove_users_meeting/${ meeting.meetingID }/`, meeting);
+		return true;
+	} catch {
+		return false;
+	}
+};

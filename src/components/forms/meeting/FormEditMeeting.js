@@ -187,7 +187,6 @@ class FormEditMeeting extends Component {
     };
     
     render() {
-        console.log(this.props.meeting)
         const FormMeetingEdit = () => {
             const [form] = Form.useForm();
             return(

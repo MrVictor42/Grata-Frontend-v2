@@ -148,4 +148,46 @@ export const getUserNotInProject = async (token, projectID) => {
 	} catch {
 		return false;
 	}
-}
+};
+
+export const getUsersInMeeting = async (token, meetingID, projectID) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+		const { data } = await axios.get(`${ BASE_URL_USERS }users_in_project_and_meeting/${ meetingID }/${ projectID }/`);
+		return data;
+	} catch {
+		return false;
+	}
+};
+
+export const getUsersInProjectAndNotInMeeting = async (token, meetingID, projectID) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+		const { data } = await axios.get(`${ BASE_URL_USERS }users_in_project_and_not_in_meeting/${ meetingID }/${ projectID }`);
+		return data;
+	} catch {
+		return false;
+	}
+};
+
+export const getUsersNotInMeeting = async (token, meetingID) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+		const { data } = await axios.get(`${ BASE_URL_USERS }users_not_in_meeting/${ meetingID }/`);
+		return data;
+	} catch {
+		return false;
+	}
+};

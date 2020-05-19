@@ -54,8 +54,9 @@ class FormRemoveUserProject extends Component {
 		if(this.state.targetKeys === undefined || this.state.targetKeys.length === 0) {
 			notification.open({
 				type: 'warning',
-				message: 'Nenhuma Pessoa Selecionado',
-                description: 'Por Favor, Adicione Pelo Menos Uma Pessoa Para Remover do Projeto',
+				message: 'Nenhuma Pessoa Selecionada!',
+				description: 'Por Favor, Adicione Pelo Menos Uma Pessoa Para Remover do Projeto! ' + 
+							 'Ou Cancele Esta Ação de Retirar Usuário do Projeto!',
 			});
 		} else {
 			const token = this.state.token;
@@ -81,25 +82,25 @@ class FormRemoveUserProject extends Component {
 			if(status === true) {
 				notification.open({
 					type: 'success',
-					message: 'Membros Removidos',
+					message: 'Membros Removidos!',
 					description: 'Os Usuários Foram Removidos do Projeto Com Sucesso!',
 				});
 				notification.open({
 					type: 'info',
-					message: 'Ação Requerida',
+					message: 'Ação Requerida!',
 					description: 'Por Favor, Atualize a Página!',
 				});
 				this.props.history.push(`/setor/${ this.props.sector.slug }`);
 			} else {
 				notification.open({
 					type: 'error',
-					message: 'Erro ao Remover Membros',
+					message: 'Erro ao Remover Membros!',
 					description: 'Erro Inesperado... Não Foi Possível Remover ' +  
 								 'os Usuários do Projeto!',
 				});
 				notification.open({
 					type: 'info',
-					message: 'Ação Requerida',
+					message: 'Ação Requerida!',
 					description: 'Caso o Erro Persista, Entre em Contato Com o Desenvolvedor!',
 				});
 				this.props.history.push(`/setor/${ this.props.sector.slug }`);
