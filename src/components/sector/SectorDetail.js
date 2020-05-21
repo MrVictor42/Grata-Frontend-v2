@@ -132,7 +132,7 @@ class SectorDetail extends Component {
                                                         <TimeOfLine project = { record } />
                                                         <Button type = 'primary'> 
                                                             <Link to = { `/projeto/${ record.slug }/`}>
-                                                                <EyeOutlined /> <b> Ver Reuniões </b>
+                                                                <EyeOutlined /> <b> Ir a Reuniões </b>
                                                             </Link>
                                                         </Button>
                                                         <FormProjectEdit 

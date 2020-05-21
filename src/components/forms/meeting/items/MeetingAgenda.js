@@ -8,7 +8,7 @@ class MeetingAgenda extends Component {
         return (
             <Form form = { this.props.form }>
                 <h2 align = 'center'> Pautas da Reunião </h2>
-                <Form.List name = 'agenda'>
+                <Form.List name = 'agendas'>
                     {(fields, { add, remove }) => {
                         return (
                             <div>
@@ -34,6 +34,8 @@ class MeetingAgenda extends Component {
                                             <Input 
                                                 placeholder = 'Tópico da Pauta' 
                                                 style = {{ width: '60%' }} 
+                                                maxLength = { 40 } 
+                                                required = { true }
                                             />
                                         </Form.Item>
                                         { fields.length > 1 ? (

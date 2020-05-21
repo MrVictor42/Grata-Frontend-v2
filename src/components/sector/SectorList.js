@@ -87,7 +87,7 @@ class SectorList extends Component {
                                     actions = {[
                                         <Link to = { `/setor/${ sector.slug }` }>
                                             <Button type = 'primary'> 
-                                                <EyeOutlined /> <b> Ver Projetos </b> 
+                                                <EyeOutlined /> <b> Ir a Projetos </b> 
                                             </Button>
                                         </Link>, 
                                         <SectorMembers sector = { sector } />,

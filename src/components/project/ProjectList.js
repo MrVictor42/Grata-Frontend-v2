@@ -91,8 +91,10 @@ export class ProjectList extends Component {
                                     if (tag === 'Pendente') {
                                         color = 'orange';
                                     } else if(tag === 'Cancelada') {
-                                        color = 'red'
-                                    } 
+                                        color = 'red';
+                                    } else if(tag === 'Agendada') {
+                                        color = 'blue';
+                                    }
                                     else {
                                         color = 'green';
                                     }
@@ -120,17 +122,36 @@ export class ProjectList extends Component {
                                                 record.status === 'Cancelada' ? (
                                                     null 
                                                 ) : (
-                                                    <Space size = 'middle'>
-                                                        <FormAddMembersMeeting meeting = { record } />
-                                                        <FormRemoveMembersMeeting meeting = { record } />
-                                                        <MeetingMembers meeting = { record } />
-                                                        <Items meeting = { record }/>
-                                                        <StartMeeting meeting = { record } />
-                                                        <FormEditMeeting 
-                                                            meeting = { record } 
-                                                            slug = { this.props.match.params.slug }
-                                                        />
-                                                    </Space>
+                                                    <span>
+                                                        {
+                                                            record.status === 'Agendada' ? (
+                                                                <Space size = 'middle'>
+                                                                    <StartMeeting 
+                                                                        meeting = { record } 
+                                                                    />
+                                                                </Space>
+                                                            ) : (
+                                                                <Space size = 'middle'>
+                                                                    <FormAddMembersMeeting 
+                                                                        meeting = { record } 
+                                                                    />
+                                                                    <FormRemoveMembersMeeting 
+                                                                        meeting = { record } 
+                                                                    />
+                                                                    <MeetingMembers 
+                                                                        meeting = { record } 
+                                                                    />
+                                                                    <Items 
+                                                                        meeting = { record }
+                                                                    />
+                                                                    <FormEditMeeting 
+                                                                        meeting = { record } 
+                                                                        slug = { this.props.match.params.slug }
+                                                                    />
+                                                                </Space>
+                                                            )
+                                                        }
+                                                    </span>
                                                 )
                                             }
                                         </span>
