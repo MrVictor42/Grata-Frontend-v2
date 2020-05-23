@@ -113,7 +113,7 @@ class FormProjectCreate extends Component {
 
         const CreateFormProject = () => {
             const [form] = Form.useForm();
-            return(
+            return (
                 <Drawer
                     title = 'Registro de Projeto' onClose = { this.onClose } width = { 680 } 
                     visible = { this.state.visible } style = {{ height: 420 }}
