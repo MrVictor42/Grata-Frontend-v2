@@ -44,6 +44,9 @@ export class ProjectList extends Component {
         let data_meeting = { meeting: [] };
         let meeting_leader = null;
         let userID = null;
+        let rules_meeting = { rules: [] };
+        let agendas_meeting = { agendas: [] };
+        let users_meeting = { users: [] };
 
 		for(let aux = 0; aux < this.state.meetings.length; aux ++) {
             for(let auxUsers = 0; auxUsers < this.state.users.length; auxUsers ++) {
@@ -52,6 +55,24 @@ export class ProjectList extends Component {
                     userID = this.state.users[auxUsers].id;
                 }
             }
+            for(let auxRules = 0; auxRules < this.state.meetings[aux].rules.length; auxRules ++) {
+                rules_meeting.rules.push({
+                    key: this.state.meetings[aux].id, 
+                    title: this.state.meetings[aux].rules[auxRules] 
+                });
+            }
+            for(let auxAgendas = 0; auxAgendas < this.state.meetings[aux].agendas.length; auxAgendas ++) {
+                agendas_meeting.agendas.push({
+                    key: this.state.meetings[aux].id, 
+                    title: this.state.meetings[aux].agendas[auxAgendas] 
+                });
+            }
+            for(let auxUsers = 0; auxUsers < this.state.meetings[aux].users.length; auxUsers ++) {
+                users_meeting.users.push({
+                    key: this.state.meetings[aux].id,
+                    title: this.state.meetings[aux].users[auxUsers]
+                });
+            } 
 			data_meeting.meeting.push({
                 key: this.state.meetings[aux].id,
                 title: this.state.meetings[aux].title,
@@ -64,6 +85,9 @@ export class ProjectList extends Component {
                 initial_hour: this.state.meetings[aux].initial_hour,
                 status: this.state.meetings[aux].status,
                 tags: [ this.state.meetings[aux].status ],
+                rules: rules_meeting.rules,
+                agendas: agendas_meeting.agendas,
+                users: users_meeting.users
             });
 		}
 
