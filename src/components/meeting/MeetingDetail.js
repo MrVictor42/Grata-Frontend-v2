@@ -51,7 +51,6 @@ class MeetingDetail extends Component {
     };
 	
 	render() {
-		console.log(this.props.meeting.rules)
 		return (
 			<span>
 				<Button className = 'save' onClick = { this.showDrawer }>
