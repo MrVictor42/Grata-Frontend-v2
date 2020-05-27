@@ -21,6 +21,7 @@ const ButtonTimerMeeting = (props) => {
 						<Button danger onClick = { props.reset }>
 							Reiniciar Contador
 						</Button>
+						&nbsp;&nbsp; <Button onClick = { props.finish }> Finalizar Reunião </Button>
 					</span>
 				) : ''
 			}
@@ -34,6 +35,7 @@ const ButtonTimerMeeting = (props) => {
 						<Button danger onClick = { props.reset }>
 							Reiniciar Contador
 						</Button>
+						&nbsp;&nbsp; <Button onClick = { props.finish }> Finalizar Reunião </Button>
 					</span>
 				) : ''
 			}

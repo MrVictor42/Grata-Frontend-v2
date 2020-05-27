@@ -118,3 +118,17 @@ export const addItemsMeeting = async (token, meeting) => {
 		return false;
 	}
 };
+
+export const finishMeeting = (token, meeting) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+	
+	try {
+		axios.put(`${ BASE_URL_MEETING }finish_meeting/${ meeting.meetingID }/`, meeting);
+		return true;
+	} catch {
+		return false;
+	}
+};

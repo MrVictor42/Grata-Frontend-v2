@@ -51,6 +51,8 @@ class MeetingDetail extends Component {
     };
 	
 	render() {
+		const atualDate = this.state.atualDate;
+		const atualHour = this.state.atualHour 
 		return (
 			<span>
 				<Button className = 'save' onClick = { this.showDrawer }>
@@ -60,7 +62,11 @@ class MeetingDetail extends Component {
                     title = { `Reunião: ${ this.props.meeting.title } ` } closable = { false }
 					onClose = { this.onClose } visible = { this.state.visible } width = { '100%' }
                 >
-					<Timer /> <br />
+					<Timer 
+						token = { this.props.token } atualDate = { atualDate } atualHour = { atualHour } 
+						meeting = { this.props.meeting } slug = { this.props.slug }
+					/>  
+					<br />
 					<Descriptions 
 						title = { `Informações da Reunião: ${ this.props.meeting.title }` }
 						bordered column = {{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}

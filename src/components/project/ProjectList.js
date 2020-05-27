@@ -20,7 +20,8 @@ export class ProjectList extends Component {
 		this.state = {
 			currentUser: {},
             meetings: [],
-            users: []
+            users: [],
+            token: null
 		}
 	}
 
@@ -35,15 +36,18 @@ export class ProjectList extends Component {
         this.setState({ 
 			currentUser: user,
             meetings: meetings,
-            users: users 
+            users: users,
+            token: token 
 		});
 	}
 	
   	render() {
         const { currentUser } = this.state;
+        const token = this.state.token;
         let data_meeting = { meeting: [] };
         let meeting_leader = null;
         let userID = null;
+        let slug = this.props.match.params.slug;
         let rules_meeting = { rules: [] };
         let agendas_meeting = { agendas: [] };
         let users_meeting = { users: [] };
@@ -55,26 +59,31 @@ export class ProjectList extends Component {
                     userID = this.state.users[auxUsers].id;
                 }
             }
+
             for(let auxRules = 0; auxRules < this.state.meetings[aux].rules.length; auxRules ++) {
                 rules_meeting.rules.push({
-                    key: this.state.meetings[aux].id, 
-                    title: this.state.meetings[aux].rules[auxRules] 
-                });
+                    key: this.state.meetings[aux].rules[auxRules].id,
+                    title: this.state.meetings[aux].rules[auxRules]
+                })
             }
+
             for(let auxAgendas = 0; auxAgendas < this.state.meetings[aux].agendas.length; auxAgendas ++) {
                 agendas_meeting.agendas.push({
                     key: this.state.meetings[aux].id, 
                     title: this.state.meetings[aux].agendas[auxAgendas] 
                 });
             }
+
             for(let auxUsers = 0; auxUsers < this.state.meetings[aux].users.length; auxUsers ++) {
                 users_meeting.users.push({
                     key: this.state.meetings[aux].id,
                     title: this.state.meetings[aux].users[auxUsers]
                 });
             } 
-			data_meeting.meeting.push({
+
+            data_meeting.meeting.push({
                 key: this.state.meetings[aux].id,
+                meetingID: this.state.meetings[aux].id,
                 title: this.state.meetings[aux].title,
                 slug: this.state.meetings[aux].slug,
                 project: this.state.meetings[aux].project,
@@ -89,6 +98,10 @@ export class ProjectList extends Component {
                 agendas: agendas_meeting.agendas,
                 users: users_meeting.users
             });
+
+            rules_meeting.rules = [];
+            agendas_meeting.agendas = [];
+            users_meeting.users = [];
 		}
 
         data_meeting.meeting.sort(sort('title'));
@@ -133,6 +146,10 @@ export class ProjectList extends Component {
                             </span>
                         ),
                     },{
+                        title: 'Data da Reunião',
+                        dataIndex: 'initial_date',
+                        key: 'initial_date',
+                    },{
 						title: 'Opções',
 						key: 'action',
 						render: (record) => (
@@ -151,7 +168,9 @@ export class ProjectList extends Component {
                                                             record.status === 'Agendada' ? (
                                                                 <Space size = 'middle'>
                                                                     <StartMeeting 
-                                                                        meeting = { record } 
+                                                                        meeting = { record }
+                                                                        token = { token }
+                                                                        slug = { slug }
                                                                     />
                                                                 </Space>
                                                             ) : (
@@ -170,7 +189,7 @@ export class ProjectList extends Component {
                                                                     />
                                                                     <FormEditMeeting 
                                                                         meeting = { record } 
-                                                                        slug = { this.props.match.params.slug }
+                                                                        slug = { slug }
                                                                     />
                                                                 </Space>
                                                             )
