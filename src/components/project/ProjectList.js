@@ -7,12 +7,14 @@ import FormRemoveMembersMeeting from '../forms/meeting/FormRemoveMembersMeeting'
 import FormEditMeeting from '../forms/meeting/FormEditMeeting';
 import StartMeeting from '../meeting/MeetingDetail';
 import Items from '../forms/meeting/items/Items';
+import Record from '../meeting/record/Record';
+import Comment from '../meeting/comments/Comment';
 
 import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
 import { getMeetings } from '../../store/meeting';
 import { sort } from '../../services/sortService';
 
-export class ProjectList extends Component {
+class ProjectList extends Component {
 
 	constructor(props) {
 		super(props)
@@ -92,6 +94,9 @@ export class ProjectList extends Component {
                 userID: userID,
                 initial_date: this.state.meetings[aux].initial_date,
                 initial_hour: this.state.meetings[aux].initial_hour,
+                real_hour: this.state.meetings[aux].real_hour,
+                real_date: this.state.meetings[aux].real_date,
+                duration_time: this.state.meetings[aux].duration_time,
                 status: this.state.meetings[aux].status,
                 tags: [ this.state.meetings[aux].status ],
                 rules: rules_meeting.rules,
@@ -174,24 +179,39 @@ export class ProjectList extends Component {
                                                                     />
                                                                 </Space>
                                                             ) : (
-                                                                <Space size = 'middle'>
-                                                                    <FormAddMembersMeeting 
-                                                                        meeting = { record } 
-                                                                    />
-                                                                    <FormRemoveMembersMeeting 
-                                                                        meeting = { record } 
-                                                                    />
-                                                                    <MeetingMembers 
-                                                                        meeting = { record } 
-                                                                    />
-                                                                    <Items 
-                                                                        meeting = { record }
-                                                                    />
-                                                                    <FormEditMeeting 
-                                                                        meeting = { record } 
-                                                                        slug = { slug }
-                                                                    />
-                                                                </Space>
+                                                                <span>
+                                                                    {
+                                                                        record.status === 'Pendente' ? (
+                                                                            <Space size = 'middle'>
+                                                                                <FormAddMembersMeeting 
+                                                                                    meeting = { record } 
+                                                                                />
+                                                                                <FormRemoveMembersMeeting 
+                                                                                    meeting = { record } 
+                                                                                />
+                                                                                <MeetingMembers 
+                                                                                    meeting = { record } 
+                                                                                />
+                                                                                <Items 
+                                                                                    meeting = { record }
+                                                                                />
+                                                                                <FormEditMeeting 
+                                                                                    meeting = { record } 
+                                                                                    slug = { slug }
+                                                                                />
+                                                                            </Space>
+                                                                        ) : (
+                                                                            <Space size = 'middle'>
+                                                                                <Record 
+                                                                                    meeting = { record } 
+                                                                                />
+                                                                                <Comment
+                                                                                    meeting = { record }
+                                                                                />
+                                                                            </Space>
+                                                                        )
+                                                                    }
+                                                                </span>
                                                             )
                                                         }
                                                     </span>

@@ -20,11 +20,11 @@ class MeetingDetail extends Component {
 		this.checkTime = this.checkTime.bind(this);
 	}
 
-	checkTime(i) {
-		if (i < 10) {
-			i = '0' + i;
+	checkTime(value) {
+		if (value < 10) {
+			value = '0' + value;
 		}
-		return i;
+		return value;
 	}
 
 	showDrawer = () => {
@@ -83,19 +83,19 @@ class MeetingDetail extends Component {
 						<Descriptions.Item label = { <b> Horário Programado da Reunião </b> }>
 							{ this.props.meeting.initial_hour }
 						</Descriptions.Item>
-						<Descriptions.Item label = { <b> Horário de Inicio Real da Reunião </b> }>
+						<Descriptions.Item label = { <b> Horário de Inicio Real da Reunião </b> } span = { 2 }>
 							{ this.state.atualHour }
 						</Descriptions.Item>
 						<Descriptions.Item label = { <b> Data Programada da Reunião </b>}>
 							{ this.props.meeting.initial_date }
 						</Descriptions.Item>
-						<Descriptions.Item label = { <b> Data Real da Reunião </b> }>
+						<Descriptions.Item label = { <b> Data Real da Reunião </b> } span = { 2 }>
 							{ this.state.atualDate }
 						</Descriptions.Item>
-						<Descriptions.Item label = { <b> Ementa </b> }>
+						<Descriptions.Item label = { <b> Ementa </b> } span = { 3 }>
 							{ this.props.meeting.subject_matter }
 						</Descriptions.Item>
-						<Descriptions.Item label = { <b> Usuários na Reunião </b> }>
+						<Descriptions.Item label = { <b> Usuários na Reunião </b> } span = { 3 }>
 							<ul>
 								{
 									this.props.meeting.users.map(user => 
@@ -104,7 +104,7 @@ class MeetingDetail extends Component {
 								}
 							</ul>
 						</Descriptions.Item>
-						<Descriptions.Item label = { <b> Pautas da Reunião </b> }>
+						<Descriptions.Item label = { <b> Pautas da Reunião </b> } span = { 3 }>
 							<ul>
 								{
 									this.props.meeting.agendas.map(agenda => 
@@ -113,7 +113,7 @@ class MeetingDetail extends Component {
 								}
 							</ul>
 						</Descriptions.Item>
-						<Descriptions.Item label = { <b> Regras da Reunião </b> }>
+						<Descriptions.Item label = { <b> Regras da Reunião </b> } span = { 3 }>
 							<ul>
 								{
 									this.props.meeting.rules.map(rules => 
