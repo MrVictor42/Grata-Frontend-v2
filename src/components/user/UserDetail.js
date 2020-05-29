@@ -90,7 +90,7 @@ class UserDetail extends Component {
                 </div>
                 <div class = 'item2'>
                      <Content> 
-                         <UserPhoto user = { currentUser } image = { this.state.image }/>
+                        <UserPhoto user = { currentUser } image = { this.state.image }/>
                      </Content>
                 </div>
             </div>

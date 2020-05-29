@@ -21,7 +21,7 @@ class Record extends Component {
     };
 
     onClose = () => {
-            this.setState({ visible: false });
+		this.setState({ visible: false });
     };    
 
     render() {
@@ -32,7 +32,7 @@ class Record extends Component {
                 </Button>
                 <Drawer
 				    title = { `Ata da Reunião: ${ this.props.meeting.title }` }
-					width = { 'auto' }
+					width = { '100%' }
 					closable = { true }
 					onClose = { this.onClose }
 					visible = { this.state.visible }
