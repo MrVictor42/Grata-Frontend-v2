@@ -74,16 +74,7 @@ class FormProjectEdit extends Component {
                 statusProject = await editProject(token, project);
 
                 if(statusProject !== true) {
-                    notification.open({ 
-                        type: 'success',
-                        message: 'Projeto Atualizado',
-                        description: 'O Projeto Foi Atualizado Com Sucesso!.',
-                    });
-                    notification.open({
-                        type: 'info',
-                        message: 'Ação Requerida',
-                        description: 'Por Favor, Atualize a Página.',
-                    });
+                    window.location.reload(false);
                 } else {
                     notification.open({ 
                         type: 'error',

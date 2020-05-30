@@ -36,7 +36,17 @@ class FormAddUsersProject extends Component {
 			users: users,
 			token: token 
 		});
-    }
+	}
+	
+	async componentDidUpdate(prevProps) {
+		if(prevProps.users !== this.state.users) {
+			const token = this.state.token;
+			const projectID = this.props.project.key;
+			const users = await getUserNotInProject(token, projectID);
+
+			this.setState({ users: users });
+		}
+	}
 	
     showDrawer = () => {
       	this.setState({ visible: true });
@@ -83,11 +93,6 @@ class FormAddUsersProject extends Component {
 					type: 'success',
 					message: 'Membros Adicionados',
 					description: 'Os Usuários Foram Adicionados ao Projeto Com Sucesso!',
-				});
-				notification.open({
-					type: 'info',
-					message: 'Ação Requerida',
-					description: 'Por Favor, Atualize a Página!',
 				});
 				this.props.history.push(`/setor/${ this.props.sector.slug }`);
 			} else {

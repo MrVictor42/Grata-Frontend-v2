@@ -53,8 +53,8 @@ class CommentList extends Component {
 		});
 	}
 	
-	async componentDidUpdate(prevProps, prevState) {
-		if(prevProps.comments.length !== this.state.comments.length) {
+	async componentDidUpdate(prevProps) {
+		if(prevProps.comments !== this.state.comments) {
 			const token = this.state.token;
 			const meetingID = this.props.meeting.meetingID;
 			const projectID = this.props.meeting.project;

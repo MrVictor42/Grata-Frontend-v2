@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { 
-    Input, Button, Form, message, Drawer, Col, Row, Select, InputNumber, notification 
+    Input, Button, Form, message, Drawer, Col, Row, Select, InputNumber, notification  
 } from 'antd';
 import { EditOutlined, SaveOutlined, StopOutlined } from '@ant-design/icons';
 
@@ -123,16 +123,7 @@ class FormUserEdit extends Component {
         global.image = null;
 
         if(status === true) {
-            notification.open({ 
-                type: 'success',
-                message: 'Usuário Atualizado',
-                description: 'Informações Atualizadas com Sucesso!',
-            });
-            notification.open({
-                type: 'info',
-                message: 'Ação Requerida',
-                description: 'Por Favor, Atualize a Página.',
-            });
+            window.location.reload(false);
         } else {
             notification.open({ 
                 type: 'error',
