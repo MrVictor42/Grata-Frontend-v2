@@ -14,6 +14,7 @@ class CommentList extends Component {
 	
 		this.state = {
 			comments: [],
+			token: null
 		}
 	}
 
@@ -46,8 +47,45 @@ class CommentList extends Component {
 			});
 		}
 
-        this.setState({ comments: comment_list.comments });
-    }
+        this.setState({ 
+			comments: comment_list.comments,
+			token: token 
+		});
+	}
+	
+	async componentDidUpdate(prevProps, prevState) {
+		if(prevProps.comments !== this.state.comments) {
+			const token = this.state.token;
+			const meetingID = this.props.meeting.meetingID;
+			const projectID = this.props.meeting.project;
+			const comments = await getComments(token, meetingID);
+			const users = await getUsersInMeeting(token, meetingID, projectID);
+			let imageUser = null;
+			let imageFinal = null;
+			let comment_list = { comments: [] };
+
+			for(let auxComment = 0; auxComment < comments.length; auxComment ++) {
+				for(let auxUsers = 0; auxUsers < users.length; auxUsers ++) {
+					if(comments[auxComment].user === users[auxUsers].name) {
+						if(users[auxUsers].image === null) {
+							imageFinal = DefaultUser;
+						} else {
+							imageUser = await getImage(token, users[auxUsers].image);
+							imageFinal = imageUser.image;
+						}
+					}
+				}
+				comment_list.comments.push({
+					id: comments[auxComment].id,
+					user: comments[auxComment].user,
+					description: comments[auxComment].description,
+					image: imageFinal
+				});
+			}
+
+			this.setState({ comments: comment_list.comments });
+		}
+	}
 
     render() {
 		let comment_list = { comments: [] };

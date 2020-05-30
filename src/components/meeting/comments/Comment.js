@@ -34,7 +34,7 @@ export class Comment extends Component {
                 </Button>
                 <Drawer
                     title = { `Comentários da Reunião: ${ this.props.meeting.title }` }
-                    width = { '100%' }
+                    width = { 'auto' }
 					closable = { true }
 					onClose = { this.onClose }
 					visible = { this.state.visible }

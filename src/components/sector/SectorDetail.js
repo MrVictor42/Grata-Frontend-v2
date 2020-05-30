@@ -7,7 +7,6 @@ import FormProjectEdit from '../forms/project/FormProjectEdit';
 import FormAddUsersProject from '../forms/project/FormAddUsersProject';
 import FormRemoveUserProject from '../forms/project/FormRemoveUsersProject';
 import ProjectMembers from '../project/ProjectMembers';
-import TimeOfLine from '../project/TimeOfLineProject';
 
 import { getSector } from '../../store/sector';
 import { getUserToken, getUserId, getCurrentUser } from '../../store/user';
@@ -129,7 +128,6 @@ class SectorDetail extends Component {
                                                             sector = { this.state.sector } 
                                                         />
                                                         <ProjectMembers  project = { record } />
-                                                        <TimeOfLine project = { record } />
                                                         <Button type = 'primary'> 
                                                             <Link to = { `/projeto/${ record.slug }/`}>
                                                                 <EyeOutlined /> <b> Ir a Reuniões </b>
