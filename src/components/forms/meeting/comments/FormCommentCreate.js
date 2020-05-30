@@ -4,6 +4,7 @@ import { Comment, Avatar, Form, Button, Input } from 'antd';
 import DefaultUser from '../../../../img/default_user.jpg';
 import { getCurrentUser, getUserToken, getUserId } from '../../../../store/user';
 import { getImage } from '../../../../store/images';
+import { saveComment } from '../../../../store/comments';
 
 const { TextArea } = Input;
 
@@ -14,6 +15,7 @@ class FormCommentCreate extends Component {
     
         this.state = {
             value: null,
+            token: null,
             currentUser: {},
             submitting: false
         }
@@ -32,22 +34,38 @@ class FormCommentCreate extends Component {
             user.image = imageUser.image;
         }
 
-        this.setState({ currentUser: user });
+        this.setState({ 
+            currentUser: user,
+            token: token
+        });
     }
 
     handleSubmit = () => {
         if (!this.state.value) {
             return;
+        } else {
+            this.setState({ submitting: true });
+
+            const userID = this.state.currentUser.id;
+            const meetingID = this.props.meeting.meetingID;
+            const description = this.state.value;
+            const token = this.state.token;
+
+            const comments = {
+                meeting: meetingID,
+                user: userID,
+                description: description
+            };
+
+            saveComment(token, comments);
+
+            setTimeout(() => {
+                this.setState({ 
+                    submitting: false,
+                    value: '' 
+                });
+            }, 1000);
         }
-
-        this.setState({ submitting: true });
-
-        setTimeout(() => {
-            this.setState({ 
-                submitting: false,
-                value: '' 
-            });
-        }, 1000);
     };
     
     handleChange = e => {

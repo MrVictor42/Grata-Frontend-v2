@@ -1,25 +1,79 @@
 import React, { Component } from 'react';
-import { Comment, Tooltip, List } from 'antd';
-import moment from 'moment';
+import { Comment, List } from 'antd';
+
+import { getComments } from '../../../store/comments';
+import { getUserToken, getUsersInMeeting } from '../../../store/user';
+import { getImage } from '../../../store/images';
+
+import DefaultUser from '../../../img/default_user.jpg';
 
 class CommentList extends Component {
 
+	constructor(props) {
+		super(props)
+	
+		this.state = {
+			comments: [],
+		}
+	}
+
+	async componentDidMount() {
+		const token = getUserToken();
+		const meetingID = this.props.meeting.meetingID;
+		const projectID = this.props.meeting.project;
+		const comments = await getComments(token, meetingID);
+		const users = await getUsersInMeeting(token, meetingID, projectID);
+		let imageUser = null;
+		let imageFinal = null;
+		let comment_list = { comments: [] };
+
+		for(let auxComment = 0; auxComment < comments.length; auxComment ++) {
+			for(let auxUsers = 0; auxUsers < users.length; auxUsers ++) {
+				if(comments[auxComment].user === users[auxUsers].name) {
+					if(users[auxUsers].image === null) {
+						imageFinal = DefaultUser;
+					} else {
+						imageUser = await getImage(token, users[auxUsers].image);
+                		imageFinal = imageUser.image;
+					}
+				}
+			}
+			comment_list.comments.push({
+				id: comments[auxComment].id,
+				user: comments[auxComment].user,
+				description: comments[auxComment].description,
+				image: imageFinal
+			});
+		}
+
+        this.setState({ comments: comment_list.comments });
+    }
+
     render() {
+		let comment_list = { comments: [] };
+
+		for(let aux = 0; aux < this.state.comments.length; aux ++) {
+			comment_list.comments.push({
+				key: this.state.comments[aux].id,
+				content: this.state.comments[aux].description,
+				author: this.state.comments[aux].user,
+				image: this.state.comments[aux].image
+			});
+		}
+
         return (
             <List
 				className = 'comment-list'
-				header = { `${data.length} Comentários` }
+				header = { `${ comment_list.comments.length } Comentários` }
 				itemLayout = 'horizontal'
-				dataSource = { data }
+				dataSource = { comment_list.comments }
 				style = {{ marginLeft: 450, marginTop: -230 }}
 				renderItem = { item => (
 					<li>
 						<Comment
-							actions = { item.actions }
 							author = { item.author }
-							avatar = { item.avatar }
+							avatar = { item.image }
 							content = { item.content }
-							datetime = { item.datetime }
 						/>
 					</li>
 				)}
@@ -27,508 +81,5 @@ class CommentList extends Component {
         );
     }
 }
-
-const data = [
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(1, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(1, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-    {
-      actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-      author: 'Han Solo',
-      avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-      content: (
-        <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
-        </p>
-      ),
-      datetime: (
-        <Tooltip
-          title={moment()
-            .subtract(2, 'days')
-            .format('YYYY-MM-DD HH:mm:ss')}
-        >
-          <span>
-            {moment()
-              .subtract(2, 'days')
-              .fromNow()}
-          </span>
-        </Tooltip>
-      ),
-    },
-  ];
 
 export default CommentList;

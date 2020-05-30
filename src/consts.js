@@ -10,3 +10,4 @@ export const BASE_URL_PROJECTS = 'http://0.0.0.0:8000/projects/';
 export const BASE_URL_MEETING = 'http://0.0.0.0:8000/meetings/';
 export const BASE_URL_RULES = 'http://0.0.0.0:8000/rules/';
 export const BASE_URL_AGENDAS = 'http://0.0.0.0:8000/agendas/';
+export const BASE_URL_COMMENTS = 'http://0.0.0.0:8000/comments/';
