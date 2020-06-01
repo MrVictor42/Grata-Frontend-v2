@@ -84,6 +84,8 @@ class CommentList extends Component {
 			}
 
 			this.setState({ comments: comment_list.comments });
+		} else {
+			
 		}
 	}
 

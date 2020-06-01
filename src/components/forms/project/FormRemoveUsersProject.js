@@ -38,16 +38,6 @@ class FormRemoveUserProject extends Component {
 		});
 	}
 	
-	async componentDidUpdate(prevProps) {
-		if(prevProps.users !== this.state.users) {
-			const token = this.state.token;
-			const projectID = this.props.project.key;
-			const users = await getUserInProject(token, projectID);
-
-			this.setState({ users: users });
-		}
-	}
-	
     showDrawer = () => {
       	this.setState({ visible: true });
     };

@@ -9,6 +9,9 @@ import StartMeeting from '../meeting/MeetingDetail';
 import Items from '../forms/meeting/items/Items';
 import Record from '../meeting/record/Record';
 import Comment from '../meeting/comments/Comment';
+import FormCreateQuiz from '../forms/meeting/quiz/FormCreateQuiz';
+import RespondQuiz from '../meeting/quiz/RespondQuiz';
+import ResultQuiz from '../meeting/quiz/ResultQuiz';
 
 import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
 import { getMeetings } from '../../store/meeting';
@@ -206,6 +209,15 @@ class ProjectList extends Component {
                                                                                     meeting = { record } 
                                                                                 />
                                                                                 <Comment
+                                                                                    meeting = { record }
+                                                                                />
+                                                                                <FormCreateQuiz 
+                                                                                    meeting = { record }
+                                                                                />
+                                                                                <RespondQuiz 
+                                                                                    meeting = { record }
+                                                                                />
+                                                                                <ResultQuiz 
                                                                                     meeting = { record }
                                                                                 />
                                                                             </Space>
