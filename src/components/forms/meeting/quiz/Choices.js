@@ -18,7 +18,7 @@ class Choices extends Component {
 				{ this.props.choices.map((choice, index) => {
 					return (
 						<Radio style = { radioStyle } value = { choice } key = { index }>
-						{ choice }
+							{ choice }
 						</Radio>
 					);
 				})}

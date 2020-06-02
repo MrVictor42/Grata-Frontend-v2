@@ -1,134 +1,163 @@
 import React, { Component } from 'react';
-import { Button, Drawer, Form, Col, Row, Input } from 'antd';
-import { PlusOutlined, SaveOutlined, StopOutlined, MinusCircleOutlined } from '@ant-design/icons';
+import { Button, Input, Divider, notification } from 'antd';
+import { Form } from '@ant-design/compatible';
+import { PlusOutlined, MinusCircleOutlined, SaveOutlined } from '@ant-design/icons';
+import { withRouter } from 'react-router-dom';
 
-let id = 0;
+import QuestionForm from './QuestionForm';
+import Hoc from '../../../../hoc/hoc';
 
-export class FormCreateQuiz extends Component {
+import { addQuesttionaire } from '../../../../store/meeting';
+import { getUserToken } from '../../../../store/user';
+
+class FormCreateQuiz extends Component {
 
     constructor(props) {
         super(props)
     
         this.state = {
-            visible: false
+            formCount: 1,
+            formLayout: 'vertical'
         }
-
-        this.showDrawer = this.showDrawer.bind(this);
-        this.onClose = this.onClose.bind(this);
+        
+        this.add = this.add.bind(this);
+        this.remove = this.remove.bind(this);
     }
 
-    showDrawer = () => {
-        this.setState({ visible: true });
+    add = () => {
+        const { formCount } = this.state;
+        this.setState({
+            formCount: formCount + 1
+        });
     };
     
-    onClose = () => {
-        this.setState({ visible: false });
+    remove = () => {
+        const { formCount } = this.state;
+        this.setState({
+            formCount: formCount - 1
+        });
     };
 
-    remove = k => {
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                const questions = [];
+                const token = getUserToken();
+                const slugProjet = this.props.match.params.slugProjeto;
+                let status = null;
 
-        const { form } = this.props;
-		const keys = [form.getFieldValue('keys')];
-		
-		if (keys.length === 1) return;
-		
-		form.setFieldsValue({
-			keys: keys.filter(key => key !== k)
-		});
-	};
+                for (let aux = 0; aux < values.questions.length; aux ++) {
+                    questions.push({
 
-  	add = () => {
-		
-		const { form } = this.props;
-		const keys = [form.getFieldValue('keys')];
-		const nextKeys = keys.concat(++id);
-		
-		form.setFieldsValue({
-			keys: nextKeys
-		});
-  	};
+                        title: values.question[aux],
+                        choices: values.questions[aux].choices.filter(el => el !== null)
+                    });
+                }
+
+                const questtionaire = {
+                    title: values.title,
+                    questions
+                }
+
+                const meeting = {
+                    slug: this.props.match.params.slug,
+                    questtionaire: questtionaire
+                }
+
+                status = addQuesttionaire(token, meeting);
+                if(status === true) {
+                    notification.open({
+                        type: 'success',
+                        message: 'Questionário Criado!',
+                        description: 'O Questionário Foi Criado Com Sucesso!',
+                    });
+    				this.props.history.push(`/projeto/${ slugProjet }`);
+                } else {
+                    notification.open({
+                        type: 'error',
+                        message: 'Questionário Não Criado!',
+                        description: 'O Questionário Não Foi Criado! Tente Novamente!',
+                    });
+                    notification.open({
+                        type: 'info',
+                        message: 'Ação Requerida!',
+                        description: 'Caso o Problema Persista, Entre em Contato Com o Desenvolvedor!',
+                    });
+                }
+            }
+        });
+    }
 
     render() {
-        const CreateFormQuiz = () => {
-            const [form] = Form.useForm();
-            
-            // const keysDecorator = form.setFieldsValue('keys', { initialValue: [] });
-            // const keys = [form.getFieldValue(keysDecorator)];
-            // const formItems = keys.map((k, index) => (
-            //     <Form.Item 
-            //         label = { index === 0 ? 'Escolhas' : ''} key = { k }
-            //         name = { `questions[${ this.props.id }]choices[${k}]` }
-            //         rules = {[{ 
-            //             required: true, 
-            //             message: 'Por Favor, Adicione Uma Opção Para Resposta.',
-            //         }]}
-            //     >
-            //         <Input placeholder = 'Escolha a Resposta'/>
+        const { getFieldDecorator } = this.props.form;
+        const questions = [];
 
-            //         { keys.length > 1 ? (
-            //             <MinusCircleOutlined
-            //                 className = 'dynamic-delete-button'
-            //                 disabled = { keys.length === 1 }
-            //                 onClick = {() => this.remove(k)}
-            //             />
-            //         ) : null }
-            //     </Form.Item>
-            // ));
-
-            return (
-                <Drawer 
-                    title = { `Questionário da Reunião ${ this.props.meeting.title }` }
-                    onClose = { this.onClose } visible = { this.state.visible } width = { 'auto' }
-                    footer = { 
-                        <div style = {{ textAlign: 'center' }}>
-                            <Button onClick = { this.onClose } style = {{ marginRight: 8 }}>
-                                <StopOutlined /> <b> Cancelar </b>
-                            </Button>
-                            <Button onClose = { this.onClose } type = 'primary' 
-                                onClick = { () => {
-                                    form.validateFields().then(values => {
-                                        form.resetFields();
-                                        this.handleSubmit(values);
-                                    }).catch(info => {
-                                        console.log('Validate Failed:', info);
-                                    });
-                                }}>
-                                <SaveOutlined /> <b> Cadastrar Questionário </b>
-                            </Button>
-                        </div>
-                    }
-                >
-                    <Form form = { form } hideRequiredMark layout = 'vertical'>
-                        <Row gutter = { 'auto' }>
-                            <Col span = { 'auto' }>
-                                <Form.Item
-                                    name = 'title' 
-                                    label = 'Título da Questionário'
-                                    rules = {[{ 
-                                        required: true, 
-                                        message: 'Por Favor, Insira o Título da Questionário',
-                                    }]}
-                                >
-                                    <Input 
-                                        maxLength = { 40 } 
-                                        placeholder = 'Insira o Título da Questionário'
-                                    />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Drawer>
+        for (let aux = 0; aux < this.state.formCount; aux ++) {
+            questions.push(
+                <Hoc key = { aux }>
+                    { questions.length > 0 ? (
+                        <MinusCircleOutlined
+                            className = 'dynamic-delete-button'
+                            disabled = { questions.length === 0 }
+                            onClick={() => this.remove()}
+                        />
+                    ) : null }
+                    <QuestionForm id = { aux } { ...this.props } />
+                    <Divider />
+                </Hoc>
             );
         }
+
         return (
-            <span>
-                <Button type = 'primary' ghost onClick = { this.showDrawer }>
-                    <b> <PlusOutlined /> Novo Questionário </b>
-                </Button>
-                <CreateFormQuiz />
+            <span className = 'quizComponent'>
+                <Form onSubmit = { this.handleSubmit } style = {{ width: 'auto', height: 'auto' }}>
+                    <h1 align = 'center'> Criar Questionário </h1>
+                    <Form.Item label = { 'Título do Questionário: '}>
+                        {
+                            getFieldDecorator(`title`, {
+                                validateTrigger: ['onChange', 'onBlur'],
+                                rules: [{
+                                    required: true,
+                                    message: 'Por Favor, Coloque o Título ao Questionário'
+                                }]
+                            })(
+                                <Input 
+                                    placeholder = 'Adicione um Títúlo ao Questionário'
+                                    maxLength = { 50 } 
+                                    style = {{ marginLeft: 20, width: 250, marginBottom: 10 }}
+                                />
+                            )
+                        }
+                    </Form.Item>
+
+                    { questions }
+
+                    <Form.Item>
+                        <Button 
+                            type = 'primary' onClick = { this.add } ghost
+                            style = {{ marginLeft: 125 }}
+                        >
+                            <PlusOutlined/><b> Adicione Outra Questão </b>
+                        </Button>
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button
+                            type = 'primary' 
+                            htmlType = 'submit' 
+                            style = {{ marginBottom: 100, marginLeft: 140, marginTop: 10 }}
+                            ghost
+                        >
+                            <SaveOutlined /><b> Salvar Questionário </b>
+                        </Button>
+                    </Form.Item>
+                </Form>
             </span>
         );
     }
 }
 
-export default FormCreateQuiz;
+const QuizCreatorForm = Form.create()(FormCreateQuiz);
+
+export default withRouter(QuizCreatorForm);

@@ -16,6 +16,7 @@ import '../../css/buttons.css';
 import '../../css/img.css';
 import '../../css/alert.css';
 import '../../css/forms.css';
+import '../../css/quiz.css';
 
 const { Footer, Content } = Layout;
 

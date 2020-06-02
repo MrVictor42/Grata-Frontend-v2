@@ -13,6 +13,8 @@ import SectorList from './components/sector/SectorList';
 
 import ProjectList from './components/project/ProjectList';
 
+import FormCreateQuiz from './components/forms/meeting/quiz/FormCreateQuiz';
+
 const BaseRouter = (props) => (
     <Hoc>
         {
@@ -27,6 +29,7 @@ const BaseRouter = (props) => (
                     <Route exact path = '/lista_de_setores' component = { SectorList } />
 
                     <Route exact path = '/projeto/:slug' component = { ProjectList } />
+                    <Route exact path = '/:slugProjeto/:slug/novo_questionario' component = { FormCreateQuiz } />
                 </div>
             )
         }

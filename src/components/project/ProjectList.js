@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Space, Button } from 'antd';
+import { Link } from 'react-router-dom';
+import { PlusOutlined } from '@ant-design/icons';
 
 import MeetingMembers from '../meeting/MeetingMembers';
 import FormAddMembersMeeting from '../forms/meeting/FormAddMembersMeeting';
@@ -9,9 +11,8 @@ import StartMeeting from '../meeting/MeetingDetail';
 import Items from '../forms/meeting/items/Items';
 import Record from '../meeting/record/Record';
 import Comment from '../meeting/comments/Comment';
-import FormCreateQuiz from '../forms/meeting/quiz/FormCreateQuiz';
-import RespondQuiz from '../meeting/quiz/RespondQuiz';
-import ResultQuiz from '../meeting/quiz/ResultQuiz';
+// import RespondQuiz from '../meeting/quiz/RespondQuiz';
+// import ResultQuiz from '../meeting/quiz/ResultQuiz';
 
 import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
 import { getMeetings } from '../../store/meeting';
@@ -178,7 +179,6 @@ class ProjectList extends Component {
                                                                     <StartMeeting 
                                                                         meeting = { record }
                                                                         token = { token }
-                                                                        slug = { slug }
                                                                     />
                                                                 </Space>
                                                             ) : (
@@ -200,7 +200,6 @@ class ProjectList extends Component {
                                                                                 />
                                                                                 <FormEditMeeting 
                                                                                     meeting = { record } 
-                                                                                    slug = { slug }
                                                                                 />
                                                                             </Space>
                                                                         ) : (
@@ -211,7 +210,12 @@ class ProjectList extends Component {
                                                                                 <Comment
                                                                                     meeting = { record }
                                                                                 />
-                                                                                <FormCreateQuiz 
+                                                                                <Link to = { `/${ slug }/${ record.slug }/novo_questionario` }> 
+                                                                                    <Button type = 'primary' ghost>
+                                                                                        <b><PlusOutlined /> Novo Questionário </b>
+                                                                                    </Button>
+                                                                                </Link>
+                                                                                {/* <FormCreateQuiz 
                                                                                     meeting = { record }
                                                                                 />
                                                                                 <RespondQuiz 
@@ -219,7 +223,7 @@ class ProjectList extends Component {
                                                                                 />
                                                                                 <ResultQuiz 
                                                                                     meeting = { record }
-                                                                                />
+                                                                                /> */}
                                                                             </Space>
                                                                         )
                                                                     }

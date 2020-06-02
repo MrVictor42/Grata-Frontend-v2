@@ -132,3 +132,17 @@ export const finishMeeting = (token, meeting) => {
 		return false;
 	}
 };
+
+export const addQuesttionaire = (token, meeting) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+	
+	try {
+		axios.put(`${ BASE_URL_MEETING }add_questtionaire/${ meeting.slug }/`, meeting);
+		return true;
+	} catch {
+		return false;
+	}
+};
