@@ -34,6 +34,7 @@ class MeetingDetail extends Component {
 		let seconds = today.getSeconds();
 		let day = today.getDate();
 		let month = today.getMonth();
+		month = month + 1;
 		let year = today.getUTCFullYear();
 
 		minutes = this.checkTime(minutes);
@@ -52,7 +53,7 @@ class MeetingDetail extends Component {
 	
 	render() {
 		const atualDate = this.state.atualDate;
-		const atualHour = this.state.atualHour 
+		const atualHour = this.state.atualHour;
 		return (
 			<span>
 				<Button className = 'save' onClick = { this.showDrawer }>
