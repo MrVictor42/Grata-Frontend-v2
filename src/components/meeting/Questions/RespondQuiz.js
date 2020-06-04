@@ -5,7 +5,7 @@ import { HighlightOutlined } from '@ant-design/icons';
 import Questions from '../../forms/meeting/quiz/Questions';
 import Choices from '../../forms/meeting/quiz/Choices';
 
-import { getQuestions } from '../../../store/quiz';
+import { getQuestions } from '../../../store/questions';
 import { getQuesttionaire } from '../../../store/questtionaire';
 import { size } from '../../../services/utils'; 
 
@@ -61,6 +61,7 @@ class RespondQuiz extends Component {
         const answers = this.state.answers;
         const questions = this.state.questions;
         let sizeAnswers = size(answers);
+        let questionsID = { questions: [] };
 
         if(sizeAnswers -1 !== questions.length) {
             notification.open({
@@ -70,14 +71,18 @@ class RespondQuiz extends Component {
                              'Responda Todas as Questões'   
             });
         } else {
-            // for(let auxChoices = 0; auxChoices < this.state.choices.length; auxChoices ++) {
-            //     for(let auxAnswers = 0; auxAnswers < sizeAnswers; auxAnswers ++) {
-            //         if(this.state.choices[auxChoices].title === answers[auxAnswers]) {
-            //             console.log(answers[auxAnswers])
-            //             console.log(this.state.choices[auxChoices].id)
-            //         }
-            //     }
-            // }
+            const userID = this.props.userID;
+            const questtionaire_id = this.props.meeting.questtionaire;
+
+            for(let aux = 0; aux < questions.length; aux ++) {
+                questionsID.questions.push(questions[aux].id);
+            }
+            
+            const gradedQuesttionaire = {
+                userID: userID,
+                questtionaire_id: questtionaire_id,
+                questionsID: questionsID.questions 
+            };
         }
     }
 

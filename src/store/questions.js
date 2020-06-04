@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { BASE_URL_QUIZ } from '../consts';
+import { BASE_URL_QUESTIONS } from '../consts';
 
 export const getQuestions = async (token, questtionaireID) => {
 	axios.defaults.headers = {
@@ -9,7 +9,7 @@ export const getQuestions = async (token, questtionaireID) => {
 	};
 
 	try {
-        const { data } = await axios.get(`${ BASE_URL_QUIZ }detail/${ questtionaireID }/`);
+        const { data } = await axios.get(`${ BASE_URL_QUESTIONS }detail/${ questtionaireID }/`);
 		return data;    
 	} catch (err) {
 		console.log(err.message);
