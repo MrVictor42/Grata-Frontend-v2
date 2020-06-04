@@ -11,6 +11,7 @@ import StartMeeting from '../meeting/MeetingDetail';
 import Items from '../forms/meeting/items/Items';
 import Record from '../meeting/record/Record';
 import Comment from '../meeting/comments/Comment';
+import RespondQuiz from '../meeting/quiz/RespondQuiz';
 
 import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
 import { getMeetings } from '../../store/meeting';
@@ -209,20 +210,24 @@ class ProjectList extends Component {
                                                                                 <Comment
                                                                                     meeting = { record }
                                                                                 />
-                                                                                <Link to = { `/${ slug }/${ record.slug }/novo_questionario` }> 
-                                                                                    <Button type = 'primary' ghost>
-                                                                                        <b><PlusOutlined /> Novo Questionário </b>
-                                                                                    </Button>
-                                                                                </Link>
-                                                                                {/* <FormCreateQuiz 
-                                                                                    meeting = { record }
-                                                                                />
-                                                                                <RespondQuiz 
-                                                                                    meeting = { record }
-                                                                                />
+                                                                                {
+                                                                                    record.questtionaire !== null ? (
+                                                                                        <RespondQuiz 
+                                                                                            meeting = { record }
+                                                                                            token = { this.state.token }
+                                                                                        />
+                                                                                    ) : (
+                                                                                        <Link to = { `/${ slug }/${ record.slug }/novo_questionario` }> 
+                                                                                            <Button type = 'primary' ghost>
+                                                                                                <b><PlusOutlined /> Novo Questionário </b>
+                                                                                            </Button>
+                                                                                        </Link>
+                                                                                    )
+                                                                                }
+                                                                                {/* 
                                                                                 <ResultQuiz 
                                                                                     meeting = { record }
-                                                                                /> */}
+                                                                                /> */} 
                                                                             </Space>
                                                                         )
                                                                     }

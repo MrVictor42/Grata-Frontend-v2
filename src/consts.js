@@ -12,3 +12,5 @@ export const BASE_URL_RULES = 'http://0.0.0.0:8000/rules/';
 export const BASE_URL_AGENDAS = 'http://0.0.0.0:8000/agendas/';
 export const BASE_URL_COMMENTS = 'http://0.0.0.0:8000/comments/';
 export const BASE_URL_QUIZ = 'http://0.0.0.0:8000/quiz/';
+export const BASE_URL_QUESTTIONAIRE = 'http://0.0.0.0:8000/questtionnaires/';
+export const BASE_URL_CHOICES = 'http://0.0.0.0:8000/choices/';

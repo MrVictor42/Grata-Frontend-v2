@@ -38,7 +38,7 @@ class Questions extends Component {
                     { questions[ current ] }
                 </div>
 
-                <div>
+                <div align = 'center'>
                     { current < questions.length - 1 && (
                         <Button type = 'primary' onClick={() => this.next()}>
                             Próximo
