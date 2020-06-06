@@ -14,3 +14,4 @@ export const BASE_URL_COMMENTS = 'http://0.0.0.0:8000/comments/';
 export const BASE_URL_QUESTIONS = 'http://0.0.0.0:8000/questions/';
 export const BASE_URL_QUESTTIONAIRE = 'http://0.0.0.0:8000/questtionnaires/';
 export const BASE_URL_CHOICES = 'http://0.0.0.0:8000/choices/';
+export const BASE_URL_GRADEDQUESTTIONAIRE = 'http://0.0.0.0:8000/gradedQuesttionaire/';

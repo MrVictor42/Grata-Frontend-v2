@@ -13,7 +13,7 @@ import SectorList from './components/sector/SectorList';
 
 import ProjectList from './components/project/ProjectList';
 
-import FormCreateQuiz from './components/forms/meeting/quiz/FormCreateQuiz';
+import FormCreateQuiz from './components/forms/meeting/questions/FormCreateQuiz';
 
 const BaseRouter = (props) => (
     <Hoc>

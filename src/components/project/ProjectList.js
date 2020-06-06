@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Tag, Space, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { PlusOutlined } from '@ant-design/icons';
+import { withRouter } from 'react-router-dom';
 
 import MeetingMembers from '../meeting/MeetingMembers';
 import FormAddMembersMeeting from '../forms/meeting/FormAddMembersMeeting';
@@ -11,7 +12,7 @@ import StartMeeting from '../meeting/MeetingDetail';
 import Items from '../forms/meeting/items/Items';
 import Record from '../meeting/record/Record';
 import Comment from '../meeting/comments/Comment';
-import RespondQuiz from '../meeting/Questions/RespondQuiz';
+import RespondQuiz from '../meeting/Questions/RespondQuestions';
 
 import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
 import { getMeetings } from '../../store/meeting';
@@ -216,6 +217,8 @@ class ProjectList extends Component {
                                                                                             meeting = { record }
                                                                                             token = { this.state.token }
                                                                                             userID = { currentUser.id }
+                                                                                            history = { this.props.history }
+                                                                                            slug = { slug }
                                                                                         />
                                                                                     ) : (
                                                                                         <Link to = { `/${ slug }/${ record.slug }/novo_questionario` }> 
@@ -250,4 +253,4 @@ class ProjectList extends Component {
 	}
 }
 
-export default ProjectList;
+export default withRouter(ProjectList);
