@@ -15,3 +15,24 @@ export const saveGradedQuesttionaire = (token, gradedQuesttionaire) => {
 		return false;
 	}
 };
+
+export const getUserInGraded = async (token, userID) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+        const { data } = await axios.get(`${ BASE_URL_GRADEDQUESTTIONAIRE }user_in_graded/${ userID }/`);
+		return data;    
+	} catch (err) {
+		console.log(err.message);
+		return false;
+	}
+
+	// if(user !== null || user === '') {
+	// 	return user;
+	// } else {
+	// 	return false;
+	// }
+};

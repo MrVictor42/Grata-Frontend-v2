@@ -13,8 +13,10 @@ import Items from '../forms/meeting/items/Items';
 import Record from '../meeting/record/Record';
 import Comment from '../meeting/comments/Comment';
 import RespondQuiz from '../meeting/Questions/RespondQuestions';
+import ResultQuiz from '../meeting/Questions/ResultQuesttionaire';
 
 import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
+import { getUserInGraded } from '../../store/gradedQuesttionaire';
 import { getMeetings } from '../../store/meeting';
 import { sort } from '../../services/sortService';
 
@@ -27,7 +29,8 @@ class ProjectList extends Component {
 			currentUser: {},
             meetings: [],
             users: [],
-            token: null
+            token: null,
+            respond: false
 		}
 	}
 
@@ -38,17 +41,26 @@ class ProjectList extends Component {
 		const user = await getCurrentUser(token, userId);
         const meetings = await getMeetings(token, slug);
         const users = await getUsers(token);
+        const usersInGraded = await getUserInGraded(token, userId);
+        let respond = null;
+
+        if (usersInGraded.status === true) {
+            respond = true;
+        } else {
+            respond = false;
+        }
 
         this.setState({ 
 			currentUser: user,
             meetings: meetings,
             users: users,
-            token: token 
+            token: token,
+            respond: respond 
 		});
 	}
 	
   	render() {
-        const { currentUser } = this.state;
+        const { currentUser, respond } = this.state;
         const token = this.state.token;
         let data_meeting = { meeting: [] };
         let meeting_leader = null;
@@ -212,26 +224,32 @@ class ProjectList extends Component {
                                                                                     meeting = { record }
                                                                                 />
                                                                                 {
-                                                                                    record.questtionaire !== null ? (
-                                                                                        <RespondQuiz 
+                                                                                    respond === true ? (
+                                                                                        <ResultQuiz 
                                                                                             meeting = { record }
-                                                                                            token = { this.state.token }
-                                                                                            userID = { currentUser.id }
-                                                                                            history = { this.props.history }
-                                                                                            slug = { slug }
                                                                                         />
                                                                                     ) : (
-                                                                                        <Link to = { `/${ slug }/${ record.slug }/novo_questionario` }> 
-                                                                                            <Button type = 'primary' ghost>
-                                                                                                <b><PlusOutlined /> Novo Questionário </b>
-                                                                                            </Button>
-                                                                                        </Link>
+                                                                                        <span>
+                                                                                            {
+                                                                                                record.questtionaire !== null ? (
+                                                                                                    <RespondQuiz 
+                                                                                                        meeting = { record }
+                                                                                                        token = { this.state.token }
+                                                                                                        userID = { currentUser.id }
+                                                                                                        history = { this.props.history }
+                                                                                                        slug = { slug }
+                                                                                                    />
+                                                                                                ) : (
+                                                                                                    <Link to = { `/${ slug }/${ record.slug }/novo_questionario` }> 
+                                                                                                        <Button type = 'primary' ghost>
+                                                                                                            <b><PlusOutlined /> Novo Questionário </b>
+                                                                                                        </Button>
+                                                                                                    </Link>
+                                                                                                )
+                                                                                            }
+                                                                                        </span>
                                                                                     )
                                                                                 }
-                                                                                {/* 
-                                                                                <ResultQuiz 
-                                                                                    meeting = { record }
-                                                                                /> */} 
                                                                             </Space>
                                                                         )
                                                                     }

@@ -116,8 +116,6 @@ class RespondQuiz extends Component {
             }
         }
 
-        alert(this.state.value)
-        
         const gradedQuesttionaire = {
             userID: userID,
             questtionaire_id: questtionaire_id,
@@ -133,7 +131,7 @@ class RespondQuiz extends Component {
                 message: 'Questionário Respondido!',
                 description: 'O Questionário Foi Respondido Com Sucesso!',
             });
-            this.props.history.push(`/projeto/${ slug }`);
+            history.push(`/projeto/${ slug }`);
         } else {
             notification.open({
                 type: 'error',
