@@ -11,8 +11,8 @@ import FormEditMeeting from '../forms/meeting/FormEditMeeting';
 import StartMeeting from '../meeting/MeetingDetail';
 import Items from '../forms/meeting/items/Items';
 import Record from '../meeting/record/Record';
-import RespondQuiz from '../meeting/Questions/RespondQuestions';
-import ResultQuiz from '../meeting/Questions/ResultQuesttionaire';
+import RespondQuiz from '../meeting/questions/RespondQuestions';
+import ResultQuiz from '../meeting/questions/ResultQuesttionaire';
 
 import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
 import { getUserInGraded } from '../../store/gradedQuesttionaire';
@@ -39,9 +39,10 @@ class ProjectList extends Component {
         const userId = getUserId();
 		const user = await getCurrentUser(token, userId);
         const meetings = await getMeetings(token, slug);
-        const users = await getUsers(token);
         const usersInGraded = await getUserInGraded(token, userId);
         let respond = null;
+        console.log(usersInGraded)
+
 
         if (usersInGraded.status === true) {
             respond = true;
@@ -52,7 +53,6 @@ class ProjectList extends Component {
         this.setState({ 
 			currentUser: user,
             meetings: meetings,
-            users: users,
             token: token,
             respond: respond 
 		});
