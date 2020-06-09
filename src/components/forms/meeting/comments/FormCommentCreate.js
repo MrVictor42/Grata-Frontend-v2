@@ -47,12 +47,12 @@ class FormCommentCreate extends Component {
             this.setState({ submitting: true });
 
             const userID = this.state.currentUser.id;
-            const meetingID = this.props.meeting.meetingID;
+            const questtionaireID = this.props.questtionaireID;
             const description = this.state.value;
             const token = this.state.token;
 
             const comments = {
-                meeting: meetingID,
+                questtionaire: questtionaireID,
                 user: userID,
                 description: description
             };
@@ -77,6 +77,7 @@ class FormCommentCreate extends Component {
     render() {
         const { submitting, value } = this.state;
         const { currentUser } = this.state;
+        console.log(this.props)
         return (
             <Comment
                 avatar = {

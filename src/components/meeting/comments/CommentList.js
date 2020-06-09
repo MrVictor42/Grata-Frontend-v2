@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Comment, List } from 'antd';
 
 import { getComments } from '../../../store/comments';
-import { getUserToken, getUsersInMeeting } from '../../../store/user';
+import { getUsersInMeeting } from '../../../store/user';
 import { getImage } from '../../../store/images';
 
 import DefaultUser from '../../../img/default_user.jpg';
@@ -19,10 +19,11 @@ class CommentList extends Component {
 	}
 
 	async componentDidMount() {
-		const token = getUserToken();
-		const meetingID = this.props.meeting.meetingID;
+		const token = this.props.token;
+		const meetingID = this.props.meeting.meetingID
+		const questtionaireID = this.props.meeting.questtionaire;
 		const projectID = this.props.meeting.project;
-		const comments = await getComments(token, meetingID);
+		const comments = await getComments(token, questtionaireID);
 		const users = await getUsersInMeeting(token, meetingID, projectID);
 		let imageUser = null;
 		let imageFinal = null;
@@ -57,8 +58,9 @@ class CommentList extends Component {
 		if(prevProps.comments !== this.state.comments) {
 			const token = this.state.token;
 			const meetingID = this.props.meeting.meetingID;
+			const questtionaireID = this.props.meeting.questtionaire;
 			const projectID = this.props.meeting.project;
-			const comments = await getComments(token, meetingID);
+			const comments = await getComments(token, questtionaireID);
 			const users = await getUsersInMeeting(token, meetingID, projectID);
 			let imageUser = null;
 			let imageFinal = null;

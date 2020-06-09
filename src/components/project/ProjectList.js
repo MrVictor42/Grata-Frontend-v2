@@ -11,7 +11,6 @@ import FormEditMeeting from '../forms/meeting/FormEditMeeting';
 import StartMeeting from '../meeting/MeetingDetail';
 import Items from '../forms/meeting/items/Items';
 import Record from '../meeting/record/Record';
-import Comment from '../meeting/comments/Comment';
 import RespondQuiz from '../meeting/Questions/RespondQuestions';
 import ResultQuiz from '../meeting/Questions/ResultQuesttionaire';
 
@@ -220,13 +219,11 @@ class ProjectList extends Component {
                                                                                 <Record 
                                                                                     meeting = { record } 
                                                                                 />
-                                                                                <Comment
-                                                                                    meeting = { record }
-                                                                                />
                                                                                 {
                                                                                     respond === true ? (
                                                                                         <ResultQuiz 
                                                                                             meeting = { record }
+                                                                                            token = { this.state.token }
                                                                                         />
                                                                                     ) : (
                                                                                         <span>

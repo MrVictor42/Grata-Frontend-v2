@@ -46,8 +46,9 @@ export class Comment extends Component {
                         </div>
                     }
 				>
-                    <NewComment meeting = { this.props.meeting }/>
-                    <CommentList meeting = { this.props.meeting }/>
+                    <NewComment questtionaireID = { this.props.meeting.questtionaire }/>
+                    {/* <NewComment meeting = { this.props.meeting }/>
+                    <CommentList meeting = { this.props.meeting }/> */}
                 </Drawer>
             </span>
         );

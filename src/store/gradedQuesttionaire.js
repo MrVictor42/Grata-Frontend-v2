@@ -29,10 +29,19 @@ export const getUserInGraded = async (token, userID) => {
 		console.log(err.message);
 		return false;
 	}
+};
 
-	// if(user !== null || user === '') {
-	// 	return user;
-	// } else {
-	// 	return false;
-	// }
+export const getGradedInQuesttionaire = async (token, questtionaireID) => {
+	axios.defaults.headers = {
+		'Content-Type': 'application/json',
+		Authorization: `Token ${ token }`
+	};
+
+	try {
+        const { data } = await axios.get(`${ BASE_URL_GRADEDQUESTTIONAIRE }graded_questtionaire/${ questtionaireID }/`);
+		return data;    
+	} catch (err) {
+		console.log(err.message);
+		return false;
+	}
 };
