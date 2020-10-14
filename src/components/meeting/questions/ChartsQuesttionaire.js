@@ -3,13 +3,13 @@ import { PieChart, Pie, Cell } from 'recharts';
 
 import { getGradedInQuesttionaire } from '../../../store/gradedQuesttionaire';
 
-export class ChartsQuesttionaire extends Component {
+class ChartsQuesttionaire extends Component {
 
     constructor(props) {
         super(props)
     
         this.state = {
-            graded: []
+            gradeds: []
         }
     }
 
@@ -19,13 +19,11 @@ export class ChartsQuesttionaire extends Component {
         const graded = await getGradedInQuesttionaire(token, questtionaireID);
 
         this.setState({
-            graded: graded
+            gradeds: graded
         });
     }
     
-
     render() {
-        const graded = this.state.graded;
         return (
             <PieChart width = { 400 } height = { 400 }>
                 <Pie

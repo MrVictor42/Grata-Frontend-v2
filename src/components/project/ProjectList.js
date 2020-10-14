@@ -15,8 +15,8 @@ import RespondQuiz from '../meeting/questions/RespondQuestions';
 import ResultQuiz from '../meeting/questions/ResultQuesttionaire';
 
 import { getUserId, getUserToken, getCurrentUser, getUsers } from '../../store/user';
-import { getUserInGraded } from '../../store/gradedQuesttionaire';
 import { getMeetings } from '../../store/meeting';
+import { getGradedInQuesttionaire } from '../../store/gradedQuesttionaire';
 import { sort } from '../../services/sortService';
 
 class ProjectList extends Component {
@@ -28,8 +28,7 @@ class ProjectList extends Component {
 			currentUser: {},
             meetings: [],
             users: [],
-            token: null,
-            respond: false
+            token: null
 		}
 	}
 
@@ -39,27 +38,31 @@ class ProjectList extends Component {
         const userId = getUserId();
 		const user = await getCurrentUser(token, userId);
         const meetings = await getMeetings(token, slug);
-        const usersInGraded = await getUserInGraded(token, userId);
-        let respond = null;
-        console.log(usersInGraded)
-
-
-        if (usersInGraded.status === true) {
-            respond = true;
-        } else {
-            respond = false;
-        }
+        const users = await getUsers(token);
+        let data_users = { valid: [] };
 
         this.setState({ 
 			currentUser: user,
             meetings: meetings,
             token: token,
-            respond: respond 
-		});
+            users: users
+        });
+
+        for(let aux = 0; aux < meetings.length; aux ++) {
+            let usersInGraded = await getGradedInQuesttionaire(token, meetings[aux].questtionaire);
+            if(usersInGraded !== undefined) {
+                data_users.valid.push(usersInGraded);
+            }
+        }
+
+        for(let aux = 0; aux < 1; aux ++) {
+            console.log(data_users.valid)
+        }
+        console.log(this.state.currentUser.id)
 	}
 	
   	render() {
-        const { currentUser, respond } = this.state;
+        const { currentUser } = this.state;
         const token = this.state.token;
         let data_meeting = { meeting: [] };
         let meeting_leader = null;
@@ -68,6 +71,7 @@ class ProjectList extends Component {
         let rules_meeting = { rules: [] };
         let agendas_meeting = { agendas: [] };
         let users_meeting = { users: [] };
+        let respond = null;
 
 		for(let aux = 0; aux < this.state.meetings.length; aux ++) {
             for(let auxUsers = 0; auxUsers < this.state.users.length; auxUsers ++) {
@@ -81,7 +85,7 @@ class ProjectList extends Component {
                 rules_meeting.rules.push({
                     key: this.state.meetings[aux].rules[auxRules].id,
                     title: this.state.meetings[aux].rules[auxRules]
-                })
+                });
             }
 
             for(let auxAgendas = 0; auxAgendas < this.state.meetings[aux].agendas.length; auxAgendas ++) {
@@ -105,6 +109,7 @@ class ProjectList extends Component {
                 slug: this.state.meetings[aux].slug,
                 project: this.state.meetings[aux].project,
                 subject_matter: this.state.meetings[aux].subject_matter,
+                respondUser: respond,
                 meeting_leader: meeting_leader,
                 userID: userID,
                 initial_date: this.state.meetings[aux].initial_date,
@@ -123,8 +128,8 @@ class ProjectList extends Component {
             rules_meeting.rules = [];
             agendas_meeting.agendas = [];
             users_meeting.users = [];
-		}
-
+        }
+        
         data_meeting.meeting.sort(sort('title'));
 		return (
             <Table 
@@ -220,7 +225,7 @@ class ProjectList extends Component {
                                                                                     meeting = { record } 
                                                                                 />
                                                                                 {
-                                                                                    respond === true ? (
+                                                                                    record.respondUser === true ? (
                                                                                         <ResultQuiz 
                                                                                             meeting = { record }
                                                                                             token = { this.state.token }

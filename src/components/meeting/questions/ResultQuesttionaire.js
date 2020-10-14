@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Button, Drawer } from 'antd';
 import { AreaChartOutlined } from '@ant-design/icons';
 
-import NewComment from '../../forms/meeting/comments/FormCommentCreate';
-import CommentList from '../comments/CommentList';
 import ChartsQuesttionaire from '../../meeting/questions/ChartsQuesttionaire';
 
 export class ResultQuiz extends Component {
