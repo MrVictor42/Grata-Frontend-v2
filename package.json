@@ -10,6 +10,9 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.0.4",
     "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "express-favicon": "^2.0.1",
+    "path": "^0.12.7",
     "react": "^16.13.1",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
@@ -23,14 +26,23 @@
     "redux-thunk": "^2.3.0",
     "reqwest": "^2.0.5"
   },
+  "engines": {
+    "node": "10.19.0",
+    "npm": "6.14.4"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MrVictor42/Grata-Frontend-v2"
   },
   "browserslist": {
     "production": [
@@ -43,5 +55,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "author": {
+    "name": "Victor Hugo Lopes Mota",
+    "licence": "GPL v.3"
   }
 }

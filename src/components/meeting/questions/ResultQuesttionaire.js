@@ -4,7 +4,7 @@ import { AreaChartOutlined } from '@ant-design/icons';
 
 import ChartsQuesttionaire from '../../meeting/questions/ChartsQuesttionaire';
 
-export class ResultQuiz extends Component {
+class ResultQuiz extends Component {
 
     constructor(props) {
         super(props)
