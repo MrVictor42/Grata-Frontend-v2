@@ -45,11 +45,8 @@ class UserDetail extends Component {
             <div className = 'itemsatuais'>
                 <h1 className = 'h1Content'> Informações Pré-Cadastradas de { currentUser.name } </h1>
                 <div className = 'item'>
-                    <Content className = 'painelContent'>
-                        <Descriptions 
-                            className = 'descriptionTitle'
-                            column = {{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-                        >
+                    <Content>
+                        <Descriptions className = 'descriptionTitle'>
                             <Descriptions.Item label = { <b> Nome de Usuário </b> }> 
                                 { currentUser.username }
                             </Descriptions.Item>

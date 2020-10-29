@@ -71,7 +71,7 @@ class SectorMembers extends Component {
                 <Drawer
                     title = { `Membros do Setor: ${ this.props.sector.name }` } 
                     onClose = { this.onClose } width = { 720 }
-                    visible = { this.state.visible } style = {{ height: 559 }}
+                    visible = { this.state.visible } 
                     footer = { null }
                 >
                     <List

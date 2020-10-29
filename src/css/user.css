@@ -54,7 +54,6 @@
 .item{
     position: absolute;
     width:800px;
-    margin-top: -20px;
 }
 
 .item2 {
@@ -67,8 +66,7 @@
 .userMembers {
     margin-top: 10px;
     margin-left: 0px;
-    /* margin-right: 30px; */
-    position: absolute;
+    position: relative;
     width: auto;
     background-color: white;
 }

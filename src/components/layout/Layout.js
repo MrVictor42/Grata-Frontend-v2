@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Navbar from './Navbar';
-import AutoComplete from './AutoComplete';
 
 import '../../css/layout.css';
 import '../../css/icon.css';
@@ -25,11 +24,6 @@ const CustomLayout = (props) => {
 		<Layout>
 			<Navbar isLogged = { props.token }/>
 			<Content>
-				{
-					props.token !== null ? (
-						<AutoComplete />
-					) : null
-				}
 				{ props.children }
 			</Content>
 			<Footer className = 'footer'>

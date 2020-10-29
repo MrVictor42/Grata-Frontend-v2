@@ -76,7 +76,7 @@ class MeetingMembers extends Component {
                 <Drawer
                     title = { `Membros na Reunião: ${ this.props.meeting.title }` } 
                     onClose = { this.onClose } width = { 720 }
-                    visible = { this.state.visible } style = {{ height: 559 }}
+                    visible = { this.state.visible } 
                     footer = { null }
                 >
                     <List
