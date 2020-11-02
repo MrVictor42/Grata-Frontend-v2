@@ -59,7 +59,7 @@ export const authCheckState = () => {
 export const authLogin = (username, password) => {
 	return dispatch => {
 		dispatch(authStart());
-		axios.post('http://0.0.0.0:8000/rest-auth/login/', {
+		axios.post('https://api-grata.herokuapp.com/rest-auth/login/', {
 			username: username,
 			password: password
 		})

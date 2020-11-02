@@ -14,8 +14,8 @@ const Homepage = () => {
                 <br></br>                                
                 O Grata é uma ferramenta Open-Source,
                 ou seja, o código dela é aberto e pode ser encontrado nos repositórios 
-                <a href = 'https://github.com/FGAProjects/Grata-Frontend'> FrontEnd </a> 
-                e <a href = 'https://github.com/FGAProjects/Grata-Backend'>Backend.</a>
+                <a href = 'https://github.com/MrVictor42/Grata-Frontend-v2'> FrontEnd </a> 
+                e <a href = 'https://github.com/MrVictor42/Grata-Backend-v2'>Backend.</a>
                 <br></br>
                 Caso Deseje uma documentação sobre o projeto, basta clicar neste
                 <a href = 'https://github.com/FGAProjects/TCC'> link</a>.
